@@ -388,7 +388,18 @@
 
   /* ━━━ HERO BACKGROUND ━━━ */
   .hero {
-    background: radial-gradient(ellipse at 50% 38%, #1B2030 0%, #06080C 70%, #000000 100%);
+    background: transparent;
+  }
+
+  /* ━━━ BUTTON TAP BOUNCE ━━━ */
+  @keyframes btn-tap {
+    0%   { transform: scale(1); }
+    30%  { transform: scale(0.91); }
+    65%  { transform: scale(1.04); }
+    100% { transform: scale(1); }
+  }
+  .btn-tap {
+    animation: btn-tap 0.32s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   }
 
   /* ━━━ STATUS PILLS ━━━ */
