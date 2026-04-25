@@ -50,10 +50,7 @@ export function Features() {
       <div className="mx-auto max-w-7xl">
         <div className="reveal mb-12 max-w-2xl">
           <span className="ui-label">Features</span>
-          <h2 className="h-section mt-3">Everything a logistics team needs.</h2>
-          <p className="body-copy mt-4">
-            Replace the inbox, the spreadsheet and the manual rekeying — with one streamlined workflow.
-          </p>
+          <h2 className="h-section mt-3">Built for how freight actually works.</h2>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
