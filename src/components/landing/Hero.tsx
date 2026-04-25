@@ -1,10 +1,9 @@
 import { ArrowRight, Play } from "lucide-react";
 
 const trustItems = [
-  "GDPR Compliant",
-  "Printed & handwritten",
-  "Any EU language",
-  "No setup required",
+  "GDPR COMPLIANT",
+  "PRINTED & HANDWRITTEN",
+  "ANY LANGUAGE",
 ];
 
 const stats = [
