@@ -19,24 +19,21 @@ export function Hero() {
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
         <div className="grid items-center gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           {/* LEFT */}
-          <div className="page-body" style={{ maxWidth: 520 }}>
+          <div className="page-body" style={{ maxWidth: 480 }}>
             <h1
               className="h-hero"
               style={{
-                fontSize: "clamp(48px, 6vw, 72px)",
+                fontSize: "clamp(52px, 5.5vw, 76px)",
                 lineHeight: 1.0,
               }}
             >
-              From CMR photo
-              <br />
-              to invoice,
-              <br />
+              From CMR photo to invoice,{" "}
               <span style={{ color: "#C8FF00" }}>instantly.</span>
             </h1>
 
             <p
               className="body-copy mt-7"
-              style={{ maxWidth: 520, fontSize: 19, lineHeight: 1.55, color: "rgba(255,255,255,0.6)" }}
+              style={{ maxWidth: 480, fontSize: 19, lineHeight: 1.55, color: "rgba(255,255,255,0.6)" }}
             >
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
@@ -57,20 +54,19 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Trust line */}
-            <div
+            {/* Trust line — muted single line */}
+            <p
               className="mt-5"
               style={{
-                fontSize: 14,
-                color: "#C8FF00",
+                fontSize: 13,
+                color: "rgba(255,255,255,0.4)",
                 letterSpacing: "0.08em",
-                fontWeight: 600,
-                lineHeight: 1.6,
+                fontWeight: 500,
+                whiteSpace: "nowrap",
               }}
             >
-              <div>GDPR COMPLIANT · PRINTED & HANDWRITTEN</div>
-              <div>ANY LANGUAGE</div>
-            </div>
+              GDPR COMPLIANT · PRINTED & HANDWRITTEN · ANY LANGUAGE
+            </p>
           </div>
 
           {/* RIGHT — VIDEO */}
@@ -79,9 +75,11 @@ export function Hero() {
               className="card relative w-full overflow-hidden"
               style={{
                 aspectRatio: "16 / 9",
+                minHeight: 420,
                 background: "#141414",
+                border: "1px solid rgba(200,255,0,0.15)",
                 boxShadow:
-                  "inset 0 0 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.6)",
+                  "inset 0 0 60px rgba(0,0,0,0.4), 0 0 40px rgba(200,255,0,0.04), 0 30px 80px rgba(0,0,0,0.6)",
               }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
