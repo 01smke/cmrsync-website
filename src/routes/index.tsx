@@ -32,7 +32,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   useReveal();
   return (
-    <main style={{ background: "#0a0a0a" }}>
+    <main style={{ background: "#0F1115" }}>
       <Navbar />
       <Hero />
       <HowItWorks />
