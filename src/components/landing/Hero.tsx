@@ -80,7 +80,7 @@ export function Hero() {
                 aspectRatio: "16 / 9",
                 background: "#141414",
                 boxShadow:
-                  "0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
+                  "inset 0 0 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.6)",
               }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
