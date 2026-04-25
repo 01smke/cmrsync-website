@@ -1,10 +1,9 @@
 import { ArrowRight, Play } from "lucide-react";
 
 const trustItems = [
-  "GDPR Compliant",
-  "Printed & handwritten",
-  "Any EU language",
-  "No setup required",
+  "GDPR COMPLIANT",
+  "PRINTED & HANDWRITTEN",
+  "ANY LANGUAGE",
 ];
 
 const stats = [
@@ -58,14 +57,14 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Trust line — muted plain text */}
+            {/* Trust line */}
             <p
               className="mt-5"
               style={{
                 fontSize: 14,
-                color: "rgba(255,255,255,0.4)",
-                letterSpacing: "0.01em",
-                fontWeight: 500,
+                color: "#C8FF00",
+                letterSpacing: "0.08em",
+                fontWeight: 600,
               }}
             >
               {trustItems.join(" · ")}
