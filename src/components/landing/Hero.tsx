@@ -55,13 +55,13 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Trust line — muted single line */}
+            {/* Trust line — lime accent */}
             <p
               className="mt-5"
               style={{
                 fontSize: 12,
-                color: "rgba(255,255,255,0.35)",
-                fontWeight: 400,
+                color: "#C8FF00",
+                fontWeight: 500,
                 whiteSpace: "nowrap",
               }}
             >
