@@ -1,10 +1,10 @@
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play, Lock, FileText, Globe, Zap } from "lucide-react";
 
 const trustPills = [
-  "🔒 GDPR Compliant",
-  "📄 Printed & handwritten",
-  "🌍 Any EU language",
-  "⚡ No setup required",
+  { Icon: Lock, label: "GDPR Compliant" },
+  { Icon: FileText, label: "Printed & handwritten" },
+  { Icon: Globe, label: "Any EU language" },
+  { Icon: Zap, label: "No setup required" },
 ];
 
 const stats = [
@@ -59,17 +59,8 @@ export function Hero() {
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
 
-            {/* Trust pills */}
-            <div className="flex flex-wrap" style={{ gap: 10, margin: "20px 0" }}>
-              {trustPills.map((p) => (
-                <span key={p} className="trust-pill">
-                  {p}
-                </span>
-              ))}
-            </div>
-
             {/* CTAs */}
-            <div className="flex flex-wrap items-center" style={{ gap: 12, marginTop: 8 }}>
+            <div className="flex flex-wrap items-center" style={{ gap: 12, marginTop: 24 }}>
               <a href="#cta" className="btn-primary">
                 Upload your first CMR free <ArrowRight size={16} />
               </a>
@@ -90,7 +81,7 @@ export function Hero() {
             </p>
           </div>
 
-          {/* RIGHT — VIDEO */}
+          {/* RIGHT — VIDEO + TRUST PILLS */}
           <div className="w-full">
             <div
               className="relative aspect-video w-full overflow-hidden"
@@ -123,6 +114,19 @@ export function Hero() {
                   <div className="ui-label mt-2">Video placeholder</div>
                 </div>
               </div>
+            </div>
+
+            {/* Trust pills under the video */}
+            <div
+              className="flex flex-wrap justify-center lg:justify-start"
+              style={{ gap: 8, marginTop: 16 }}
+            >
+              {trustPills.map(({ Icon, label }) => (
+                <span key={label} className="trust-pill">
+                  <Icon size={13} strokeWidth={2} style={{ color: "#C8FF00" }} />
+                  {label}
+                </span>
+              ))}
             </div>
           </div>
         </div>
