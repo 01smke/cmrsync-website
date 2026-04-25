@@ -58,17 +58,19 @@ export function Hero() {
             </div>
 
             {/* Trust line */}
-            <p
+            <div
               className="mt-5"
               style={{
                 fontSize: 14,
                 color: "#C8FF00",
                 letterSpacing: "0.08em",
                 fontWeight: 600,
+                lineHeight: 1.6,
               }}
             >
-              {trustItems.join(" · ")}
-            </p>
+              <div>GDPR COMPLIANT · PRINTED & HANDWRITTEN</div>
+              <div>ANY LANGUAGE</div>
+            </div>
           </div>
 
           {/* RIGHT — VIDEO */}
