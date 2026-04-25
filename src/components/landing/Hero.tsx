@@ -110,9 +110,15 @@ export function Hero() {
           </div>
         </div>
 
+        {/* Divider between hero and stats */}
+        <div
+          className="mt-16"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+        />
+
         {/* STATS BAR — slim single bar */}
         <div
-          className="reveal mt-16 flex flex-wrap items-center"
+          className="reveal mt-10 flex flex-wrap items-center"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",
@@ -126,9 +132,10 @@ export function Hero() {
           {stats.map((s, i) => (
             <div
               key={s.l}
-              className="flex flex-1 items-baseline gap-4"
+              className="flex flex-1 items-center gap-4"
               style={{
-                minWidth: 200,
+                minWidth: 160,
+                whiteSpace: "nowrap",
                 paddingLeft: i === 0 ? 0 : 32,
                 borderLeft:
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
@@ -137,11 +144,12 @@ export function Hero() {
               <span
                 className="font-display"
                 style={{
-                  fontSize: 30,
+                  fontSize: 28,
                   fontWeight: 900,
                   color: "#ffffff",
-                  letterSpacing: "-0.02em",
+                  letterSpacing: "-0.04em",
                   lineHeight: 1,
+                  whiteSpace: "nowrap",
                 }}
               >
                 {s.v}
@@ -153,6 +161,7 @@ export function Hero() {
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
                   fontWeight: 600,
+                  whiteSpace: "nowrap",
                 }}
               >
                 {s.l}
