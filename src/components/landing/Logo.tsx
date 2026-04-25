@@ -20,7 +20,7 @@ export function Logo({
           height: size,
           objectFit: "cover",
           display: "block",
-          transform: "scale(2)",
+          transform: "scale(1.7)",
           transformOrigin: "center",
         }}
       />
