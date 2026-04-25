@@ -301,7 +301,7 @@
 
   /* HERO */
   .hero {
-    background: radial-gradient(ellipse at 50% 38%, #1B2030 0%, #06080C 70%, #000000 100%);
+    background: #0a0a0a;
   }
 
   /* STATUS PILLS */
