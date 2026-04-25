@@ -1,13 +1,6 @@
 import { ArrowRight, Play } from "lucide-react";
 
 export function Hero() {
-  const rows = [
-    { id: "CMR-2847", route: "Rotterdam → Berlin", consignee: "Mueller GmbH", status: "Extracted" },
-    { id: "CMR-2846", route: "Antwerp → Lyon", consignee: "Logistique Sud", status: "Extracted" },
-    { id: "CMR-2845", route: "Hamburg → Praha", consignee: "ČD Cargo", status: "Pending" },
-    { id: "CMR-2844", route: "Warsaw → Madrid", consignee: "Iberia Trans", status: "Extracted" },
-  ];
-
   return (
     <section className="hero relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
@@ -95,12 +88,10 @@ export function Hero() {
         </div>
 
         {/* KPI ROW */}
-        <div className="reveal mx-auto mt-10 grid max-w-5xl grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="reveal mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-4">
           {[
-            { v: "3s", l: "Avg extraction" },
-            { v: "99.4%", l: "Field accuracy" },
-            { v: "1,284", l: "CMRs / month" },
-            { v: "€30", l: "Per truck / month" },
+            { v: "9s", l: "Avg extraction" },
+            { v: "Unlimited", l: "CMRs / month" },
           ].map((s) => (
             <div key={s.l} className="kpi-card">
               <div className="stat-num text-3xl">{s.v}</div>
@@ -111,89 +102,6 @@ export function Hero() {
           ))}
         </div>
 
-        {/* MOCKUP TABLE */}
-        <div className="reveal mx-auto mt-10 max-w-5xl">
-          <div className="card" style={{ padding: "20px" }}>
-            <div className="mb-4 flex items-center justify-between">
-              <div>
-                <div
-                  className="font-display"
-                  style={{ color: "#fff", fontWeight: 600, letterSpacing: "-0.02em", fontSize: 14 }}
-                >
-                  Recent CMR Extractions
-                </div>
-                <div className="mt-1 text-xs" style={{ color: "#6B7280" }}>
-                  Live from Telegram bot
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ background: "#DFFF00", boxShadow: "0 0 10px #DFFF00" }}
-                />
-                <span className="ui-label">Live</span>
-              </div>
-            </div>
-
-            <div
-              className="overflow-hidden rounded-lg"
-              style={{ border: "1px solid #2D3038" }}
-            >
-              <table className="w-full text-left">
-                <thead>
-                  <tr style={{ background: "#16181E" }}>
-                    {["CMR #", "Route", "Consignee", "Status"].map((h, i) => (
-                      <th
-                        key={h}
-                        className={`px-4 py-2.5 ${i === 2 ? "hidden sm:table-cell" : ""}`}
-                      >
-                        <span
-                          className="ui-label"
-                          style={{ color: "#6B7280", letterSpacing: "0.1em" }}
-                        >
-                          {h}
-                        </span>
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((r, i) => (
-                    <tr
-                      key={r.id}
-                      className="table-row"
-                      style={{
-                        borderTop: i === 0 ? "none" : "1px solid #2D3038",
-                        animationDelay: `${i * 60}ms`,
-                      }}
-                    >
-                      <td
-                        className="px-4 py-3 text-xs"
-                        style={{ color: "#fff", fontWeight: 600 }}
-                      >
-                        {r.id}
-                      </td>
-                      <td className="px-4 py-3 text-xs" style={{ color: "#9CA3AF" }}>
-                        {r.route}
-                      </td>
-                      <td
-                        className="hidden px-4 py-3 text-xs sm:table-cell"
-                        style={{ color: "#9CA3AF" }}
-                      >
-                        {r.consignee}
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className={r.status === "Extracted" ? "pill-success" : "pill-pending"}>
-                          {r.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );
