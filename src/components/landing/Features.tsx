@@ -38,8 +38,29 @@ export function Features() {
           <h2 className="h-section mt-3">Built for how freight actually works.</h2>
         </div>
 
+        {/* Featured first card — full width, two-column */}
+        <div className="reveal feature-card mb-4">
+          <div className="grid gap-6 md:grid-cols-2 md:items-center">
+            <h3
+              className="font-display"
+              style={{
+                fontSize: 28,
+                fontWeight: 900,
+                letterSpacing: "-0.03em",
+                color: "#C8FF00",
+                lineHeight: 1.1,
+              }}
+            >
+              {features[0].title}
+            </h3>
+            <p className="body-copy" style={{ fontSize: 14 }}>
+              {features[0].body}
+            </p>
+          </div>
+        </div>
+
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f, i) => (
+          {features.slice(1).map((f, i) => (
             <div
               key={f.title}
               className="reveal feature-card"
