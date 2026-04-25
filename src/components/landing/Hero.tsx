@@ -1,13 +1,6 @@
 import { ArrowRight, Play } from "lucide-react";
 
 export function Hero() {
-  const rows = [
-    { id: "CMR-2847", route: "Rotterdam → Berlin", consignee: "Mueller GmbH", status: "Extracted" },
-    { id: "CMR-2846", route: "Antwerp → Lyon", consignee: "Logistique Sud", status: "Extracted" },
-    { id: "CMR-2845", route: "Hamburg → Praha", consignee: "ČD Cargo", status: "Pending" },
-    { id: "CMR-2844", route: "Warsaw → Madrid", consignee: "Iberia Trans", status: "Extracted" },
-  ];
-
   return (
     <section className="hero relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
@@ -95,12 +88,10 @@ export function Hero() {
         </div>
 
         {/* KPI ROW */}
-        <div className="reveal mx-auto mt-10 grid max-w-5xl grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="reveal mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-4">
           {[
-            { v: "3s", l: "Avg extraction" },
-            { v: "99.4%", l: "Field accuracy" },
-            { v: "1,284", l: "CMRs / month" },
-            { v: "€30", l: "Per truck / month" },
+            { v: "9s", l: "Avg extraction" },
+            { v: "Unlimited", l: "CMRs / month" },
           ].map((s) => (
             <div key={s.l} className="kpi-card">
               <div className="stat-num text-3xl">{s.v}</div>
