@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
-import { SocialProof } from "@/components/landing/SocialProof";
 import { HowItWorks } from "@/components/landing/HowItWorks";
 import { Features } from "@/components/landing/Features";
 import { Pricing } from "@/components/landing/Pricing";
@@ -13,13 +12,13 @@ export const Route = createFileRoute("/")({
   component: Index,
   head: () => ({
     meta: [
-      { title: "CMRsync — AI-Powered CMR Digitisation for Trucking" },
+      { title: "CMRsync — AI-Powered Logistics for Trucking" },
       {
         name: "description",
         content:
-          "Drivers photograph CMR waybills on Telegram. Claude AI extracts every field instantly. Clean structured data in your dashboard — no manual entry.",
+          "Drivers photograph CMR waybills on Telegram. AI extracts every field instantly. Clean structured data in your dashboard. €30 per truck / month.",
       },
-      { property: "og:title", content: "CMRsync — AI-Powered CMR Digitisation" },
+      { property: "og:title", content: "CMRsync — AI-Powered Logistics for Trucking" },
       {
         property: "og:description",
         content:
@@ -33,10 +32,9 @@ export const Route = createFileRoute("/")({
 function Index() {
   useReveal();
   return (
-    <main style={{ background: "#ffffff" }}>
+    <main style={{ background: "#0F1115" }}>
       <Navbar />
       <Hero />
-      <SocialProof />
       <HowItWorks />
       <Features />
       <Pricing />
