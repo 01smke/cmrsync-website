@@ -84,27 +84,27 @@ export function Hero() {
                   "0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
               }}
             >
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
                 <div
                   className="flex items-center justify-center"
                   style={{
-                    width: 64,
-                    height: 64,
+                    width: 88,
+                    height: 88,
                     borderRadius: "50%",
                     background: "#ffffff",
-                    boxShadow: "0 8px 30px rgba(0,0,0,0.5)",
+                    boxShadow: "0 12px 40px rgba(0,0,0,0.55)",
                   }}
                 >
-                  <Play size={24} fill="#000000" color="#000000" style={{ marginLeft: 3 }} />
+                  <Play size={32} fill="#000000" color="#000000" style={{ marginLeft: 4 }} />
                 </div>
                 <div className="text-center">
                   <div
-                    className="font-display text-lg"
-                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em" }}
+                    className="font-display"
+                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em", fontSize: 22 }}
                   >
                     Product demo coming soon
                   </div>
-                  <div className="ui-label mt-2">Video placeholder</div>
+                  <div className="ui-label mt-2" style={{ fontSize: 12 }}>Video placeholder</div>
                 </div>
               </div>
             </div>
@@ -113,15 +113,15 @@ export function Hero() {
 
         {/* STATS BAR — slim single bar */}
         <div
-          className="reveal mt-12 flex flex-wrap items-center"
+          className="reveal mt-16 flex flex-wrap items-center"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",
             borderLeft: "3px solid #C8FF00",
-            borderRadius: 12,
-            padding: "20px 40px",
+            borderRadius: 14,
+            padding: "28px 48px",
             justifyContent: "space-between",
-            gap: 16,
+            gap: 20,
           }}
         >
           {stats.map((s, i) => (
