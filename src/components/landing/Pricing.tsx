@@ -16,7 +16,7 @@ export function Pricing() {
     <section
       id="pricing"
       className="px-6 py-20 md:py-24"
-      style={{ background: "#0a0a0a" }}
+      style={{ background: "#0F1115" }}
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">
@@ -39,7 +39,7 @@ export function Pricing() {
               <span
                 className="rounded-full px-3 py-1 text-[10px]"
                 style={{
-                  background: "#C8FF00",
+                  background: "#DFFF00",
                   color: "#0a0a0a",
                   fontWeight: 700,
                   letterSpacing: "0.1em",
@@ -64,7 +64,7 @@ export function Pricing() {
 
             <div
               className="my-7"
-              style={{ height: 1, background: "rgba(255,255,255,0.08)" }}
+              style={{ height: 1, background: "#2D3038" }}
             />
 
             <ul className="space-y-3">
@@ -72,9 +72,9 @@ export function Pricing() {
                 <li key={f} className="flex items-start gap-3">
                   <span
                     className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full"
-                    style={{ background: "rgba(200,255,0,0.15)", border: "1px solid rgba(200,255,0,0.3)" }}
+                    style={{ background: "rgba(223,255,0,0.15)", border: "1px solid rgba(223,255,0,0.3)" }}
                   >
-                    <Check size={12} style={{ color: "#C8FF00" }} strokeWidth={3} />
+                    <Check size={12} style={{ color: "#DFFF00" }} strokeWidth={3} />
                   </span>
                   <span className="text-sm" style={{ color: "#E5E7EB" }}>
                     {f}

@@ -17,7 +17,8 @@ export function Navbar() {
     <header
       className="sticky top-0 z-50 backdrop-blur-md"
       style={{
-        background: "rgba(10, 10, 10, 0.85)",
+        background: "rgba(15, 17, 21, 0.78)",
+        borderBottom: "1px solid #2D3038",
       }}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
@@ -59,7 +60,7 @@ export function Navbar() {
       {open && (
         <div
           className="md:hidden"
-          style={{ borderTop: "1px solid rgba(255,255,255,0.08)", background: "#0a0a0a" }}
+          style={{ borderTop: "1px solid #2D3038", background: "#0F1115" }}
         >
           <div className="flex flex-col gap-4 px-6 py-5">
             {links.map((l) => (

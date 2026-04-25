@@ -30,7 +30,7 @@ export function Features() {
     <section
       id="features"
       className="px-6 py-20 md:py-24"
-      style={{ background: "#0a0a0a" }}
+      style={{ background: "#0F1115" }}
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">
@@ -46,24 +46,17 @@ export function Features() {
               style={{ transitionDelay: `${i * 50}ms` }}
             >
               <h3
+                className="font-display"
                 style={{
-                  fontSize: 16,
-                  fontWeight: 800,
+                  fontSize: 17,
+                  fontWeight: 700,
                   letterSpacing: "-0.02em",
                   color: "#ffffff",
                 }}
               >
                 {f.title}
               </h3>
-              <p
-                style={{
-                  fontSize: 13,
-                  lineHeight: 1.6,
-                  opacity: 0.55,
-                  marginTop: 6,
-                  color: "#ffffff",
-                }}
-              >
+              <p className="body-copy mt-2" style={{ fontSize: 13 }}>
                 {f.body}
               </p>
             </div>
