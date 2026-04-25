@@ -127,10 +127,10 @@ export function Hero() {
           {stats.map((s, i) => (
             <div
               key={s.l}
-              className="flex flex-1 items-baseline gap-3"
+              className="flex flex-1 items-baseline gap-4"
               style={{
-                minWidth: 180,
-                paddingLeft: i === 0 ? 0 : 24,
+                minWidth: 200,
+                paddingLeft: i === 0 ? 0 : 32,
                 borderLeft:
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
@@ -138,7 +138,7 @@ export function Hero() {
               <span
                 className="font-display"
                 style={{
-                  fontSize: 22,
+                  fontSize: 30,
                   fontWeight: 900,
                   color: "#ffffff",
                   letterSpacing: "-0.02em",
@@ -149,8 +149,8 @@ export function Hero() {
               </span>
               <span
                 style={{
-                  fontSize: 11,
-                  color: "rgba(255,255,255,0.4)",
+                  fontSize: 12,
+                  color: "rgba(255,255,255,0.45)",
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
                   fontWeight: 600,
