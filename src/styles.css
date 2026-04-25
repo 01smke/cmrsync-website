@@ -101,8 +101,16 @@
 }
 
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
   }
 
   html {
@@ -110,13 +118,22 @@
   }
 
   body {
-    background-color: #0F1115;
+    background: #0F1115;
     color: #ffffff;
     font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
     -webkit-font-smoothing: antialiased;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3,
+  .title, .heading, .cta-text, button.primary {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+  }
+
+  h4, h5, h6 {
     font-family: 'Space Grotesk', sans-serif;
     letter-spacing: -0.03em;
   }
