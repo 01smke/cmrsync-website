@@ -16,28 +16,30 @@ export function Hero() {
               style={{ background: "#DFFF00", boxShadow: "0 0 10px #DFFF00" }}
             />
             <span className="ui-label" style={{ color: "#DFFF00" }}>
-              Powered by Claude AI Vision
+              From photo to invoice — in seconds
             </span>
           </div>
 
           <h1 className="h-hero mt-6">
-            AI-Powered Logistics<br />
-            for Trucking Teams.
+            Your CMR paperwork, done before the truck leaves the yard.
           </h1>
 
           <p className="body-copy mx-auto mt-5 max-w-xl text-base">
-            Drivers photograph CMR waybills on Telegram. AI extracts every field instantly.
-            Clean structured data lands in your dashboard — no manual entry, no errors.
+            CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
           </p>
 
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
             <a href="#cta" className="btn-primary">
-              Start Free Trial <ArrowRight size={16} />
+              Upload your first CMR free <ArrowRight size={16} />
             </a>
             <a href="#how" className="btn-ghost">
-              See How It Works
+              See how it works →
             </a>
           </div>
+
+          <p className="mt-5 text-xs" style={{ color: "#9CA3AF" }}>
+            Used by carriers and freight forwarders across Europe · 95% extraction accuracy
+          </p>
         </div>
 
         {/* VIDEO SHOWCASE */}
