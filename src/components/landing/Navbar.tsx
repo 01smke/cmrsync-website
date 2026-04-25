@@ -17,11 +17,10 @@ export function Navbar() {
     <header
       className="sticky top-0 z-50 backdrop-blur-md"
       style={{
-        background: "rgba(15, 17, 21, 0.78)",
-        borderBottom: "1px solid #2D3038",
+        background: "rgba(10, 10, 10, 0.85)",
       }}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
         <Link to="/" className="flex items-center">
           <Logo />
         </Link>
@@ -31,10 +30,10 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium transition-colors"
-              style={{ color: "#9CA3AF" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#DFFF00")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+              className="transition-colors"
+              style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500, fontSize: "14px" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
             >
               {l.label}
             </a>
@@ -60,7 +59,7 @@ export function Navbar() {
       {open && (
         <div
           className="md:hidden"
-          style={{ borderTop: "1px solid #2D3038", background: "#0F1115" }}
+          style={{ borderTop: "1px solid rgba(255,255,255,0.08)", background: "#0a0a0a" }}
         >
           <div className="flex flex-col gap-4 px-6 py-5">
             {links.map((l) => (

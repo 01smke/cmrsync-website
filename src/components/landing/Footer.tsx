@@ -5,7 +5,7 @@ export function Footer() {
   return (
     <footer
       id="contact"
-      style={{ background: "#0B0D11", borderTop: "1px solid #2D3038" }}
+      style={{ background: "#0a0a0a", borderTop: "1px solid rgba(255,255,255,0.08)" }}
     >
       <div className="mx-auto grid max-w-7xl gap-6 px-6 py-10 md:grid-cols-3 md:items-center">
         <div>

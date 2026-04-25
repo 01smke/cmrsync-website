@@ -7,8 +7,8 @@ export function CtaBanner() {
       className="px-6 py-20 md:py-24"
       style={{
         background:
-          "radial-gradient(ellipse at 50% 50%, rgba(223,255,0,0.08) 0%, #0B0D11 60%, #06080C 100%)",
-        borderTop: "1px solid #2D3038",
+          "radial-gradient(ellipse at 50% 50%, rgba(200,255,0,0.08) 0%, #0a0a0a 60%, #0a0a0a 100%)",
+        borderTop: "1px solid rgba(255,255,255,0.08)",
       }}
     >
       <div className="mx-auto max-w-3xl text-center">
