@@ -17,11 +17,17 @@ const stats = [
 export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
-      <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-14">
+      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
+        <div className="grid items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
           {/* LEFT */}
           <div className="page-body max-w-2xl">
-            <h1 className="h-hero">
+            <h1
+              className="h-hero"
+              style={{
+                fontSize: "clamp(56px, 7.6vw, 92px)",
+                lineHeight: 0.98,
+              }}
+            >
               From CMR photo
               <br />
               to invoice,
@@ -29,24 +35,35 @@ export function Hero() {
               <span style={{ color: "#C8FF00" }}>instantly.</span>
             </h1>
 
-            <p className="body-copy mt-3" style={{ maxWidth: 480 }}>
+            <p
+              className="body-copy mt-7"
+              style={{ maxWidth: 560, fontSize: 19, lineHeight: 1.55 }}
+            >
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <a href="#cta" className="btn-primary">
-                Upload your first CMR free <ArrowRight size={16} />
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href="#cta"
+                className="btn-primary"
+                style={{ fontSize: "1.05rem", padding: "16px 30px" }}
+              >
+                Upload your first CMR free <ArrowRight size={18} />
               </a>
-              <a href="#how" className="btn-ghost">
+              <a
+                href="#how"
+                className="btn-ghost"
+                style={{ fontSize: "0.95rem", padding: "14px 24px" }}
+              >
                 See how it works →
               </a>
             </div>
 
             {/* Trust line — plain text */}
             <p
-              className="mt-3"
+              className="mt-5"
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: "#C8FF00",
                 letterSpacing: "0.01em",
                 fontWeight: 600,
@@ -67,27 +84,27 @@ export function Hero() {
                   "0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
               }}
             >
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
                 <div
                   className="flex items-center justify-center"
                   style={{
-                    width: 64,
-                    height: 64,
+                    width: 88,
+                    height: 88,
                     borderRadius: "50%",
                     background: "#ffffff",
-                    boxShadow: "0 8px 30px rgba(0,0,0,0.5)",
+                    boxShadow: "0 12px 40px rgba(0,0,0,0.55)",
                   }}
                 >
-                  <Play size={24} fill="#000000" color="#000000" style={{ marginLeft: 3 }} />
+                  <Play size={32} fill="#000000" color="#000000" style={{ marginLeft: 4 }} />
                 </div>
                 <div className="text-center">
                   <div
-                    className="font-display text-lg"
-                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em" }}
+                    className="font-display"
+                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em", fontSize: 22 }}
                   >
                     Product demo coming soon
                   </div>
-                  <div className="ui-label mt-2">Video placeholder</div>
+                  <div className="ui-label mt-2" style={{ fontSize: 12 }}>Video placeholder</div>
                 </div>
               </div>
             </div>
@@ -96,24 +113,24 @@ export function Hero() {
 
         {/* STATS BAR — slim single bar */}
         <div
-          className="reveal mt-12 flex flex-wrap items-center"
+          className="reveal mt-16 flex flex-wrap items-center"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",
             borderLeft: "3px solid #C8FF00",
-            borderRadius: 12,
-            padding: "20px 40px",
+            borderRadius: 14,
+            padding: "28px 48px",
             justifyContent: "space-between",
-            gap: 16,
+            gap: 20,
           }}
         >
           {stats.map((s, i) => (
             <div
               key={s.l}
-              className="flex flex-1 items-baseline gap-3"
+              className="flex flex-1 items-baseline gap-4"
               style={{
-                minWidth: 180,
-                paddingLeft: i === 0 ? 0 : 24,
+                minWidth: 200,
+                paddingLeft: i === 0 ? 0 : 32,
                 borderLeft:
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
@@ -121,7 +138,7 @@ export function Hero() {
               <span
                 className="font-display"
                 style={{
-                  fontSize: 22,
+                  fontSize: 30,
                   fontWeight: 900,
                   color: "#ffffff",
                   letterSpacing: "-0.02em",
@@ -132,8 +149,8 @@ export function Hero() {
               </span>
               <span
                 style={{
-                  fontSize: 11,
-                  color: "rgba(255,255,255,0.4)",
+                  fontSize: 12,
+                  color: "rgba(255,255,255,0.45)",
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
                   fontWeight: 600,
