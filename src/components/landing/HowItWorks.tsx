@@ -20,54 +20,39 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="px-6 py-24 md:py-32">
+    <section id="how" className="px-6 py-24 md:py-32" style={{ background: "#ffffff" }}>
       <div className="mx-auto max-w-7xl">
         <div className="reveal mb-16 max-w-2xl">
-          <span className="font-body text-xs uppercase tracking-[0.2em]" style={{ color: "#DFFF00" }}>
-            How it works
-          </span>
-          <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-5xl">
-            Three steps. Zero paperwork.
-          </h2>
-          <p className="mt-4 font-body" style={{ color: "#9CA3AF", lineHeight: 1.65 }}>
+          <span className="ui-label">How it works</span>
+          <h2 className="h-section mt-4">Three steps. Zero paperwork.</h2>
+          <p className="body-copy mt-5">
             From a photo on a phone to clean structured data in your dashboard — automated end to end.
           </p>
         </div>
 
-        <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-center">
+        <div className="flex flex-col items-stretch gap-6 lg:flex-row lg:items-stretch">
           {steps.map((s, i) => (
-            <div key={s.title} className="contents lg:flex lg:flex-1 lg:items-center">
+            <div key={s.title} className="contents lg:flex lg:flex-1 lg:items-stretch">
               <div
                 className="reveal surface-card flex-1"
                 style={{ padding: "28px", transitionDelay: `${i * 80}ms` }}
               >
-                <div className="mb-5 flex items-center gap-3">
+                <div className="mb-6 flex items-center justify-between">
                   <div
                     className="flex h-11 w-11 items-center justify-center rounded-lg"
-                    style={{
-                      background: "rgba(223,255,0,0.1)",
-                      border: "1px solid rgba(223,255,0,0.25)",
-                    }}
+                    style={{ background: "#0a0a0a" }}
                   >
-                    <s.icon size={20} style={{ color: "#DFFF00" }} />
+                    <s.icon size={20} style={{ color: "#ffffff" }} />
                   </div>
-                  <span
-                    className="font-display text-xs font-bold"
-                    style={{ color: "#6B7280", letterSpacing: "0.1em" }}
-                  >
-                    STEP {String(i + 1).padStart(2, "0")}
-                  </span>
+                  <span className="ui-label">Step {String(i + 1).padStart(2, "0")}</span>
                 </div>
-                <h3 className="font-display text-xl font-bold text-white">{s.title}</h3>
-                <p className="mt-3 font-body text-sm" style={{ color: "#9CA3AF", lineHeight: 1.65 }}>
-                  {s.body}
-                </p>
+                <h3 className="card-title text-xl">{s.title}</h3>
+                <p className="body-copy mt-3 text-[15px]">{s.body}</p>
               </div>
 
               {i < steps.length - 1 && (
-                <div className="hidden items-center px-2 lg:flex">
-                  <div className="h-px w-10" style={{ background: "#2D3038" }} />
-                  <ArrowRight size={18} style={{ color: "#DFFF00" }} />
+                <div className="hidden items-center justify-center px-2 lg:flex">
+                  <ArrowRight size={18} style={{ color: "#0a0a0a", opacity: 0.3 }} />
                 </div>
               )}
             </div>
