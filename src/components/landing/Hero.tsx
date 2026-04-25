@@ -10,7 +10,7 @@ const trustPills = [
 const stats = [
   { v: "9s", l: "Avg extraction" },
   { v: "95%", l: "Accuracy" },
-  { v: "∞", l: "CMRs / month" },
+  { v: "Unlimited", l: "CMRs / month" },
   { v: "1-click", l: "Invoice generation" },
 ];
 
