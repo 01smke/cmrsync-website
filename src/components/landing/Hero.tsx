@@ -75,7 +75,6 @@ export function Hero() {
               className="card relative w-full overflow-hidden"
               style={{
                 aspectRatio: "16 / 9",
-                minHeight: 420,
                 background: "#141414",
                 border: "1px solid rgba(200,255,0,0.15)",
                 boxShadow:
