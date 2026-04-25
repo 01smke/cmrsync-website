@@ -15,8 +15,8 @@ export function Pricing() {
   return (
     <section
       id="pricing"
-      className="px-6 py-20 md:py-24"
-      style={{ background: "transparent" }}
+      className="px-6 py-20 backdrop-blur-md md:py-24"
+      style={{ background: "rgba(15, 17, 21, 0.78)", borderTop: "1px solid #2D3038", borderBottom: "1px solid #2D3038" }}
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">
