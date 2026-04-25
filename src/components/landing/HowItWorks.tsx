@@ -4,18 +4,18 @@ import { ArrowRight } from "lucide-react";
 const steps = [
   {
     Icon: IconTelegram,
-    title: "Driver Snaps a Photo",
-    body: "The driver photographs the CMR waybill and sends it to our Telegram bot. No app installs required.",
+    title: "Driver takes a photo",
+    body: "After every load, your driver photographs the signed CMR — from their phone, in under 10 seconds. No scanner. No app training. Just a photo.",
   },
   {
     Icon: IconBolt,
-    title: "AI Extracts Every Field",
-    body: "Claude Vision reads shipper, consignee, cargo, weights, dates and route — in under 3 seconds.",
+    title: "CMRSync reads it",
+    body: "Our AI extracts every field automatically. Consignor, consignee, goods, weight, route, dates — all organized and ready to review in under 8 seconds. Low-confidence fields are flagged so nothing slips through.",
   },
   {
     Icon: IconDashboard,
-    title: "Data Hits Your Dashboard",
-    body: "Structured records appear instantly. Export CSV, generate PDF invoices, build bundles.",
+    title: "One button to invoice",
+    body: "Select one or more CMRs, hit generate. CMRSync bundles the shipment data and produces a ready-to-send invoice. Whether you're a carrier billing a shipper or a freight forwarder invoicing your client — it works the same way.",
   },
 ];
 
@@ -29,10 +29,7 @@ export function HowItWorks() {
       <div className="mx-auto max-w-7xl">
         <div className="reveal mb-12 max-w-2xl">
           <span className="ui-label">How it works</span>
-          <h2 className="h-section mt-3">Three steps. Zero paperwork.</h2>
-          <p className="body-copy mt-4">
-            From a photo on a phone to clean structured data in your dashboard — automated end to end.
-          </p>
+          <h2 className="h-section mt-3">Three steps from paper to paid.</h2>
         </div>
 
         <div className="flex flex-col items-stretch gap-4 lg:flex-row">
