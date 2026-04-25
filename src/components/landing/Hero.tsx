@@ -48,14 +48,7 @@ export function Hero() {
                 className="btn-primary"
                 style={{ fontSize: "1.05rem", padding: "16px 30px" }}
               >
-                Upload your first CMR free <ArrowRight size={18} />
-              </a>
-              <a
-                href="#how"
-                className="btn-ghost"
-                style={{ fontSize: "0.95rem", padding: "14px 24px" }}
-              >
-                See how it works →
+                Start your free trial <ArrowRight size={18} />
               </a>
             </div>
 
