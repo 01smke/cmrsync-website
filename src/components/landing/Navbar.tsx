@@ -30,10 +30,10 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="text-sm font-medium transition-colors"
-              style={{ color: "#9CA3AF" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#DFFF00")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+              className="transition-colors"
+              style={{ color: "rgba(255,255,255,0.7)", fontWeight: 500, fontSize: "14px" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "#ffffff")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
             >
               {l.label}
             </a>
