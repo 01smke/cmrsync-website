@@ -51,7 +51,7 @@ export function Pricing() {
             </div>
 
             <div className="mt-6 flex items-baseline gap-1.5">
-              <span className="stat-num" style={{ fontSize: "56px", color: "#C8FF00" }}>
+              <span className="stat-num" style={{ fontSize: "56px", color: "#ffffff" }}>
                 €30
               </span>
               <span className="text-sm" style={{ color: "#9CA3AF" }}>

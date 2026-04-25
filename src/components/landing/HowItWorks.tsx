@@ -55,7 +55,7 @@ export function HowItWorks() {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="relative">
-                <div className="ui-label" style={{ color: "#DFFF00" }}>
+                <div className="ui-label">
                   Step {String(i + 1).padStart(2, "0")}
                 </div>
                 <h3

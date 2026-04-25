@@ -118,10 +118,10 @@ export function Hero() {
               className="kpi-card"
               style={i === 0 ? { borderLeft: "3px solid #C8FF00" } : undefined}
             >
-              <div className="stat-num" style={{ fontSize: 42, color: "#C8FF00" }}>
+              <div className="stat-num" style={{ fontSize: 42, color: "#ffffff" }}>
                 {s.v}
               </div>
-              <div className="ui-label mt-1.5" style={{ color: "#9CA3AF" }}>
+              <div className="ui-label mt-1.5">
                 {s.l}
               </div>
             </div>
