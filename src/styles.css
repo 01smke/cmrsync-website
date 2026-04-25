@@ -32,6 +32,19 @@
   --color-ring: var(--ring);
   --color-surface: var(--surface);
   --color-line: var(--line);
+
+  /* Brand color tokens (hex) for direct utility usage: bg-bg, text-lime, border-line, etc. */
+  --color-bg: #0F1115;
+  --color-surface-hex: #1C1E24;
+  --color-line-hex: #2D3038;
+  --color-lime: #DFFF00;
+  --color-lime-hover: #AADD00;
+  --color-muted-text: #9CA3AF;
+  --color-faint: #6B7280;
+  --color-danger: #f87171;
+
+  /* Font families — used by font-sans, font-display, font-body utilities */
+  --font-sans: 'Inter', sans-serif;
   --font-display: 'Space Grotesk', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
