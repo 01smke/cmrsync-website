@@ -29,22 +29,7 @@ export function Hero() {
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-14">
           {/* LEFT */}
           <div className="page-body max-w-2xl">
-            {/* Eyebrow pill */}
-            <div
-              className="inline-flex items-center gap-2 rounded-full px-3 py-1.5"
-              style={{
-                border: "1px solid rgba(223,255,0,0.3)",
-                background: "rgba(223,255,0,0.08)",
-              }}
-            >
-              <span
-                className="inline-block h-1.5 w-1.5 rounded-full"
-                style={{ background: "#DFFF00", boxShadow: "0 0 10px #DFFF00" }}
-              />
-              <span className="ui-label">From photo to invoice — in seconds</span>
-            </div>
-
-            <h1 className="h-hero mt-6">
+            <h1 className="h-hero">
               From CMR photo
               <br />
               to invoice,
