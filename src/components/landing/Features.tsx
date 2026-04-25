@@ -9,34 +9,34 @@ import {
 
 const features = [
   {
-    Icon: IconTelegram,
-    title: "Telegram Bot Intake",
-    body: "Drivers need zero training. One chat message is all it takes.",
-  },
-  {
     Icon: IconAIVision,
-    title: "Claude AI Vision",
-    body: "State-of-the-art accuracy on messy, handwritten and multilingual CMRs.",
+    title: "No more manual entry",
+    body: "Stop paying someone to type CMR data into spreadsheets. CMRSync does it in seconds, at 95% accuracy, round the clock.",
   },
   {
-    Icon: IconDashboard,
-    title: "Live Dashboard",
-    body: "Filter, search, sort and stage every shipment in a clean interface.",
-  },
-  {
-    Icon: IconInvoice,
-    title: "PDF Invoice Generator",
-    body: "Generate branded invoices per CMR or as a bundle with one click.",
-  },
-  {
-    Icon: IconExport,
-    title: "CSV & TMS Export",
-    body: "Push data to Excel, your TMS or accounting software instantly.",
+    Icon: IconTelegram,
+    title: "Works with any CMR",
+    body: "Printed, handwritten, smudged, crumpled. If your driver can photograph it, CMRSync can read it.",
   },
   {
     Icon: IconShield,
-    title: "EU-Hosted & Encrypted",
-    body: "Your CMR data is encrypted at rest, GDPR-compliant and stored in the EU.",
+    title: "Smart flagging",
+    body: "Every field CMRSync isn't certain about gets flagged for a one-click human review. You catch errors before they become disputes.",
+  },
+  {
+    Icon: IconInvoice,
+    title: "Bulk invoicing",
+    body: "Run 50 loads in a week? Select them all, generate one invoice per client. Done in the time it used to take to open Excel.",
+  },
+  {
+    Icon: IconExport,
+    title: "Full document archive",
+    body: "Every CMR stored, searchable, and exportable. Audit-ready at any time.",
+  },
+  {
+    Icon: IconDashboard,
+    title: "Works for carriers and forwarders",
+    body: "Whether you're billing direct to the shipper or managing client accounts as a forwarder — CMRSync handles both invoice structures.",
   },
 ];
 
