@@ -19,21 +19,22 @@ export function Hero() {
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
         <div className="grid items-center gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           {/* LEFT */}
-          <div className="page-body" style={{ maxWidth: 480 }}>
+          <div className="page-body" style={{ maxWidth: 560 }}>
             <h1
               className="h-hero"
               style={{
-                fontSize: "clamp(52px, 5.5vw, 76px)",
-                lineHeight: 1.0,
+                fontSize: "clamp(48px, 5.2vw, 68px)",
+                lineHeight: 1.05,
               }}
             >
-              From CMR photo to invoice,{" "}
+              From CMR photo to invoice,
+              <br />
               <span style={{ color: "#C8FF00" }}>instantly.</span>
             </h1>
 
             <p
               className="body-copy mt-7"
-              style={{ maxWidth: 480, fontSize: 19, lineHeight: 1.55, color: "rgba(255,255,255,0.6)" }}
+              style={{ maxWidth: 520, fontSize: 19, lineHeight: 1.55, color: "rgba(255,255,255,0.6)" }}
             >
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
@@ -58,14 +59,13 @@ export function Hero() {
             <p
               className="mt-5"
               style={{
-                fontSize: 13,
-                color: "rgba(255,255,255,0.4)",
-                letterSpacing: "0.08em",
-                fontWeight: 500,
+                fontSize: 12,
+                color: "rgba(255,255,255,0.35)",
+                fontWeight: 400,
                 whiteSpace: "nowrap",
               }}
             >
-              GDPR COMPLIANT · PRINTED & HANDWRITTEN · ANY LANGUAGE
+              GDPR compliant · Printed & handwritten · Any language
             </p>
           </div>
 
