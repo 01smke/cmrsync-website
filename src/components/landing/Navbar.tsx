@@ -21,7 +21,7 @@ export function Navbar() {
         borderBottom: "1px solid #2D3038",
       }}
     >
-      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3">
+      <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-1">
         <Link to="/" className="flex items-center">
           <Logo />
         </Link>

@@ -6,7 +6,9 @@ import { Features } from "@/components/landing/Features";
 import { Pricing } from "@/components/landing/Pricing";
 import { CtaBanner } from "@/components/landing/CtaBanner";
 import { Footer } from "@/components/landing/Footer";
+import { ParticleField } from "@/components/landing/ParticleField";
 import { useReveal } from "@/hooks/use-reveal";
+import { useButtonTap } from "@/hooks/use-button-tap";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -31,15 +33,19 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   useReveal();
+  useButtonTap();
   return (
-    <main style={{ background: "#0F1115" }}>
-      <Navbar />
-      <Hero />
-      <HowItWorks />
-      <Features />
-      <Pricing />
-      <CtaBanner />
-      <Footer />
-    </main>
+    <>
+      <ParticleField />
+      <main style={{ background: "transparent", position: "relative", zIndex: 1 }}>
+        <Navbar />
+        <Hero />
+        <HowItWorks />
+        <Features />
+        <Pricing />
+        <CtaBanner />
+        <Footer />
+      </main>
+    </>
   );
 }
