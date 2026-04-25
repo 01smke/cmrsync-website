@@ -64,21 +64,24 @@ export function Hero() {
             <div
               className="card relative w-full overflow-hidden"
               style={{
-                minHeight: 520,
-                background: "linear-gradient(135deg, #14171E 0%, #0A0C10 100%)",
+                aspectRatio: "16 / 9",
+                background: "#141414",
                 boxShadow:
                   "0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
               }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                 <div
-                  className="flex h-20 w-20 items-center justify-center rounded-full"
+                  className="flex items-center justify-center"
                   style={{
+                    width: 64,
+                    height: 64,
+                    borderRadius: "50%",
                     background: "#ffffff",
                     boxShadow: "0 8px 30px rgba(0,0,0,0.5)",
                   }}
                 >
-                  <Play size={28} fill="#0a0a0a" color="#0a0a0a" style={{ marginLeft: 4 }} />
+                  <Play size={24} fill="#000000" color="#000000" style={{ marginLeft: 3 }} />
                 </div>
                 <div className="text-center">
                   <div
@@ -90,16 +93,6 @@ export function Hero() {
                   <div className="ui-label mt-2">Video placeholder</div>
                 </div>
               </div>
-              {/* Subtle grid overlay */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 opacity-[0.06]"
-                style={{
-                  backgroundImage:
-                    "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
-                  backgroundSize: "48px 48px",
-                }}
-              />
             </div>
           </div>
         </div>
