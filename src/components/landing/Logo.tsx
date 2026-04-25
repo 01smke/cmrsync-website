@@ -2,36 +2,28 @@ import logoSrc from "@/assets/cmrsync-logo.png";
 
 export function Logo({
   className = "",
-  size = 40,
-  showWordmark = false,
+  size = 56,
 }: {
   className?: string;
   size?: number;
-  showWordmark?: boolean;
 }) {
   return (
-    <div className={`flex items-center gap-2.5 ${className}`}>
+    <div className={`flex items-center ${className}`}>
       <img
         src={logoSrc}
         alt="CMRsync logo"
         width={size}
         height={size}
         className="logo-img"
-        style={{ width: size, height: size, objectFit: "contain", display: "block" }}
+        style={{
+          width: size,
+          height: size,
+          objectFit: "cover",
+          display: "block",
+          transform: "scale(1.46)",
+          transformOrigin: "center",
+        }}
       />
-      {showWordmark && (
-        <span
-          className="font-display"
-          style={{
-            fontWeight: 700,
-            letterSpacing: "-0.04em",
-            color: "#ffffff",
-            fontSize: 18,
-          }}
-        >
-          CMRsync
-        </span>
-      )}
     </div>
   );
 }
