@@ -164,8 +164,27 @@
     font-family: 'Space Grotesk', sans-serif;
     letter-spacing: -0.03em;
   }
-  .font-body {
+  .font-body,
+  .font-sans {
     font-family: 'Inter', sans-serif;
+  }
+
+  /* Label / caption — Inter 600, uppercase, tracked */
+  .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6B7280;
+  }
+
+  /* Muted body copy */
+  .muted {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    color: #9CA3AF;
+    line-height: 1.65;
   }
 
   .hero-gradient {
