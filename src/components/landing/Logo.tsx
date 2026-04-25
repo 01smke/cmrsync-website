@@ -2,7 +2,7 @@ import logoSrc from "@/assets/cmrsync-logo.png";
 
 export function Logo({
   className = "",
-  size = 40,
+  size = 56,
 }: {
   className?: string;
   size?: number;
@@ -20,22 +20,10 @@ export function Logo({
           height: size,
           objectFit: "cover",
           display: "block",
-          transform: "scale(1.7)",
+          transform: "scale(1.85)",
           transformOrigin: "center",
         }}
       />
-      <span
-        className="font-display"
-        style={{
-          fontWeight: 700,
-          fontSize: "18px",
-          letterSpacing: "-0.02em",
-          color: "#ffffff",
-          marginLeft: "14px",
-        }}
-      >
-        CMRSYNC
-      </span>
     </div>
   );
 }
