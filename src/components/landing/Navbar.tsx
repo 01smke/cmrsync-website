@@ -59,7 +59,7 @@ export function Navbar() {
       {open && (
         <div
           className="md:hidden"
-          style={{ borderTop: "1px solid #2D3038", background: "#0F1115" }}
+          style={{ borderTop: "1px solid rgba(255,255,255,0.08)", background: "#0a0a0a" }}
         >
           <div className="flex flex-col gap-4 px-6 py-5">
             {links.map((l) => (
