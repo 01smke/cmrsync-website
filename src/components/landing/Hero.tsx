@@ -10,7 +10,7 @@ const trustPills = [
 const stats = [
   { v: "9s", l: "Avg extraction" },
   { v: "95%", l: "Accuracy" },
-  { v: "∞", l: "CMRs / month" },
+  { v: "Unlimited", l: "CMRs / month" },
   { v: "1-click", l: "Invoice generation" },
 ];
 
@@ -118,7 +118,10 @@ export function Hero() {
               className="kpi-card"
               style={i === 0 ? { borderLeft: "3px solid #C8FF00" } : undefined}
             >
-              <div className="stat-num" style={{ fontSize: 42, color: "#ffffff" }}>
+              <div
+                className="stat-num"
+                style={{ fontSize: s.v.length > 4 ? 28 : 42, color: "#ffffff" }}
+              >
                 {s.v}
               </div>
               <div className="ui-label mt-1.5">
