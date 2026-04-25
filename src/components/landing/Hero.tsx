@@ -47,15 +47,12 @@ export function Hero() {
               className="mt-3"
               style={{
                 fontSize: 12,
-                color: "rgba(255,255,255,0.4)",
+                color: "#C8FF00",
                 letterSpacing: "0.01em",
+                fontWeight: 600,
               }}
             >
               {trustItems.join(" · ")}
-            </p>
-
-            <p className="mt-2 text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
-              No credit card required · Setup in 2 minutes · Cancel anytime
             </p>
           </div>
 
