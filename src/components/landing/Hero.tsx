@@ -18,14 +18,14 @@ export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
-        <div className="grid items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
+        <div className="grid items-center gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           {/* LEFT */}
           <div className="page-body max-w-2xl">
             <h1
               className="h-hero"
               style={{
-                fontSize: "clamp(56px, 7.6vw, 92px)",
-                lineHeight: 0.98,
+                fontSize: "clamp(40px, 5vw, 64px)",
+                lineHeight: 1.0,
               }}
             >
               From CMR photo
