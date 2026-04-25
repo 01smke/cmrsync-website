@@ -1,10 +1,10 @@
-import { ArrowRight, Play, Lock, FileText, Globe, Zap } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 
 const trustPills = [
-  { Icon: Lock, label: "GDPR Compliant" },
-  { Icon: FileText, label: "Printed & handwritten" },
-  { Icon: Globe, label: "Any EU language" },
-  { Icon: Zap, label: "No setup required" },
+  "GDPR Compliant",
+  "Printed & handwritten",
+  "Any EU language",
+  "No setup required",
 ];
 
 const stats = [
