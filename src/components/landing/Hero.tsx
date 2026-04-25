@@ -20,11 +20,11 @@ export function Hero() {
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
         <div className="grid items-center gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           {/* LEFT */}
-          <div className="page-body max-w-2xl">
+          <div className="page-body" style={{ maxWidth: 520 }}>
             <h1
               className="h-hero"
               style={{
-                fontSize: "clamp(40px, 5vw, 64px)",
+                fontSize: "clamp(48px, 6vw, 72px)",
                 lineHeight: 1.0,
               }}
             >
@@ -37,7 +37,7 @@ export function Hero() {
 
             <p
               className="body-copy mt-7"
-              style={{ maxWidth: 560, fontSize: 19, lineHeight: 1.55 }}
+              style={{ maxWidth: 520, fontSize: 19, lineHeight: 1.55, color: "rgba(255,255,255,0.6)" }}
             >
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
@@ -46,20 +46,26 @@ export function Hero() {
               <a
                 href="#cta"
                 className="btn-primary"
-                style={{ fontSize: "1.05rem", padding: "16px 30px" }}
+                style={{
+                  fontSize: "1.05rem",
+                  padding: "14px 32px",
+                  background: "#ffffff",
+                  color: "#000000",
+                  letterSpacing: "-0.02em",
+                }}
               >
                 Start your free trial <ArrowRight size={18} />
               </a>
             </div>
 
-            {/* Trust line — plain text */}
+            {/* Trust line — muted plain text */}
             <p
               className="mt-5"
               style={{
                 fontSize: 14,
-                color: "#C8FF00",
+                color: "rgba(255,255,255,0.4)",
                 letterSpacing: "0.01em",
-                fontWeight: 600,
+                fontWeight: 500,
               }}
             >
               {trustItems.join(" · ")}
@@ -74,7 +80,7 @@ export function Hero() {
                 aspectRatio: "16 / 9",
                 background: "#141414",
                 boxShadow:
-                  "0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
+                  "inset 0 0 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.6)",
               }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
@@ -104,9 +110,15 @@ export function Hero() {
           </div>
         </div>
 
+        {/* Divider between hero and stats */}
+        <div
+          className="mt-16"
+          style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
+        />
+
         {/* STATS BAR — slim single bar */}
         <div
-          className="reveal mt-16 flex flex-wrap items-center"
+          className="reveal mt-10 flex flex-wrap items-center"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",
@@ -120,9 +132,10 @@ export function Hero() {
           {stats.map((s, i) => (
             <div
               key={s.l}
-              className="flex flex-1 items-baseline gap-4"
+              className="flex flex-1 items-center gap-4"
               style={{
-                minWidth: 200,
+                minWidth: 160,
+                whiteSpace: "nowrap",
                 paddingLeft: i === 0 ? 0 : 32,
                 borderLeft:
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
@@ -131,11 +144,12 @@ export function Hero() {
               <span
                 className="font-display"
                 style={{
-                  fontSize: 30,
+                  fontSize: 28,
                   fontWeight: 900,
                   color: "#ffffff",
-                  letterSpacing: "-0.02em",
+                  letterSpacing: "-0.04em",
                   lineHeight: 1,
+                  whiteSpace: "nowrap",
                 }}
               >
                 {s.v}
@@ -147,6 +161,7 @@ export function Hero() {
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
                   fontWeight: 600,
+                  whiteSpace: "nowrap",
                 }}
               >
                 {s.l}
