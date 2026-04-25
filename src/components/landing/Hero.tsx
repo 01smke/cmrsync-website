@@ -75,9 +75,11 @@ export function Hero() {
               className="card relative w-full overflow-hidden"
               style={{
                 aspectRatio: "16 / 9",
+                minHeight: 420,
                 background: "#141414",
+                border: "1px solid rgba(200,255,0,0.15)",
                 boxShadow:
-                  "inset 0 0 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(0,0,0,0.6)",
+                  "inset 0 0 60px rgba(0,0,0,0.4), 0 0 40px rgba(200,255,0,0.04), 0 30px 80px rgba(0,0,0,0.6)",
               }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
