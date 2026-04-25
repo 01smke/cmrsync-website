@@ -10,9 +10,10 @@ export function Hero() {
 
   return (
     <section className="hero relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 pb-16 pt-12 md:pb-20 md:pt-16">
+      <div className="mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
+        <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-14">
         {/* HEADLINE */}
-        <div className="page-body mx-auto max-w-3xl text-center">
+        <div className="page-body max-w-2xl text-center lg:text-left">
           <div
             className="inline-flex items-center gap-2 rounded-full px-3 py-1.5"
             style={{ border: "1px solid #2D3038", background: "rgba(28,30,36,0.6)" }}
@@ -36,7 +37,7 @@ export function Hero() {
             Clean structured data lands in your dashboard — no manual entry, no errors.
           </p>
 
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
             <a href="#cta" className="btn-primary">
               Start Free Trial <ArrowRight size={16} />
             </a>
@@ -47,7 +48,7 @@ export function Hero() {
         </div>
 
         {/* VIDEO SHOWCASE */}
-        <div className="reveal mx-auto mt-12 max-w-5xl">
+        <div className="max-w-3xl">
           <div
             className="card relative aspect-video w-full overflow-hidden"
             style={{
@@ -90,6 +91,7 @@ export function Hero() {
               }}
             />
           </div>
+        </div>
         </div>
 
         {/* KPI ROW */}
