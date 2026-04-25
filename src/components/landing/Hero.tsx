@@ -17,11 +17,17 @@ const stats = [
 export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
-      <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
-        <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-14">
+      <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
+        <div className="grid items-center gap-14 lg:grid-cols-[1fr_1fr] lg:gap-20">
           {/* LEFT */}
           <div className="page-body max-w-2xl">
-            <h1 className="h-hero">
+            <h1
+              className="h-hero"
+              style={{
+                fontSize: "clamp(56px, 7.6vw, 92px)",
+                lineHeight: 0.98,
+              }}
+            >
               From CMR photo
               <br />
               to invoice,
@@ -29,24 +35,35 @@ export function Hero() {
               <span style={{ color: "#C8FF00" }}>instantly.</span>
             </h1>
 
-            <p className="body-copy mt-3" style={{ maxWidth: 480 }}>
+            <p
+              className="body-copy mt-7"
+              style={{ maxWidth: 560, fontSize: 19, lineHeight: 1.55 }}
+            >
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-3">
-              <a href="#cta" className="btn-primary">
-                Upload your first CMR free <ArrowRight size={16} />
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a
+                href="#cta"
+                className="btn-primary"
+                style={{ fontSize: "1.05rem", padding: "16px 30px" }}
+              >
+                Upload your first CMR free <ArrowRight size={18} />
               </a>
-              <a href="#how" className="btn-ghost">
+              <a
+                href="#how"
+                className="btn-ghost"
+                style={{ fontSize: "0.95rem", padding: "14px 24px" }}
+              >
                 See how it works →
               </a>
             </div>
 
             {/* Trust line — plain text */}
             <p
-              className="mt-3"
+              className="mt-5"
               style={{
-                fontSize: 12,
+                fontSize: 14,
                 color: "#C8FF00",
                 letterSpacing: "0.01em",
                 fontWeight: 600,
