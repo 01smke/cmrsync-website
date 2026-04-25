@@ -17,7 +17,7 @@ export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
-        <div className="grid items-center gap-14 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="grid items-center gap-14 lg:grid-cols-[45fr_55fr] lg:gap-16">
           {/* LEFT */}
           <div className="page-body" style={{ maxWidth: 560 }}>
             <h1
