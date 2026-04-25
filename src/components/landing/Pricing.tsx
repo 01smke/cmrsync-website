@@ -1,144 +1,95 @@
 import { Check } from "lucide-react";
 
-const tiers = [
-  {
-    name: "Starter",
-    price: "€49",
-    period: "/mo",
-    desc: "For small fleets getting started.",
-    features: ["Up to 200 CMRs/month", "1 user", "Telegram bot", "Dashboard"],
-    cta: "Get Started",
-    highlight: false,
-  },
-  {
-    name: "Pro",
-    price: "€129",
-    period: "/mo",
-    desc: "For growing logistics teams.",
-    features: ["Unlimited CMRs", "5 users", "PDF invoices", "CSV export", "Bundle invoicing"],
-    cta: "Get Started",
-    highlight: true,
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    desc: "For large operations & integrators.",
-    features: ["White-label", "Custom integrations", "Dedicated support", "SLA"],
-    cta: "Contact Sales",
-    highlight: false,
-  },
+const features = [
+  "Unlimited CMRs per truck",
+  "Telegram bot driver intake",
+  "Claude AI Vision extraction",
+  "Live dashboard & search",
+  "PDF invoice generator (branded)",
+  "CSV / TMS / accounting export",
+  "EU-hosted & GDPR-compliant",
+  "Email support",
 ];
 
 export function Pricing() {
   return (
     <section
       id="pricing"
-      className="px-6 py-24 md:py-32"
-      style={{ borderTop: "0.5px solid rgba(0,0,0,0.08)", background: "#ffffff" }}
+      className="px-6 py-20 md:py-24"
+      style={{ background: "#0F1115" }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mb-16 max-w-2xl">
+        <div className="reveal mx-auto mb-12 max-w-2xl text-center">
           <span className="ui-label">Pricing</span>
-          <h2 className="h-section mt-4">Simple, honest pricing.</h2>
-          <p className="body-copy mt-5">
-            No setup fees. No per-document charges. Cancel anytime.
+          <h2 className="h-section mt-3">One simple price.</h2>
+          <p className="body-copy mx-auto mt-4 max-w-lg">
+            No setup fees. No per-document charges. Scale with your fleet — pay only for the trucks you run.
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-6xl gap-6 md:grid-cols-3">
-          {tiers.map((t, i) => (
-            <div
-              key={t.name}
-              className="reveal surface-card relative flex flex-col"
-              style={{
-                padding: "32px",
-                transitionDelay: `${i * 80}ms`,
-                ...(t.highlight && {
-                  background: "#0a0a0a",
-                }),
-              }}
-            >
-              {t.highlight && (
-                <span
-                  className="absolute -top-3 left-8 rounded-full px-3 py-1 text-[10px]"
-                  style={{
-                    background: "#C4F542",
-                    color: "#0a0a0a",
-                    fontWeight: 700,
-                    letterSpacing: "0.08em",
-                    textTransform: "uppercase",
-                  }}
-                >
-                  Most Popular
-                </span>
-              )}
-
+        <div className="reveal mx-auto max-w-md">
+          <div className="card-featured" style={{ padding: "32px" }}>
+            <div className="flex items-center justify-between">
               <h3
-                className="card-title text-xl"
-                style={{ color: t.highlight ? "#ffffff" : "#0a0a0a" }}
+                className="font-display text-2xl"
+                style={{ color: "#fff", fontWeight: 700, letterSpacing: "-0.03em" }}
               >
-                {t.name}
+                CMRsync
               </h3>
-              <p
-                className="mt-1.5 text-sm"
+              <span
+                className="rounded-full px-3 py-1 text-[10px]"
                 style={{
-                  color: t.highlight ? "#ffffff" : "#0a0a0a",
-                  opacity: 0.6,
+                  background: "#DFFF00",
+                  color: "#0a0a0a",
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
                 }}
               >
-                {t.desc}
-              </p>
-
-              <div className="mt-7 flex items-baseline gap-1">
-                <span
-                  className="stat-num"
-                  style={{
-                    fontSize: "44px",
-                    color: t.highlight ? "#ffffff" : "#0a0a0a",
-                  }}
-                >
-                  {t.price}
-                </span>
-                {t.period && (
-                  <span
-                    className="text-sm"
-                    style={{ color: t.highlight ? "#ffffff" : "#0a0a0a", opacity: 0.6 }}
-                  >
-                    {t.period}
-                  </span>
-                )}
-              </div>
-
-              <ul className="mt-8 flex-1 space-y-3.5">
-                {t.features.map((f) => (
-                  <li key={f} className="flex items-start gap-3">
-                    <Check
-                      size={16}
-                      style={{
-                        color: t.highlight ? "#C4F542" : "#0a0a0a",
-                        flexShrink: 0,
-                        marginTop: 4,
-                      }}
-                    />
-                    <span
-                      className="text-[15px]"
-                      style={{ color: t.highlight ? "#ffffff" : "#0a0a0a", opacity: 0.85 }}
-                    >
-                      {f}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-
-              <a
-                href="#cta"
-                className={`mt-8 w-full text-center ${t.highlight ? "btn-accent" : "btn-primary"}`}
-              >
-                {t.cta}
-              </a>
+                All-in-one
+              </span>
             </div>
-          ))}
+
+            <div className="mt-6 flex items-baseline gap-1.5">
+              <span className="stat-num" style={{ fontSize: "56px" }}>
+                €30
+              </span>
+              <span className="text-sm" style={{ color: "#9CA3AF" }}>
+                / truck / month
+              </span>
+            </div>
+            <p className="mt-2 text-xs" style={{ color: "#6B7280" }}>
+              Billed monthly. Cancel anytime. VAT excluded.
+            </p>
+
+            <div
+              className="my-7"
+              style={{ height: 1, background: "#2D3038" }}
+            />
+
+            <ul className="space-y-3">
+              {features.map((f) => (
+                <li key={f} className="flex items-start gap-3">
+                  <span
+                    className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full"
+                    style={{ background: "rgba(223,255,0,0.15)", border: "1px solid rgba(223,255,0,0.3)" }}
+                  >
+                    <Check size={12} style={{ color: "#DFFF00" }} strokeWidth={3} />
+                  </span>
+                  <span className="text-sm" style={{ color: "#E5E7EB" }}>
+                    {f}
+                  </span>
+                </li>
+              ))}
+            </ul>
+
+            <a href="#cta" className="btn-primary mt-8 w-full">
+              Start Free Trial
+            </a>
+            <p className="mt-3 text-center text-xs" style={{ color: "#6B7280" }}>
+              30-day free trial · No credit card required
+            </p>
+          </div>
         </div>
       </div>
     </section>

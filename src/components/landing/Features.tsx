@@ -1,42 +1,42 @@
 import {
-  MessageSquare,
-  Eye,
-  LayoutDashboard,
-  FileText,
-  FileSpreadsheet,
-  Settings,
-} from "lucide-react";
+  IconTelegram,
+  IconAIVision,
+  IconDashboard,
+  IconInvoice,
+  IconExport,
+  IconShield,
+} from "./icons";
 
 const features = [
   {
-    icon: MessageSquare,
+    Icon: IconTelegram,
     title: "Telegram Bot Intake",
     body: "Drivers need zero training. One chat message is all it takes.",
   },
   {
-    icon: Eye,
+    Icon: IconAIVision,
     title: "Claude AI Vision",
-    body: "State-of-the-art extraction accuracy for messy, handwritten, multilingual CMRs.",
+    body: "State-of-the-art accuracy on messy, handwritten and multilingual CMRs.",
   },
   {
-    icon: LayoutDashboard,
+    Icon: IconDashboard,
     title: "Live Dashboard",
-    body: "Filter, search, sort, and stage every shipment in a clean interface.",
+    body: "Filter, search, sort and stage every shipment in a clean interface.",
   },
   {
-    icon: FileText,
+    Icon: IconInvoice,
     title: "PDF Invoice Generator",
     body: "Generate branded invoices per CMR or as a bundle with one click.",
   },
   {
-    icon: FileSpreadsheet,
-    title: "CSV Export",
-    body: "Push data to Excel, your TMS, or accounting software instantly.",
+    Icon: IconExport,
+    title: "CSV & TMS Export",
+    body: "Push data to Excel, your TMS or accounting software instantly.",
   },
   {
-    icon: Settings,
-    title: "Settings & Branding",
-    body: "Add your logo, bank details, VAT number — invoices look like yours.",
+    Icon: IconShield,
+    title: "EU-Hosted & Encrypted",
+    body: "Your CMR data is encrypted at rest, GDPR-compliant and stored in the EU.",
   },
 ];
 
@@ -44,36 +44,41 @@ export function Features() {
   return (
     <section
       id="features"
-      className="px-6 py-24 md:py-32"
-      style={{ borderTop: "0.5px solid rgba(0,0,0,0.08)", background: "#ffffff" }}
+      className="px-6 py-20 md:py-24"
+      style={{ background: "#0F1115" }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mb-16 max-w-2xl">
+        <div className="reveal mb-12 max-w-2xl">
           <span className="ui-label">Features</span>
-          <h2 className="h-section mt-4">Everything a logistics team needs.</h2>
-          <p className="body-copy mt-5">
-            Replace the inbox, the spreadsheet, the manual rekeying — with one streamlined workflow.
+          <h2 className="h-section mt-3">Everything a logistics team needs.</h2>
+          <p className="body-copy mt-4">
+            Replace the inbox, the spreadsheet and the manual rekeying — with one streamlined workflow.
           </p>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
             <div
               key={f.title}
-              className="reveal surface-card"
-              style={{
-                padding: "28px",
-                transitionDelay: `${i * 60}ms`,
-              }}
+              className="reveal feature-card"
+              style={{ transitionDelay: `${i * 50}ms` }}
             >
               <div
-                className="mb-6 flex h-10 w-10 items-center justify-center rounded-lg"
-                style={{ background: "#0a0a0a" }}
+                className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg"
+                style={{
+                  background: "rgba(223,255,0,0.08)",
+                  border: "1px solid rgba(223,255,0,0.18)",
+                }}
               >
-                <f.icon size={18} style={{ color: "#ffffff" }} />
+                <f.Icon size={22} />
               </div>
-              <h3 className="card-title text-lg">{f.title}</h3>
-              <p className="body-copy mt-2 text-[15px]">{f.body}</p>
+              <h3
+                className="font-display text-[17px]"
+                style={{ color: "#fff", fontWeight: 600, letterSpacing: "-0.02em" }}
+              >
+                {f.title}
+              </h3>
+              <p className="body-copy mt-2 text-sm">{f.body}</p>
             </div>
           ))}
         </div>
