@@ -18,7 +18,7 @@ export function HowItWorks() {
     <section
       id="how"
       className="px-6 py-20 md:py-24"
-      style={{ background: "#0a0a0a" }}
+      style={{ background: "#0B0D11", borderTop: "1px solid #2D3038", borderBottom: "1px solid #2D3038" }}
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">
@@ -33,21 +33,14 @@ export function HowItWorks() {
               className="reveal feature-card"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  letterSpacing: "0.1em",
-                  color: "#C8FF00",
-                  textTransform: "uppercase",
-                }}
-              >
+              <div className="ui-label" style={{ color: "#DFFF00" }}>
                 Step {String(i + 1).padStart(2, "0")}
               </div>
               <h3
+                className="font-display"
                 style={{
                   fontSize: 20,
-                  fontWeight: 800,
+                  fontWeight: 700,
                   letterSpacing: "-0.03em",
                   margin: "10px 0 6px",
                   color: "#ffffff",
@@ -55,14 +48,7 @@ export function HowItWorks() {
               >
                 {s.title}
               </h3>
-              <p
-                style={{
-                  fontSize: 13,
-                  lineHeight: 1.65,
-                  opacity: 0.55,
-                  color: "#ffffff",
-                }}
-              >
+              <p className="body-copy" style={{ fontSize: 13 }}>
                 {s.body}
               </p>
             </div>

@@ -25,28 +25,17 @@ export function Hero() {
             <div
               className="inline-flex items-center gap-2 rounded-full px-3 py-1.5"
               style={{
-                border: "1px solid rgba(200,255,0,0.3)",
-                background: "rgba(200,255,0,0.08)",
+                border: "1px solid rgba(223,255,0,0.3)",
+                background: "rgba(223,255,0,0.08)",
               }}
             >
               <span
                 className="inline-block h-1.5 w-1.5 rounded-full"
-                style={{ background: "#C8FF00", boxShadow: "0 0 10px #C8FF00" }}
+                style={{ background: "#DFFF00", boxShadow: "0 0 10px #DFFF00" }}
               />
-              <span
-                style={{
-                  color: "#C8FF00",
-                  fontSize: "11px",
-                  fontWeight: 500,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                }}
-              >
-                From photo to invoice — in seconds
-              </span>
+              <span className="ui-label">From photo to invoice — in seconds</span>
             </div>
 
-            {/* Headline split into lines */}
             <h1 className="h-hero mt-6">
               From CMR photo
               <br />
@@ -59,8 +48,7 @@ export function Hero() {
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center" style={{ gap: 12, marginTop: 24 }}>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
               <a href="#cta" className="btn-primary">
                 Upload your first CMR free <ArrowRight size={16} />
               </a>
@@ -69,14 +57,7 @@ export function Hero() {
               </a>
             </div>
 
-            <p
-              style={{
-                fontSize: 12,
-                opacity: 0.4,
-                marginTop: 10,
-                color: "#ffffff",
-              }}
-            >
+            <p className="mt-3 text-xs" style={{ color: "#6B7280" }}>
               No credit card required · Setup in 2 minutes · Cancel anytime
             </p>
           </div>
@@ -84,46 +65,52 @@ export function Hero() {
           {/* RIGHT — VIDEO + TRUST PILLS */}
           <div className="w-full">
             <div
-              className="relative aspect-video w-full overflow-hidden"
+              className="card relative aspect-video w-full overflow-hidden"
               style={{
-                background: "#141414",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 16,
+                background: "linear-gradient(135deg, #14171E 0%, #0A0C10 100%)",
+                boxShadow:
+                  "0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(223,255,0,0.06), 0 0 0 1px rgba(255,255,255,0.04) inset",
               }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                 <div
                   className="flex h-20 w-20 items-center justify-center rounded-full"
                   style={{
-                    background: "#C8FF00",
-                    boxShadow: "0 0 40px rgba(200,255,0,0.5)",
+                    background: "#DFFF00",
+                    boxShadow: "0 0 40px rgba(223,255,0,0.5), 0 8px 30px rgba(0,0,0,0.5)",
                   }}
                 >
                   <Play size={28} fill="#0a0a0a" color="#0a0a0a" style={{ marginLeft: 4 }} />
                 </div>
                 <div className="text-center">
                   <div
-                    style={{
-                      color: "#ffffff",
-                      fontWeight: 500,
-                      fontSize: 16,
-                    }}
+                    className="font-display text-lg"
+                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em" }}
                   >
                     Product demo coming soon
                   </div>
-                  <div className="ui-label mt-2">Video placeholder</div>
+                  <div className="ui-label mt-2" style={{ color: "#6B7280" }}>
+                    Video placeholder
+                  </div>
                 </div>
               </div>
+              {/* Subtle grid overlay */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 opacity-[0.06]"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)",
+                  backgroundSize: "48px 48px",
+                }}
+              />
             </div>
 
             {/* Trust pills under the video */}
-            <div
-              className="flex flex-wrap justify-center lg:justify-start"
-              style={{ gap: 8, marginTop: 16 }}
-            >
+            <div className="mt-4 flex flex-wrap justify-center gap-2 lg:justify-start">
               {trustPills.map(({ Icon, label }) => (
                 <span key={label} className="trust-pill">
-                  <Icon size={13} strokeWidth={2} style={{ color: "#C8FF00" }} />
+                  <Icon size={13} strokeWidth={2} style={{ color: "#DFFF00" }} />
                   {label}
                 </span>
               ))}
@@ -132,25 +119,13 @@ export function Hero() {
         </div>
 
         {/* STATS BAR — 4 cards */}
-        <div
-          className="reveal grid grid-cols-2 lg:grid-cols-4"
-          style={{ gap: 8, marginTop: 48 }}
-        >
+        <div className="reveal mt-12 grid grid-cols-2 gap-2 lg:grid-cols-4">
           {stats.map((s) => (
             <div key={s.l} className="kpi-card">
               <div className="stat-num" style={{ fontSize: 42 }}>
                 {s.v}
               </div>
-              <div
-                style={{
-                  fontSize: 11,
-                  fontWeight: 500,
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.4)",
-                  marginTop: 6,
-                }}
-              >
+              <div className="ui-label mt-1.5" style={{ color: "#9CA3AF" }}>
                 {s.l}
               </div>
             </div>

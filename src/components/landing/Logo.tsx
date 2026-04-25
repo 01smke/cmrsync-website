@@ -8,7 +8,7 @@ export function Logo({
   size?: number;
 }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex items-center ${className}`}>
       <img
         src={logoSrc}
         alt="CMRSync logo"
@@ -25,8 +25,8 @@ export function Logo({
         }}
       />
       <span
+        className="font-display"
         style={{
-          fontFamily: "'Satoshi', sans-serif",
           fontWeight: 700,
           fontSize: "18px",
           letterSpacing: "-0.02em",
