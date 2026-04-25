@@ -1,29 +1,17 @@
-import logoSrc from "@/assets/cmrsync-logo.png";
-
-export function Logo({
-  className = "",
-  size = 56,
-}: {
-  className?: string;
-  size?: number;
-}) {
+export function Logo({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center ${className}`}>
-      <img
-        src={logoSrc}
-        alt="CMRsync logo"
-        width={size}
-        height={size}
-        className="logo-img"
+      <span
         style={{
-          width: size,
-          height: size,
-          objectFit: "cover",
-          display: "block",
-          transform: "scale(1.7)",
-          transformOrigin: "center",
+          fontFamily: "'Satoshi', sans-serif",
+          fontWeight: 700,
+          fontSize: "20px",
+          letterSpacing: "-0.02em",
+          color: "#C8FF00",
         }}
-      />
+      >
+        CMRSYNC
+      </span>
     </div>
   );
 }
