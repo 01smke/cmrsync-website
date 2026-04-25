@@ -33,7 +33,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   useReveal();
   return (
-    <main style={{ background: "#0F1115" }}>
+    <main style={{ background: "#ffffff" }}>
       <Navbar />
       <Hero />
       <SocialProof />

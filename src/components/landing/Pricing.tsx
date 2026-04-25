@@ -32,19 +32,16 @@ const tiers = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="px-6 py-24 md:py-32">
+    <section
+      id="pricing"
+      className="px-6 py-24 md:py-32"
+      style={{ borderTop: "0.5px solid rgba(0,0,0,0.08)", background: "#ffffff" }}
+    >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mb-16 text-center">
-          <span className="font-body text-xs uppercase tracking-[0.2em]" style={{ color: "#DFFF00" }}>
-            Pricing
-          </span>
-          <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-5xl">
-            Simple, honest pricing.
-          </h2>
-          <p
-            className="mx-auto mt-4 max-w-xl font-body"
-            style={{ color: "#9CA3AF", lineHeight: 1.65 }}
-          >
+        <div className="reveal mb-16 max-w-2xl">
+          <span className="ui-label">Pricing</span>
+          <h2 className="h-section mt-4">Simple, honest pricing.</h2>
+          <p className="body-copy mt-5">
             No setup fees. No per-document charges. Cancel anytime.
           </p>
         </div>
@@ -58,50 +55,85 @@ export function Pricing() {
                 padding: "32px",
                 transitionDelay: `${i * 80}ms`,
                 ...(t.highlight && {
-                  border: "2px solid #DFFF00",
-                  boxShadow: "0 0 32px rgba(223,255,0,0.12)",
+                  background: "#0a0a0a",
                 }),
               }}
             >
               {t.highlight && (
                 <span
-                  className="absolute -top-3 right-6 rounded-full px-3 py-1 font-body text-[0.7rem] font-bold"
+                  className="absolute -top-3 left-8 rounded-full px-3 py-1 text-[10px]"
                   style={{
-                    background: "#DFFF00",
-                    color: "#000",
-                    boxShadow: "0 0 20px rgba(223,255,0,0.4)",
+                    background: "#C4F542",
+                    color: "#0a0a0a",
+                    fontWeight: 700,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
                   }}
                 >
-                  MOST POPULAR
+                  Most Popular
                 </span>
               )}
 
-              <h3 className="font-display text-xl font-bold text-white">{t.name}</h3>
-              <p className="mt-1 font-body text-sm" style={{ color: "#9CA3AF" }}>
+              <h3
+                className="card-title text-xl"
+                style={{ color: t.highlight ? "#ffffff" : "#0a0a0a" }}
+              >
+                {t.name}
+              </h3>
+              <p
+                className="mt-1.5 text-sm"
+                style={{
+                  color: t.highlight ? "#ffffff" : "#0a0a0a",
+                  opacity: 0.6,
+                }}
+              >
                 {t.desc}
               </p>
 
-              <div className="mt-6 flex items-baseline gap-1">
-                <span className="font-display text-5xl font-bold text-white">{t.price}</span>
+              <div className="mt-7 flex items-baseline gap-1">
+                <span
+                  className="stat-num"
+                  style={{
+                    fontSize: "44px",
+                    color: t.highlight ? "#ffffff" : "#0a0a0a",
+                  }}
+                >
+                  {t.price}
+                </span>
                 {t.period && (
-                  <span className="font-body text-sm" style={{ color: "#9CA3AF" }}>
+                  <span
+                    className="text-sm"
+                    style={{ color: t.highlight ? "#ffffff" : "#0a0a0a", opacity: 0.6 }}
+                  >
                     {t.period}
                   </span>
                 )}
               </div>
 
-              <ul className="mt-8 flex-1 space-y-3">
+              <ul className="mt-8 flex-1 space-y-3.5">
                 {t.features.map((f) => (
                   <li key={f} className="flex items-start gap-3">
-                    <Check size={18} style={{ color: "#DFFF00", flexShrink: 0, marginTop: 2 }} />
-                    <span className="font-body text-sm text-white">{f}</span>
+                    <Check
+                      size={16}
+                      style={{
+                        color: t.highlight ? "#C4F542" : "#0a0a0a",
+                        flexShrink: 0,
+                        marginTop: 4,
+                      }}
+                    />
+                    <span
+                      className="text-[15px]"
+                      style={{ color: t.highlight ? "#ffffff" : "#0a0a0a", opacity: 0.85 }}
+                    >
+                      {f}
+                    </span>
                   </li>
                 ))}
               </ul>
 
               <a
                 href="#cta"
-                className={`mt-8 w-full text-center ${t.highlight ? "btn-primary" : "btn-ghost"}`}
+                className={`mt-8 w-full text-center ${t.highlight ? "btn-accent" : "btn-primary"}`}
               >
                 {t.cta}
               </a>

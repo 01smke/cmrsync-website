@@ -6,28 +6,28 @@ export function Logo({ className = "" }: { className?: string }) {
         height="28"
         viewBox="0 0 32 32"
         fill="none"
-        className="lime-glow"
         aria-hidden="true"
       >
-        {/* truck body */}
-        <rect x="2" y="11" width="14" height="10" rx="1.5" stroke="#DFFF00" strokeWidth="2" />
+        <rect x="2" y="11" width="14" height="10" rx="1.5" stroke="#0a0a0a" strokeWidth="2" />
         <path
           d="M16 13h6l4 4v4h-10V13Z"
-          stroke="#DFFF00"
+          stroke="#0a0a0a"
           strokeWidth="2"
           strokeLinejoin="round"
         />
-        <circle cx="9" cy="23" r="2.2" fill="#0F1115" stroke="#DFFF00" strokeWidth="2" />
-        <circle cx="21" cy="23" r="2.2" fill="#0F1115" stroke="#DFFF00" strokeWidth="2" />
-        {/* lightning bolt */}
+        <circle cx="9" cy="23" r="2.2" fill="#ffffff" stroke="#0a0a0a" strokeWidth="2" />
+        <circle cx="21" cy="23" r="2.2" fill="#ffffff" stroke="#0a0a0a" strokeWidth="2" />
         <path
           d="M11 4 L7 12 L10 12 L8.5 18 L13 9 L10 9 L11 4 Z"
-          fill="#DFFF00"
+          fill="#C4F542"
+          stroke="#0a0a0a"
+          strokeWidth="0.8"
+          strokeLinejoin="round"
         />
       </svg>
       <span
-        className="text-xl font-display font-bold tracking-tight text-white"
-        style={{ letterSpacing: "-0.03em" }}
+        className="text-xl font-bold"
+        style={{ letterSpacing: "-0.04em", color: "#0a0a0a", fontWeight: 900 }}
       >
         CMRsync
       </span>

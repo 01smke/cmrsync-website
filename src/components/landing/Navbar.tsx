@@ -16,8 +16,8 @@ export function Navbar() {
     <header
       className="sticky top-0 z-50 backdrop-blur-md"
       style={{
-        background: "rgba(15, 17, 21, 0.72)",
-        borderBottom: "1px solid #2D3038",
+        background: "rgba(255, 255, 255, 0.85)",
+        borderBottom: "0.5px solid rgba(0,0,0,0.08)",
       }}
     >
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
@@ -30,10 +30,10 @@ export function Navbar() {
             <a
               key={l.href}
               href={l.href}
-              className="font-body text-sm font-medium transition-colors"
-              style={{ color: "#9CA3AF" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "#9CA3AF")}
+              className="text-sm transition-opacity"
+              style={{ color: "#0a0a0a", fontWeight: 500, letterSpacing: "-0.01em" }}
+              onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.6")}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
               {l.label}
             </a>
@@ -41,7 +41,7 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:block">
-          <a href="#cta" className="btn-primary text-sm">
+          <a href="#cta" className="btn-primary">
             Get Early Access
           </a>
         </div>
@@ -50,7 +50,7 @@ export function Navbar() {
           className="md:hidden"
           onClick={() => setOpen((s) => !s)}
           aria-label="Toggle menu"
-          style={{ color: "#fff" }}
+          style={{ color: "#0a0a0a" }}
         >
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
@@ -59,7 +59,7 @@ export function Navbar() {
       {open && (
         <div
           className="md:hidden"
-          style={{ borderTop: "1px solid #2D3038", background: "#0F1115" }}
+          style={{ borderTop: "0.5px solid rgba(0,0,0,0.08)", background: "#ffffff" }}
         >
           <div className="flex flex-col gap-4 px-6 py-5">
             {links.map((l) => (
@@ -67,8 +67,8 @@ export function Navbar() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpen(false)}
-                className="font-body text-base"
-                style={{ color: "#9CA3AF" }}
+                className="text-base"
+                style={{ color: "#0a0a0a", fontWeight: 500 }}
               >
                 {l.label}
               </a>
