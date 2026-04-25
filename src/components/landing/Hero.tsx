@@ -1,6 +1,6 @@
 import { ArrowRight, Play } from "lucide-react";
 
-const trustPills = [
+const trustItems = [
   "GDPR Compliant",
   "Printed & handwritten",
   "Any EU language",
@@ -17,14 +17,6 @@ const stats = [
 export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 0% 0%, rgba(200,255,0,0.06) 0%, transparent 60%)",
-        }}
-      />
       <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-14">
           {/* LEFT */}
@@ -37,11 +29,11 @@ export function Hero() {
               <span style={{ color: "#C8FF00" }}>instantly.</span>
             </h1>
 
-            <p className="body-copy mt-5" style={{ maxWidth: 480 }}>
+            <p className="body-copy mt-3" style={{ maxWidth: 480 }}>
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-3">
+            <div className="mt-4 flex flex-wrap items-center gap-3">
               <a href="#cta" className="btn-primary">
                 Upload your first CMR free <ArrowRight size={16} />
               </a>
@@ -50,27 +42,40 @@ export function Hero() {
               </a>
             </div>
 
-            <p className="mt-3 text-xs" style={{ color: "#6B7280" }}>
+            {/* Trust line — plain text */}
+            <p
+              className="mt-3"
+              style={{
+                fontSize: 12,
+                color: "rgba(255,255,255,0.4)",
+                letterSpacing: "0.01em",
+              }}
+            >
+              {trustItems.join(" · ")}
+            </p>
+
+            <p className="mt-2 text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
               No credit card required · Setup in 2 minutes · Cancel anytime
             </p>
           </div>
 
-          {/* RIGHT — VIDEO + TRUST PILLS */}
+          {/* RIGHT — VIDEO */}
           <div className="w-full">
             <div
-              className="card relative aspect-video w-full overflow-hidden"
+              className="card relative w-full overflow-hidden"
               style={{
+                minHeight: 520,
                 background: "linear-gradient(135deg, #14171E 0%, #0A0C10 100%)",
                 boxShadow:
-                  "0 30px 80px rgba(0,0,0,0.6), 0 0 60px rgba(223,255,0,0.06), 0 0 0 1px rgba(255,255,255,0.04) inset",
+                  "0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset",
               }}
             >
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
                 <div
                   className="flex h-20 w-20 items-center justify-center rounded-full"
                   style={{
-                    background: "#DFFF00",
-                    boxShadow: "0 0 40px rgba(223,255,0,0.5), 0 8px 30px rgba(0,0,0,0.5)",
+                    background: "#ffffff",
+                    boxShadow: "0 8px 30px rgba(0,0,0,0.5)",
                   }}
                 >
                   <Play size={28} fill="#0a0a0a" color="#0a0a0a" style={{ marginLeft: 4 }} />
@@ -82,9 +87,7 @@ export function Hero() {
                   >
                     Product demo coming soon
                   </div>
-                  <div className="ui-label mt-2" style={{ color: "#6B7280" }}>
-                    Video placeholder
-                  </div>
+                  <div className="ui-label mt-2">Video placeholder</div>
                 </div>
               </div>
               {/* Subtle grid overlay */}
@@ -98,35 +101,56 @@ export function Hero() {
                 }}
               />
             </div>
-
-            {/* Trust pills under the video */}
-            <div className="mt-4 flex flex-wrap justify-start gap-2">
-              {trustPills.map((label) => (
-                <span key={label} className="trust-pill">
-                  {label}
-                </span>
-              ))}
-            </div>
           </div>
         </div>
 
-        {/* STATS BAR — 4 cards */}
-        <div className="reveal mt-12 grid grid-cols-2 gap-2 lg:grid-cols-4">
+        {/* STATS BAR — slim single bar */}
+        <div
+          className="reveal mt-12 flex flex-wrap items-center"
+          style={{
+            background: "#141414",
+            border: "1px solid rgba(255,255,255,0.08)",
+            borderLeft: "3px solid #C8FF00",
+            borderRadius: 12,
+            padding: "20px 40px",
+            justifyContent: "space-between",
+            gap: 16,
+          }}
+        >
           {stats.map((s, i) => (
             <div
               key={s.l}
-              className="kpi-card"
-              style={i === 0 ? { borderLeft: "3px solid #C8FF00" } : undefined}
+              className="flex flex-1 items-baseline gap-3"
+              style={{
+                minWidth: 180,
+                paddingLeft: i === 0 ? 0 : 24,
+                borderLeft:
+                  i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
+              }}
             >
-              <div
-                className="stat-num"
-                style={{ fontSize: s.v.length > 4 ? 28 : 42, color: "#ffffff" }}
+              <span
+                className="font-display"
+                style={{
+                  fontSize: 22,
+                  fontWeight: 900,
+                  color: "#ffffff",
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1,
+                }}
               >
                 {s.v}
-              </div>
-              <div className="ui-label mt-1.5">
+              </span>
+              <span
+                style={{
+                  fontSize: 11,
+                  color: "rgba(255,255,255,0.4)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  fontWeight: 600,
+                }}
+              >
                 {s.l}
-              </div>
+              </span>
             </div>
           ))}
         </div>
