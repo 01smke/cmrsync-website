@@ -1,10 +1,10 @@
-import { ArrowRight, Play, Lock, FileText, Globe, Zap } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 
 const trustPills = [
-  { Icon: Lock, label: "GDPR Compliant" },
-  { Icon: FileText, label: "Printed & handwritten" },
-  { Icon: Globe, label: "Any EU language" },
-  { Icon: Zap, label: "No setup required" },
+  "GDPR Compliant",
+  "Printed & handwritten",
+  "Any EU language",
+  "No setup required",
 ];
 
 const stats = [
@@ -17,7 +17,15 @@ const stats = [
 export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 0% 0%, rgba(200,255,0,0.06) 0%, transparent 60%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-7xl px-6 pb-14 pt-12 md:pb-16 md:pt-16">
         <div className="grid items-center gap-10 lg:grid-cols-[1fr_1fr] lg:gap-14">
           {/* LEFT */}
           <div className="page-body max-w-2xl">
@@ -41,7 +49,7 @@ export function Hero() {
               <br />
               to invoice,
               <br />
-              instantly.
+              <span style={{ color: "#C8FF00" }}>instantly.</span>
             </h1>
 
             <p className="body-copy mt-5" style={{ maxWidth: 480 }}>
@@ -107,10 +115,9 @@ export function Hero() {
             </div>
 
             {/* Trust pills under the video */}
-            <div className="mt-4 flex flex-wrap justify-center gap-2 lg:justify-start">
-              {trustPills.map(({ Icon, label }) => (
+            <div className="mt-4 flex flex-wrap justify-start gap-2">
+              {trustPills.map((label) => (
                 <span key={label} className="trust-pill">
-                  <Icon size={13} strokeWidth={2} style={{ color: "#DFFF00" }} />
                   {label}
                 </span>
               ))}
@@ -120,9 +127,13 @@ export function Hero() {
 
         {/* STATS BAR — 4 cards */}
         <div className="reveal mt-12 grid grid-cols-2 gap-2 lg:grid-cols-4">
-          {stats.map((s) => (
-            <div key={s.l} className="kpi-card">
-              <div className="stat-num" style={{ fontSize: 42 }}>
+          {stats.map((s, i) => (
+            <div
+              key={s.l}
+              className="kpi-card"
+              style={i === 0 ? { borderLeft: "3px solid #C8FF00" } : undefined}
+            >
+              <div className="stat-num" style={{ fontSize: 42, color: "#C8FF00" }}>
                 {s.v}
               </div>
               <div className="ui-label mt-1.5" style={{ color: "#9CA3AF" }}>

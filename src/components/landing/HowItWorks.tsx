@@ -26,31 +26,54 @@ export function HowItWorks() {
           <h2 className="h-section mt-3">Three steps from paper to paid.</h2>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="relative grid gap-4 lg:grid-cols-3">
+          {/* Dashed connector line across the cards */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute left-8 right-8 top-1/2 hidden lg:block"
+            style={{ borderTop: "1px dashed rgba(200,255,0,0.25)" }}
+          />
           {steps.map((s, i) => (
             <div
               key={s.title}
-              className="reveal feature-card"
+              className="reveal feature-card relative overflow-hidden"
               style={{ transitionDelay: `${i * 80}ms` }}
             >
-              <div className="ui-label" style={{ color: "#DFFF00" }}>
-                Step {String(i + 1).padStart(2, "0")}
-              </div>
-              <h3
-                className="font-display"
+              <span
+                aria-hidden
+                className="font-display pointer-events-none absolute select-none"
                 style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                  letterSpacing: "-0.03em",
-                  margin: "10px 0 6px",
-                  color: "#ffffff",
+                  top: -10,
+                  right: 16,
+                  fontSize: 100,
+                  fontWeight: 900,
+                  lineHeight: 1,
+                  color: "rgba(255,255,255,0.04)",
+                  letterSpacing: "-0.04em",
                 }}
               >
-                {s.title}
-              </h3>
-              <p className="body-copy" style={{ fontSize: 13 }}>
-                {s.body}
-              </p>
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="relative">
+                <div className="ui-label" style={{ color: "#DFFF00" }}>
+                  Step {String(i + 1).padStart(2, "0")}
+                </div>
+                <h3
+                  className="font-display"
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 700,
+                    letterSpacing: "-0.03em",
+                    margin: "10px 0 6px",
+                    color: "#ffffff",
+                  }}
+                >
+                  {s.title}
+                </h3>
+                <p className="body-copy" style={{ fontSize: 13 }}>
+                  {s.body}
+                </p>
+              </div>
             </div>
           ))}
         </div>

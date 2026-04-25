@@ -6,7 +6,6 @@ import { Features } from "@/components/landing/Features";
 import { Pricing } from "@/components/landing/Pricing";
 import { CtaBanner } from "@/components/landing/CtaBanner";
 import { Footer } from "@/components/landing/Footer";
-import { ParticleField } from "@/components/landing/ParticleField";
 import { useReveal } from "@/hooks/use-reveal";
 import { useButtonTap } from "@/hooks/use-button-tap";
 
@@ -36,7 +35,6 @@ function Index() {
   useButtonTap();
   return (
     <>
-      <ParticleField />
       <main style={{ background: "transparent", position: "relative", zIndex: 1 }}>
         <Navbar />
         <Hero />
