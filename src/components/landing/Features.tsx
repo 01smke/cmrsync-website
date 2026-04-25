@@ -47,7 +47,7 @@ export function Features() {
                 fontSize: 28,
                 fontWeight: 900,
                 letterSpacing: "-0.03em",
-                color: "#C8FF00",
+                color: "#ffffff",
                 lineHeight: 1.1,
               }}
             >
