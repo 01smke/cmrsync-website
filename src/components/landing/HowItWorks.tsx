@@ -18,7 +18,7 @@ export function HowItWorks() {
     <section
       id="how"
       className="px-6 py-20 md:py-24"
-      style={{ background: "#0B0D11", borderTop: "1px solid #2D3038", borderBottom: "1px solid #2D3038" }}
+      style={{ background: "transparent", borderTop: "1px solid #2D3038", borderBottom: "1px solid #2D3038" }}
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">

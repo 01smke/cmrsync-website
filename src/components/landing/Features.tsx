@@ -30,7 +30,7 @@ export function Features() {
     <section
       id="features"
       className="px-6 py-20 md:py-24"
-      style={{ background: "#0F1115" }}
+      style={{ background: "transparent" }}
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">
