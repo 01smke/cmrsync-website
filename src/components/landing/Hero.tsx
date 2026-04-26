@@ -70,17 +70,7 @@ export function Hero() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-4 hero-in hero-in-3">
-              <a
-                href="#cta"
-                className="btn-primary"
-                style={{
-                  fontSize: "1.05rem",
-                  padding: "14px 32px",
-                  background: "#ffffff",
-                  color: "#000000",
-                  letterSpacing: "-0.02em",
-                }}
-              >
+              <a href="#cta" className="btn-primary">
                 Start your free trial <ArrowRight size={18} />
               </a>
             </div>
