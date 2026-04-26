@@ -42,46 +42,40 @@ function FeatureCard({
 }) {
   const [hover, setHover] = useState(false);
 
-  const baseBg = featured ? "rgba(200,255,0,0.05)" : "rgba(255,255,255,0.03)";
-  const hoverBg = featured ? "rgba(200,255,0,0.08)" : "rgba(255,255,255,0.05)";
-  const baseBorder = featured ? "rgba(200,255,0,0.15)" : "rgba(255,255,255,0.06)";
-  const hoverBorder = featured ? "rgba(200,255,0,0.25)" : "rgba(255,255,255,0.12)";
-
-  const titleColor = featured
-    ? "#C8FF00"
-    : hover
-      ? "rgba(255,255,255,0.9)"
-      : "#ffffff";
-  const titleLetterSpacing = featured
-    ? "-0.02em"
-    : hover
-      ? "-0.025em"
-      : "-0.02em";
+  const accentColor = featured ? "#C8FF00" : "rgba(255,255,255,0.12)";
+  const titleColor = featured ? "#C8FF00" : "#ffffff";
 
   return (
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        background: hover ? hoverBg : baseBg,
-        border: `1px solid ${hover ? hoverBorder : baseBorder}`,
+        background: hover ? "#161616" : "#111111",
+        border: `1px solid ${hover ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.07)"}`,
+        borderTop: `2px solid ${accentColor}`,
         borderRadius: 16,
         padding: "32px 28px",
+        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(20px)",
-        transition: `all 0.5s ease ${index * 80}ms`,
+        transform: visible
+          ? hover
+            ? "translateY(-2px)"
+            : "translateY(0)"
+          : "translateY(20px)",
+        transition: visible
+          ? "all 0.2s ease"
+          : `all 0.5s ease ${index * 80}ms`,
       }}
     >
       <h3
         className="font-display"
         style={{
-          fontSize: 17,
+          fontSize: 16,
           fontWeight: 700,
-          letterSpacing: titleLetterSpacing,
+          letterSpacing: "-0.02em",
           color: titleColor,
           margin: 0,
-          marginBottom: 10,
-          transition: "color 0.2s ease, letter-spacing 0.2s ease",
+          marginBottom: 12,
         }}
       >
         {title}
