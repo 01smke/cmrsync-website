@@ -4,7 +4,7 @@ export function CtaBanner() {
   return (
     <section
       id="cta"
-      className="px-4 py-14 sm:px-6 sm:py-20 md:py-24"
+      className="px-4 py-10 sm:px-6 sm:py-16 md:py-20"
       style={{
         background:
           "radial-gradient(ellipse at 50% 50%, rgba(223,255,0,0.08) 0%, #0B0D11 60%, #06080C 100%)",
@@ -13,10 +13,10 @@ export function CtaBanner() {
     >
       <div className="mx-auto max-w-3xl text-center">
         <h2 className="reveal h-section">Ready to eliminate manual data entry?</h2>
-        <p className="reveal body-copy mx-auto mt-5 max-w-xl">
+        <p className="reveal body-copy mx-auto mt-3 max-w-xl sm:mt-5">
           Join the early access programme and get 30 days free — no credit card required.
         </p>
-        <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-3">
+        <div className="reveal mt-5 flex flex-wrap items-center justify-center gap-3 sm:mt-8">
           <a href="#" className="btn-primary">
             Start Free Trial <ArrowRight size={16} />
           </a>
