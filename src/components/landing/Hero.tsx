@@ -46,8 +46,8 @@ function AnimatedStat({ stat }: { stat: StatDef }) {
 export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
-      <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-6 sm:px-6 sm:pb-20 sm:pt-16 md:pb-32 md:pt-28">
-        <div className="grid items-center gap-6 lg:grid-cols-[45fr_55fr] lg:gap-16">
+      <div className="relative mx-auto max-w-7xl px-4 pb-4 pt-3 sm:px-6 sm:pb-20 sm:pt-16 md:pb-32 md:pt-28">
+        <div className="grid items-center gap-3 sm:gap-6 lg:grid-cols-[45fr_55fr] lg:gap-16">
           {/* LEFT */}
           <div className="page-body" style={{ maxWidth: 560 }}>
             <h1
@@ -63,7 +63,7 @@ export function Hero() {
             </h1>
 
             <p
-              className="body-copy mt-3 hero-in hero-in-2 sm:mt-7"
+              className="body-copy mt-2 hero-in hero-in-2 sm:mt-7 hidden sm:block"
               style={{ maxWidth: 520, lineHeight: 1.5, color: "rgba(255,255,255,0.6)" }}
             >
               <span className="text-sm sm:text-[19px]">
@@ -71,7 +71,7 @@ export function Hero() {
               </span>
             </p>
 
-            <div className="mt-4 flex flex-wrap items-center gap-4 hero-in hero-in-3 sm:mt-8">
+            <div className="mt-3 flex flex-wrap items-center gap-4 hero-in hero-in-3 sm:mt-8">
               <a href="#cta" className="btn-primary btn-primary-glow">
                 Start your free trial <ArrowRight size={18} />
               </a>
@@ -79,7 +79,7 @@ export function Hero() {
 
             {/* Trust line — lime accent */}
             <p
-              className="mt-3 hero-in hero-in-4 sm:mt-5"
+              className="mt-2 hero-in hero-in-4 sm:mt-5"
               style={{
                 fontSize: 11,
                 color: "#ffffff",
@@ -93,15 +93,15 @@ export function Hero() {
           {/* RIGHT — CMR SCAN WIDGET */}
           <div className="w-full hero-video-in">
             <div
+              className="p-4 sm:p-5"
               style={{
                 background: "rgba(20,20,20,0.6)",
                 border: "1px solid rgba(200,255,0,0.12)",
                 borderRadius: 16,
-                padding: "20px 20px 24px",
                 boxShadow: "0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(200,255,0,0.04)",
               }}
             >
-              <div style={{ marginBottom: 14 }}>
+              <div className="mb-2 sm:mb-3.5">
                 <span
                   style={{
                     display: "inline-flex",
@@ -141,13 +141,13 @@ export function Hero() {
 
         {/* Divider between hero and stats */}
         <div
-          className="mt-8 sm:mt-16"
+          className="hidden sm:block mt-16"
           style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
         />
 
-        {/* STATS BAR — 2×2 grid on mobile, single row on desktop */}
+        {/* STATS BAR — hidden on mobile, single row on desktop */}
         <div
-          className="mt-5 grid grid-cols-2 items-center gap-x-3 gap-y-4 sm:mt-10 md:flex md:flex-wrap md:justify-between md:gap-5"
+          className="hidden sm:grid sm:mt-10 grid-cols-2 items-center gap-x-3 gap-y-4 md:flex md:flex-wrap md:justify-between md:gap-5"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",

@@ -153,7 +153,7 @@ export function CmrScanWidget() {
         style={{
           border: `2px dashed ${dragOver ? "rgba(223,255,0,0.5)" : "rgba(45,48,56,0.8)"}`,
           borderRadius: 12,
-          padding: previewUrl ? "16px" : "32px 24px",
+          padding: previewUrl ? "12px" : "20px 16px",
           textAlign: "center",
           cursor: status === "scanning" ? "default" : "pointer",
           transition: "border-color 0.2s, background 0.2s",
