@@ -4,6 +4,8 @@ import ReactDOM from "react-dom/client";
 import { getRouter } from "./router";
 import "./styles.css";
 
+if (typeof history !== "undefined") history.scrollRestoration = "manual";
+
 const router = getRouter();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
