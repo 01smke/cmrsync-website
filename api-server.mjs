@@ -7,6 +7,7 @@ const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
 
 app.use(cors());
+app.use(express.json());
 
 const SYSTEM_PROMPT = `You are an expert logistics document analyzer specializing in CMR (International Consignment Notes). Your goal is to extract handwritten and printed text from images with maximum accuracy.
 CRITICAL INSTRUCTIONS:
@@ -109,6 +110,22 @@ app.post("/api/free-scan", upload.single("file"), async (req, res) => {
   } catch (err) {
     return res.status(500).json({ error: err.message || "Unknown error" });
   }
+});
+
+// In-memory lead store (persists while server is running)
+const leads = [];
+
+app.post("/api/leads", (req, res) => {
+  const { company, phone, email, cmrs, timestamp } = req.body || {};
+  if (!company || !email) return res.status(400).json({ error: "Missing fields" });
+  const lead = { company, phone, email, cmrs, timestamp, id: Date.now() };
+  leads.push(lead);
+  console.log("[LEAD]", JSON.stringify(lead));
+  res.json({ ok: true });
+});
+
+app.get("/api/leads", (req, res) => {
+  res.json(leads);
 });
 
 const PORT = 3001;
