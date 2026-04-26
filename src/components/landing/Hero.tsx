@@ -76,6 +76,27 @@ function AnimatedStat({ stat, triggered, delay }: { stat: StatDef; triggered: bo
 }
 
 export function Hero() {
+  const statsRef = useRef<HTMLDivElement | null>(null);
+  const [triggered, setTriggered] = useState(false);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setTriggered(true);
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="hero relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
