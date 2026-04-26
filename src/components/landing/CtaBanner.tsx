@@ -4,7 +4,7 @@ export function CtaBanner() {
   return (
     <section
       id="cta"
-      className="px-6 py-20 md:py-24"
+      className="px-4 py-14 sm:px-6 sm:py-20 md:py-24"
       style={{
         background:
           "radial-gradient(ellipse at 50% 50%, rgba(223,255,0,0.08) 0%, #0B0D11 60%, #06080C 100%)",
