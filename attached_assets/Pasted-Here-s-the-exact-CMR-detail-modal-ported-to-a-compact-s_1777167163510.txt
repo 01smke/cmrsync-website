@@ -1,0 +1,413 @@
+Here's the exact CMR detail modal ported to a compact standalone popup — read-only display version sized for a landing page:
+
+CSS
+
+/* ━━━ OVERLAY ━━━ */
+.cmr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.cmr-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+/* ━━━ CARD ━━━ */
+.cmr-popup {
+  background: #1C1E24;
+  border: 1px solid #2D3038;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 640px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.03) inset;
+  transform: translateY(14px) scale(0.98);
+  transition: transform 0.22s ease, opacity 0.22s ease;
+  opacity: 0;
+}
+.cmr-overlay.open .cmr-popup {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+/* ━━━ TOPBAR ━━━ */
+.cmr-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 13px;
+  border-bottom: 1px solid #2D3038;
+  flex-shrink: 0;
+}
+.cmr-topbar-left { display: flex; align-items: center; gap: 10px; }
+.cmr-popup-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: #fff;
+}
+.cmr-popup-sub {
+  font-size: 0.71rem;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
+.cmr-close-btn {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: 1px solid #2D3038;
+  background: transparent;
+  color: #6B7280;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.cmr-close-btn:hover { background: rgba(255,255,255,0.05); color: #fff; }
+/* ━━━ BODY (photo + fields side by side) ━━━ */
+.cmr-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  min-height: 0;
+}
+.cmr-photo-col {
+  width: 200px;
+  flex-shrink: 0;
+  background: #000;
+  border-right: 1px solid #2D3038;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  position: relative;
+}
+.cmr-photo-col img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 4px;
+}
+.cmr-no-photo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #4B5563;
+  font-size: 0.75rem;
+  text-align: center;
+}
+.cmr-full-link {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.65rem;
+  color: #9CA3AF;
+  padding: 4px 10px;
+  background: rgba(0,0,0,0.55);
+  border: 1px solid #2D3038;
+  border-radius: 5px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.cmr-full-link:hover { color: #fff; }
+/* ━━━ FIELDS PANEL ━━━ */
+.cmr-fields-col {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 18px;
+  scrollbar-width: thin;
+  scrollbar-color: #DFFF00 #1C1E24;
+}
+/* Sections */
+.cmr-section { margin-bottom: 14px; }
+.cmr-section-title {
+  font-size: 0.58rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #DFFF00;
+  opacity: 0.9;
+  margin-bottom: 7px;
+}
+.cmr-fg {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.cmr-fspan { grid-column: 1 / -1; }
+.cmr-field { display: flex; flex-direction: column; gap: 2px; }
+.cmr-field-label {
+  font-size: 0.59rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6B7280;
+}
+.cmr-field-value {
+  font-size: 0.78rem;
+  color: #e5e7eb;
+  background: #0F1115;
+  border: 1px solid #2D3038;
+  border-radius: 5px;
+  padding: 5px 9px;
+  min-height: 28px;
+  word-break: break-word;
+  line-height: 1.4;
+}
+.cmr-field-value.nl {
+  color: #4B5563;
+  border-color: rgba(251,191,36,0.12);
+  font-style: italic;
+}
+/* Lime highlight for key fields */
+.cmr-field.neon .cmr-field-value:not(.nl) {
+  border-color: rgba(223,255,0,0.18);
+  color: #DFFF00;
+  font-weight: 600;
+}
+/* ━━━ FOOTER ━━━ */
+.cmr-footer {
+  padding: 11px 18px;
+  border-top: 1px solid #2D3038;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cmr-footer-text {
+  font-size: 0.75rem;
+  color: #9CA3AF;
+  line-height: 1.4;
+}
+.cmr-footer-text strong { color: #fff; }
+.cmr-cta {
+  background: #DFFF00;
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 7px;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  box-shadow: 0 0 16px rgba(223,255,0,0.22);
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.cmr-cta:hover { background: #AADD00; box-shadow: 0 0 24px rgba(223,255,0,0.35); }
+/* ━━━ BADGES ━━━ */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.badge-blue   { background: rgba(96,165,250,0.12); color: #60a5fa; border: 1px solid rgba(96,165,250,0.2); }
+.badge-purple { background: rgba(167,139,250,0.12); color: #a78bfa; border: 1px solid rgba(167,139,250,0.2); }
+.badge-yellow { background: rgba(251,191,36,0.12);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+.badge-green  { background: rgba(74,222,128,0.12);  color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+/* Responsive: stack on mobile */
+@media (max-width: 520px) {
+  .cmr-body { flex-direction: column; }
+  .cmr-photo-col { width: 100%; height: 160px; border-right: none; border-bottom: 1px solid #2D3038; }
+}
+
+HTML
+
+<div class="cmr-overlay" id="cmrOverlay" onclick="if(event.target===this)closeCmrModal()">
+  <div class="cmr-popup" id="cmrPopup">
+    <!-- Top bar -->
+    <div class="cmr-topbar">
+      <div class="cmr-topbar-left">
+        <span id="cmrBadge"></span>
+        <div>
+          <div class="cmr-popup-title" id="cmrTitle">CMR Document</div>
+          <div class="cmr-popup-sub"   id="cmrSub"></div>
+        </div>
+      </div>
+      <button class="cmr-close-btn" onclick="closeCmrModal()">✕</button>
+    </div>
+    <!-- Body -->
+    <div class="cmr-body">
+      <div class="cmr-photo-col" id="cmrPhotoCol"></div>
+      <div class="cmr-fields-col" id="cmrFields"></div>
+    </div>
+    <!-- Footer -->
+    <div class="cmr-footer">
+      <div class="cmr-footer-text">
+        <strong>This is what your dashboard looks like for every CMR.</strong><br/>
+        Unlimited scans, PDF invoices, bundle export — from €49/mo.
+      </div>
+      <a href="#pricing" class="cmr-cta">Start Free Trial →</a>
+    </div>
+  </div>
+</div>
+
+JavaScript
+
+const NEON_KEYS = new Set([
+  'sender_name','consignee_name','driver_name',
+  'truck_plate','gross_weight_kg','pickup_location','place_of_delivery'
+]);
+const BADGE_MAP = {
+  RECEIVED:  ['badge-blue',   'Received'],
+  BUNDLED:   ['badge-purple', 'Bundled'],
+  INVOICED:  ['badge-yellow', 'Invoiced'],
+  COMPLETED: ['badge-green',  'Completed'],
+};
+function isNL(v) {
+  return !v || v.trim().toLowerCase() === 'not legible';
+}
+function fieldHtml(label, key, val, multiline) {
+  const empty = isNL(val);
+  const neon  = NEON_KEYS.has(key) ? ' neon' : '';
+  const nl    = empty ? ' nl' : '';
+  const display = empty ? '—' : escHtml(val);
+  return `
+    <div class="cmr-field${neon}">
+      <div class="cmr-field-label">${label}</div>
+      <div class="cmr-field-value${nl}">${display}</div>
+    </div>`;
+}
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function openCmrModal(doc) {
+  // doc = the extracted CMR JSON object from your /api/free-scan response
+  const d = doc;
+  // Title & sub
+  document.getElementById('cmrTitle').textContent =
+    d.id ? 'CMR #' + d.id : 'CMR Document';
+  document.getElementById('cmrSub').textContent =
+    [d.document_date, d.pickup_date].filter(v => v && !isNL(v)).join('  ·  ');
+  // Stage badge
+  const [bc, bl] = BADGE_MAP[d.stage || 'RECEIVED'] || BADGE_MAP.RECEIVED;
+  document.getElementById('cmrBadge').innerHTML =
+    `<span class="badge ${bc}">${bl}</span>`;
+  // Photo
+  const photoCol = document.getElementById('cmrPhotoCol');
+  if (d.photo_url) {
+    photoCol.innerHTML = `
+      <img src="${escHtml(d.photo_url)}" alt="CMR scan"/>
+      <a class="cmr-full-link" href="${escHtml(d.photo_url)}" target="_blank">↗ Full image</a>`;
+  } else {
+    photoCol.innerHTML = `
+      <div class="cmr-no-photo">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="1.3">
+          <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6z"/>
+          <path d="M14 2v6h6"/>
+        </svg>
+        No image
+      </div>`;
+  }
+  // Fields
+  const sn = d.sender   || {};
+  const cn = d.consignee || {};
+  document.getElementById('cmrFields').innerHTML = `
+    <div class="cmr-section">
+      <div class="cmr-section-title">Sender</div>
+      <div class="cmr-fg">
+        ${fieldHtml('Name',    'sender_name',    sn.name    || d.sender_name)}
+        ${fieldHtml('Country', 'sender_country', sn.country || d.sender_country)}
+        <div class="cmr-fspan">
+          ${fieldHtml('Address','sender_address', sn.address || d.sender_address)}
+        </div>
+      </div>
+    </div>
+    <div class="cmr-section">
+      <div class="cmr-section-title">Consignee / Receiver</div>
+      <div class="cmr-fg">
+        ${fieldHtml('Name',    'consignee_name',    cn.name    || d.consignee_name)}
+        ${fieldHtml('Country', 'consignee_country', cn.country || d.consignee_country)}
+        <div class="cmr-fspan">
+          ${fieldHtml('Address','consignee_address', cn.address || d.consignee_address)}
+        </div>
+      </div>
+    </div>
+    <div class="cmr-section">
+      <div class="cmr-section-title">Driver</div>
+      <div class="cmr-fg">
+        ${fieldHtml('Driver Name', 'driver_name', d.driver_name)}
+        ${fieldHtml('Truck Plate', 'truck_plate', d.truck_plate)}
+      </div>
+    </div>
+    <div class="cmr-section">
+      <div class="cmr-section-title">Transport</div>
+      <div class="cmr-fg">
+        ${fieldHtml('Place of Delivery', 'place_of_delivery', d.place_of_delivery)}
+        ${fieldHtml('Pickup Location',   'pickup_location',   d.pickup_location)}
+        ${fieldHtml('Pickup Date',       'pickup_date',       d.pickup_date)}
+      </div>
+    </div>
+    <div class="cmr-section">
+      <div class="cmr-section-title">Goods</div>
+      <div class="cmr-fg">
+        <div class="cmr-fspan">
+          ${fieldHtml('Description',     'goods_description', d.goods_description)}
+        </div>
+        ${fieldHtml('Gross Weight (kg)', 'gross_weight_kg', d.gross_weight_kg)}
+        ${fieldHtml('Volume (m³)',       'volume_m3',       d.volume_m3)}
+      </div>
+    </div>
+    <div class="cmr-section">
+      <div class="cmr-section-title">Customs & Terms</div>
+      <div class="cmr-fg">
+        ${fieldHtml('Document Date',   'document_date',   d.document_date)}
+        ${fieldHtml('Shipping Terms',  'shipping_terms',  d.shipping_terms)}
+        ${fieldHtml('Stamp Date',      'stamp_date',       d.stamp_date)}
+      </div>
+    </div>
+    <div class="cmr-section">
+      <div class="cmr-section-title">Contacts</div>
+      <div class="cmr-fg">
+        ${fieldHtml('Vessel Name',     'ship_name',       d.ship_name)}
+        ${fieldHtml('Contact Person',  'contact_person',  d.contact_person)}
+        <div class="cmr-fspan">
+          ${fieldHtml('Phone / Email', 'contact_info',    d.contact_info)}
+        </div>
+      </div>
+    </div>`;
+  // Open
+  document.getElementById('cmrOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeCmrModal() {
+  document.getElementById('cmrOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeCmrModal();
+});
+
+How to trigger it — after your free scan returns, call:
+
+// Inside your runScan() success handler, after renderResults():
+openCmrModal(json.data);
+
+Or wire a "View Details" button on each result row:
+
+document.getElementById('viewDetailBtn').onclick = () => openCmrModal(json.data);
+
+That's the exact same modal — same dark surface, lime section headers, neon field highlights, photo column, badges, and slide-in animation — just capped at 640px wide instead of full-screen.

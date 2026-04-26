@@ -1,43 +1,111 @@
-import { useRef, useState, useCallback } from "react";
-import { ArrowRight } from "lucide-react";
-
-const FIELD_LABELS: Record<string, string> = {
-  sender: "Sender",
-  consignee: "Consignee",
-  carrier_name: "Carrier",
-  following_carriers: "Following Carriers",
-  place_of_delivery: "Place of Delivery",
-  pickup_location: "Pickup Location",
-  pickup_date: "Pickup Date",
-  goods_description: "Goods",
-  gross_weight_kg: "Gross Weight (kg)",
-  volume_m3: "Volume (m³)",
-  driver_name: "Driver",
-  truck_plate: "Truck Plate",
-  shipping_terms: "Shipping Terms",
-  document_date: "Document Date",
-  stamp_date: "Stamp Date",
-  ship_name: "Vessel Name",
-  contact_person: "Contact Person",
-  contact_info: "Contact Info",
-};
-
-const HIGHLIGHT_FIELDS = [
-  "truck_plate",
-  "driver_name",
-  "gross_weight_kg",
-  "document_date",
-];
+import { useRef, useState, useCallback, useEffect } from "react";
+import { CmrResultModal } from "./CmrResultModal";
 
 type CmrData = Record<string, unknown>;
 
-function formatFieldValue(raw: unknown): string {
-  if (!raw) return "";
-  if (typeof raw === "object" && raw !== null) {
-    const obj = raw as Record<string, string>;
-    return [obj.name, obj.address, obj.country].filter(Boolean).join(", ");
-  }
-  return String(raw);
+const STEPS = [
+  { label: "Uploading image", duration: 800 },
+  { label: "Reading document layout", duration: 1200 },
+  { label: "Extracting handwritten fields", duration: 1800 },
+  { label: "Parsing stamps & dates", duration: 1000 },
+  { label: "Structuring data", duration: 600 },
+];
+
+function ProgressSteps({ active }: { active: boolean }) {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+
+  useEffect(() => {
+    if (!active) {
+      setCurrentStep(0);
+      setCompletedSteps(new Set());
+      return;
+    }
+    let step = 0;
+    let timeout: ReturnType<typeof setTimeout>;
+
+    function advance() {
+      if (step >= STEPS.length) return;
+      setCurrentStep(step);
+      const duration = STEPS[step].duration;
+      timeout = setTimeout(() => {
+        setCompletedSteps((prev) => new Set([...prev, step]));
+        step++;
+        if (step < STEPS.length) advance();
+      }, duration);
+    }
+
+    advance();
+    return () => clearTimeout(timeout);
+  }, [active]);
+
+  return (
+    <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
+      {STEPS.map((s, i) => {
+        const done = completedSteps.has(i);
+        const running = active && currentStep === i && !done;
+        const pending = !done && !running;
+        return (
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              opacity: pending ? 0.35 : 1,
+              transition: "opacity 0.3s ease",
+            }}
+          >
+            <div
+              style={{
+                width: 18,
+                height: 18,
+                borderRadius: "50%",
+                flexShrink: 0,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: done
+                  ? "rgba(223,255,0,0.15)"
+                  : running
+                  ? "transparent"
+                  : "transparent",
+                border: done
+                  ? "1.5px solid rgba(223,255,0,0.5)"
+                  : running
+                  ? "2px solid #2D3038"
+                  : "1.5px solid #2D3038",
+                borderTopColor: running ? "#DFFF00" : undefined,
+                animation: running ? "cmr-spin 0.7s linear infinite" : undefined,
+              }}
+            >
+              {done && (
+                <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
+                  <path d="M2 5l2.5 2.5L8 3" stroke="#DFFF00" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              )}
+            </div>
+            <span
+              style={{
+                fontSize: "0.8rem",
+                color: done ? "#9CA3AF" : running ? "#fff" : "#6B7280",
+                fontWeight: running ? 500 : 400,
+                transition: "color 0.3s ease",
+              }}
+            >
+              {s.label}
+              {running && (
+                <span style={{ color: "#DFFF00" }}>
+                  {"..."}
+                </span>
+              )}
+            </span>
+          </div>
+        );
+      })}
+      <style>{`@keyframes cmr-spin { to { transform: rotate(360deg); } }`}</style>
+    </div>
+  );
 }
 
 export function CmrScanWidget() {
@@ -45,11 +113,10 @@ export function CmrScanWidget() {
   const [dragOver, setDragOver] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [status, setStatus] = useState<"idle" | "scanning" | "done" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<"idle" | "scanning" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [results, setResults] = useState<CmrData | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleFile = useCallback((file: File) => {
     setSelectedFile(file);
@@ -90,6 +157,7 @@ export function CmrScanWidget() {
       if (!res.ok || json.error) throw new Error(json.error || "Something went wrong.");
       setResults(json.data);
       setStatus("done");
+      setTimeout(() => setModalOpen(true), 400);
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : "Unknown error");
       setStatus("error");
@@ -97,27 +165,22 @@ export function CmrScanWidget() {
   };
 
   return (
-    <div className="w-full">
+    <>
       <div
         style={{
           border: `2px dashed ${dragOver ? "rgba(223,255,0,0.5)" : "rgba(45,48,56,0.8)"}`,
           borderRadius: 12,
-          padding: "32px 24px",
+          padding: previewUrl ? "16px" : "32px 24px",
           textAlign: "center",
-          cursor: "pointer",
+          cursor: status === "scanning" ? "default" : "pointer",
           transition: "border-color 0.2s, background 0.2s",
-          background: dragOver
-            ? "rgba(223,255,0,0.04)"
-            : "rgba(28,30,36,0.8)",
+          background: dragOver ? "rgba(223,255,0,0.04)" : "rgba(28,30,36,0.8)",
           position: "relative",
         }}
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDragOver(true);
-        }}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
         onDragLeave={() => setDragOver(false)}
-        onDrop={onDrop}
-        onClick={() => fileInputRef.current?.click()}
+        onDrop={status !== "scanning" ? onDrop : undefined}
+        onClick={() => status !== "scanning" && fileInputRef.current?.click()}
       >
         <input
           ref={fileInputRef}
@@ -127,11 +190,23 @@ export function CmrScanWidget() {
           onChange={onFileChange}
         />
 
-        {!previewUrl ? (
+        {previewUrl ? (
+          <img
+            src={previewUrl}
+            alt="CMR preview"
+            style={{
+              maxHeight: 140,
+              maxWidth: "100%",
+              borderRadius: 8,
+              border: "1px solid rgba(45,48,56,0.8)",
+              objectFit: "contain",
+              margin: "0 auto",
+              display: "block",
+            }}
+          />
+        ) : (
           <>
-            <div style={{ fontSize: "2.2rem", marginBottom: 12, color: "rgba(223,255,0,0.45)" }}>
-              📄
-            </div>
+            <div style={{ fontSize: "2.2rem", marginBottom: 12, color: "rgba(223,255,0,0.45)" }}>📄</div>
             <p style={{ color: "#9CA3AF", fontSize: "0.88rem", lineHeight: 1.6, marginBottom: 4 }}>
               Drag &amp; drop your CMR photo here
             </p>
@@ -154,35 +229,23 @@ export function CmrScanWidget() {
               Choose File
             </span>
           </>
-        ) : (
-          <img
-            src={previewUrl}
-            alt="CMR preview"
-            style={{
-              maxHeight: 160,
-              maxWidth: "100%",
-              borderRadius: 8,
-              border: "1px solid rgba(45,48,56,0.8)",
-              objectFit: "contain",
-              margin: "0 auto",
-              display: "block",
-            }}
-          />
         )}
       </div>
 
-      {selectedFile && status !== "scanning" && (
+      {status === "scanning" && <ProgressSteps active={true} />}
+
+      {status === "idle" && selectedFile && (
         <button
           onClick={runScan}
           style={{
             display: "block",
             width: "100%",
-            marginTop: 16,
-            padding: "13px",
+            marginTop: 14,
+            padding: "12px",
             background: "#DFFF00",
             color: "#000",
             fontWeight: 700,
-            fontSize: "1rem",
+            fontSize: "0.95rem",
             border: "none",
             borderRadius: 10,
             cursor: "pointer",
@@ -194,32 +257,25 @@ export function CmrScanWidget() {
         </button>
       )}
 
-      {status === "scanning" && (
-        <div
+      {status === "done" && results && (
+        <button
+          onClick={() => setModalOpen(true)}
           style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
+            display: "block",
+            width: "100%",
             marginTop: 14,
-            fontSize: "0.82rem",
-            color: "#9CA3AF",
+            padding: "12px",
+            background: "transparent",
+            color: "#DFFF00",
+            fontWeight: 600,
+            fontSize: "0.88rem",
+            border: "1.5px solid rgba(223,255,0,0.35)",
+            borderRadius: 10,
+            cursor: "pointer",
           }}
         >
-          <span
-            style={{
-              width: 14,
-              height: 14,
-              border: "2px solid rgba(45,48,56,0.8)",
-              borderTopColor: "#DFFF00",
-              borderRadius: "50%",
-              display: "inline-block",
-              animation: "cmr-spin 0.7s linear infinite",
-              flexShrink: 0,
-            }}
-          />
-          <style>{`@keyframes cmr-spin { to { transform: rotate(360deg); } }`}</style>
-          Sending to Claude AI…
-        </div>
+          View extracted data →
+        </button>
       )}
 
       {status === "error" && (
@@ -238,135 +294,12 @@ export function CmrScanWidget() {
         </div>
       )}
 
-      {status === "done" && results && (
-        <div
-          style={{
-            marginTop: 24,
-            background: "rgba(28,30,36,0.95)",
-            border: "1px solid rgba(45,48,56,0.8)",
-            borderTop: "2px solid #DFFF00",
-            borderRadius: 12,
-            overflow: "hidden",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.4), 0 0 20px rgba(223,255,0,0.06)",
-            animation: "cmr-card-in 0.3s ease both",
-          }}
-        >
-          <style>{`@keyframes cmr-card-in { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }`}</style>
-
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              padding: "13px 18px",
-              borderBottom: "1px solid rgba(45,48,56,0.8)",
-            }}
-          >
-            <span style={{ fontWeight: 700, fontSize: "0.9rem" }}>Extracted CMR Data</span>
-            <span
-              style={{
-                background: "rgba(74,222,128,0.12)",
-                color: "#4ade80",
-                border: "1px solid rgba(74,222,128,0.25)",
-                borderRadius: 6,
-                padding: "2px 9px",
-                fontSize: "0.7rem",
-                fontWeight: 700,
-              }}
-            >
-              ✓ Extracted
-            </span>
-          </div>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, 1fr)",
-            }}
-          >
-            {Object.entries(FIELD_LABELS).map(([key, label], i) => {
-              const display = formatFieldValue(results[key]);
-              const isEmpty = !display || display === "Not legible";
-              const isHighlight = HIGHLIGHT_FIELDS.includes(key) && !isEmpty;
-              return (
-                <div
-                  key={key}
-                  style={{
-                    padding: "11px 18px",
-                    borderBottom: "1px solid rgba(45,48,56,0.6)",
-                    borderRight: i % 2 === 0 ? "1px solid rgba(45,48,56,0.4)" : "none",
-                  }}
-                >
-                  <div
-                    style={{
-                      fontSize: "0.63rem",
-                      fontWeight: 600,
-                      textTransform: "uppercase",
-                      letterSpacing: "0.08em",
-                      color: "#6B7280",
-                      marginBottom: 3,
-                    }}
-                  >
-                    {label}
-                  </div>
-                  <div
-                    style={{
-                      fontSize: "0.82rem",
-                      color: isEmpty ? "rgba(45,48,56,0.9)" : isHighlight ? "#DFFF00" : "#e5e7eb",
-                      fontStyle: isEmpty ? "italic" : "normal",
-                      fontWeight: isHighlight ? 600 : 400,
-                      wordBreak: "break-word",
-                    }}
-                  >
-                    {isEmpty ? "—" : display}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          <div
-            style={{
-              padding: "13px 18px",
-              borderTop: "1px solid rgba(45,48,56,0.8)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 12,
-              flexWrap: "wrap",
-            }}
-          >
-            <div style={{ fontSize: "0.82rem", color: "#9CA3AF", lineHeight: 1.4 }}>
-              <strong style={{ color: "#fff" }}>
-                This runs on every CMR your drivers send via Telegram.
-              </strong>
-              <br />
-              Unlimited scans, PDF invoices, bundle export — from €49/mo.
-            </div>
-            <a
-              href="#pricing"
-              style={{
-                background: "#DFFF00",
-                color: "#000",
-                fontWeight: 700,
-                fontSize: "0.85rem",
-                border: "none",
-                borderRadius: 8,
-                padding: "10px 20px",
-                cursor: "pointer",
-                whiteSpace: "nowrap",
-                boxShadow: "0 0 18px rgba(223,255,0,0.25)",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 6,
-              }}
-            >
-              Start Free Trial <ArrowRight size={14} />
-            </a>
-          </div>
-        </div>
-      )}
-    </div>
+      <CmrResultModal
+        open={modalOpen}
+        data={results}
+        previewUrl={previewUrl}
+        onClose={() => setModalOpen(false)}
+      />
+    </>
   );
 }
