@@ -1,4 +1,4 @@
-import logoSrc from "@/assets/cmrsync-logo.png";
+import logoSrc from "@/assets/cmrsync_logo_header_1777169303866.png";
 
 export function Logo({
   className = "",
@@ -17,7 +17,7 @@ export function Logo({
         height: size,
         flexShrink: 0,
         backgroundImage: `url(${logoSrc})`,
-        backgroundSize: "148%",
+        backgroundSize: "contain",
         backgroundPosition: "center center",
         backgroundRepeat: "no-repeat",
       }}
