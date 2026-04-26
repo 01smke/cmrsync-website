@@ -26,54 +26,54 @@ export function HowItWorks() {
           <h2 className="h-section mt-3">Three steps from paper to paid.</h2>
         </div>
 
-        <div className="relative grid gap-4 lg:grid-cols-3">
-          {/* Dashed connector line across the cards */}
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-8 right-8 top-1/2 hidden lg:block"
-            style={{ borderTop: "1px dashed rgba(200,255,0,0.25)" }}
-          />
+        <div className="mx-auto max-w-5xl">
           {steps.map((s, i) => (
             <div
               key={s.title}
-              className="reveal feature-card relative overflow-hidden"
-              style={{ transitionDelay: `${i * 80}ms` }}
+              className="reveal flex flex-col items-start gap-6 md:flex-row md:items-center"
+              style={{
+                padding: "32px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                transitionDelay: `${i * 80}ms`,
+              }}
             >
-              <span
-                aria-hidden
-                className="font-display pointer-events-none absolute select-none"
+              <div
+                className="font-display"
                 style={{
-                  top: -10,
-                  right: 16,
-                  fontSize: 100,
+                  fontSize: 72,
                   fontWeight: 900,
+                  letterSpacing: "-0.05em",
                   lineHeight: 1,
-                  color: "rgba(255,255,255,0.04)",
-                  letterSpacing: "-0.04em",
+                  minWidth: 100,
+                  color: i === 0 ? "rgba(200,255,0,0.15)" : "rgba(255,255,255,0.06)",
                 }}
               >
                 {String(i + 1).padStart(2, "0")}
-              </span>
-              <div className="relative">
-                <div className="ui-label">
-                  Step {String(i + 1).padStart(2, "0")}
-                </div>
-                <h3
-                  className="font-display"
-                  style={{
-                    fontSize: 20,
-                    fontWeight: 700,
-                    letterSpacing: "-0.03em",
-                    margin: "10px 0 6px",
-                    color: "#ffffff",
-                  }}
-                >
-                  {s.title}
-                </h3>
-                <p className="body-copy" style={{ fontSize: 13 }}>
-                  {s.body}
-                </p>
               </div>
+              <h3
+                className="font-display"
+                style={{
+                  fontSize: 20,
+                  fontWeight: 700,
+                  letterSpacing: "-0.02em",
+                  color: "#ffffff",
+                  minWidth: 220,
+                  margin: 0,
+                }}
+              >
+                {s.title}
+              </h3>
+              <p
+                style={{
+                  fontSize: 14,
+                  lineHeight: 1.7,
+                  color: "rgba(255,255,255,0.5)",
+                  maxWidth: 420,
+                  margin: 0,
+                }}
+              >
+                {s.body}
+              </p>
             </div>
           ))}
         </div>
