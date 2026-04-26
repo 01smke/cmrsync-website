@@ -2,7 +2,7 @@ import logoSrc from "@/assets/cmrsync-logo.png";
 
 export function Logo({
   className = "",
-  size = 104,
+  size = 56,
 }: {
   className?: string;
   size?: number;
@@ -19,8 +19,7 @@ export function Logo({
           height: size,
           objectFit: "cover",
           display: "block",
-          imageRendering: "high-quality",
-        } as React.CSSProperties}
+        }}
       />
     </div>
   );
