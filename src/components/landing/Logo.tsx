@@ -2,27 +2,25 @@ import logoSrc from "@/assets/cmrsync-logo.png";
 
 export function Logo({
   className = "",
-  size = 56,
+  size = 104,
 }: {
   className?: string;
   size?: number;
 }) {
   return (
-    <div className={`flex items-center ${className}`}>
+    <div className={`flex items-center ${className}`} style={{ width: size, height: size, overflow: "hidden", flexShrink: 0 }}>
       <img
         src={logoSrc}
         alt="CMRSync logo"
         width={size}
         height={size}
-        className="logo-img"
         style={{
           width: size,
           height: size,
           objectFit: "cover",
           display: "block",
-          transform: "scale(1.85)",
-          transformOrigin: "center",
-        }}
+          imageRendering: "high-quality",
+        } as React.CSSProperties}
       />
     </div>
   );

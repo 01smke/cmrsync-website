@@ -129,24 +129,34 @@ const inputBase: React.CSSProperties = {
 };
 
 export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
-  const [mounted, setMounted] = useState(false);
-  const [gated, setGated]     = useState(true);
-  const [form, setForm]       = useState({ company: "", phone: "", email: "", cmrs: "" });
+  const [mounted, setMounted]       = useState(false);
+  const [rendered, setRendered]     = useState(false);
+  const [gated, setGated]           = useState(true);
+  const [form, setForm]             = useState({ company: "", phone: "", email: "", cmrs: "" });
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError]   = useState("");
 
   useEffect(() => { setMounted(true); }, []);
 
-  // Reset gate every time modal opens
+  // Mount portal on open; unmount after close animation finishes (250 ms)
   useEffect(() => {
-    if (open) { setGated(true); setForm({ company: "", phone: "", email: "", cmrs: "" }); setFormError(""); }
+    if (open) {
+      setRendered(true);
+      setGated(true);
+      setForm({ company: "", phone: "", email: "", cmrs: "" });
+      setFormError("");
+    } else {
+      const t = setTimeout(() => setRendered(false), 250);
+      return () => clearTimeout(t);
+    }
   }, [open]);
 
   useEffect(() => {
+    if (!open) return;
     const handler = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     document.addEventListener("keydown", handler);
     return () => document.removeEventListener("keydown", handler);
-  }, [onClose]);
+  }, [open, onClose]);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -171,7 +181,7 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
     setGated(false);
   };
 
-  if (!mounted || !data) return null;
+  if (!mounted || !rendered || !data) return null;
 
   const d = data as Record<string, unknown>;
   const sn = (d.sender as Record<string, string>) || {};
