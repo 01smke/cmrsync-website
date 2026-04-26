@@ -468,15 +468,53 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
             style={{
               flex: 1,
               overflowY: gated ? "hidden" : "auto",
-              padding: isMobile ? "16px 14px" : "20px 26px",
+              padding: 0,
               scrollbarWidth: "thin",
               scrollbarColor: "#DFFF00 #1C1E24",
               filter: gated ? "blur(7px)" : "none",
               transition: "filter 0.4s ease",
               userSelect: gated ? "none" : "auto",
               pointerEvents: gated ? "none" : "auto",
+              display: "flex",
+              flexDirection: "column",
             } as React.CSSProperties}
           >
+            {/* Mobile-only photo strip */}
+            {isMobile && previewUrl && (
+              <div
+                style={{
+                  flexShrink: 0,
+                  height: 130,
+                  background: "#000",
+                  borderBottom: "1px solid #2D3038",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  src={previewUrl}
+                  alt="CMR scan"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center top",
+                    opacity: 0.85,
+                  }}
+                />
+                {/* subtle gradient fade at bottom so fields bleed in nicely */}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(to bottom, transparent 40%, #0F1115 100%)",
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Field content */}
+            <div style={{ flex: 1, overflowY: "auto", padding: isMobile ? "14px 14px" : "20px 26px" }}>
             <Section title="Sender (Field 1)">
               <Field fieldKey="sender_name" label="Name" val={sn.name} />
               <Field fieldKey="sender_country" label="Country" val={sn.country} />
@@ -522,8 +560,9 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               <Field fieldKey="contact_person" label="Contact Person" val={str("contact_person")} />
               <Field fieldKey="contact_info" label="Phone / Email" val={str("contact_info")} span />
             </Section>
-          </div>
-        </div>
+            </div>{/* end inner scrollable */}
+          </div>{/* end fields column */}
+        </div>{/* end body */}
 
         {/* Footer */}
         <div
