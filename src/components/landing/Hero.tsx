@@ -46,14 +46,14 @@ function AnimatedStat({ stat }: { stat: StatDef }) {
 export function Hero() {
   return (
     <section className="hero relative overflow-hidden">
-      <div className="relative mx-auto max-w-7xl px-4 pb-16 pt-12 sm:px-6 sm:pb-20 sm:pt-16 md:pb-32 md:pt-28">
-        <div className="grid items-center gap-10 lg:grid-cols-[45fr_55fr] lg:gap-16">
+      <div className="relative mx-auto max-w-7xl px-4 pb-8 pt-6 sm:px-6 sm:pb-20 sm:pt-16 md:pb-32 md:pt-28">
+        <div className="grid items-center gap-6 lg:grid-cols-[45fr_55fr] lg:gap-16">
           {/* LEFT */}
           <div className="page-body" style={{ maxWidth: 560 }}>
             <h1
               className="h-hero hero-in hero-in-1"
               style={{
-                fontSize: "clamp(36px, 5.2vw, 68px)",
+                fontSize: "clamp(30px, 5.2vw, 68px)",
                 lineHeight: 1.05,
               }}
             >
@@ -63,15 +63,15 @@ export function Hero() {
             </h1>
 
             <p
-              className="body-copy mt-5 hero-in hero-in-2 sm:mt-7"
-              style={{ maxWidth: 520, lineHeight: 1.55, color: "rgba(255,255,255,0.6)" }}
+              className="body-copy mt-3 hero-in hero-in-2 sm:mt-7"
+              style={{ maxWidth: 520, lineHeight: 1.5, color: "rgba(255,255,255,0.6)" }}
             >
-              <span className="text-base sm:text-[19px]">
+              <span className="text-sm sm:text-[19px]">
                 CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
               </span>
             </p>
 
-            <div className="mt-6 flex flex-wrap items-center gap-4 hero-in hero-in-3 sm:mt-8">
+            <div className="mt-4 flex flex-wrap items-center gap-4 hero-in hero-in-3 sm:mt-8">
               <a href="#cta" className="btn-primary">
                 Start your free trial <ArrowRight size={18} />
               </a>
@@ -79,9 +79,9 @@ export function Hero() {
 
             {/* Trust line — lime accent */}
             <p
-              className="mt-4 hero-in hero-in-4 sm:mt-5"
+              className="mt-3 hero-in hero-in-4 sm:mt-5"
               style={{
-                fontSize: 12,
+                fontSize: 11,
                 color: "rgba(255,255,255,0.6)",
                 fontWeight: 500,
               }}
@@ -90,8 +90,8 @@ export function Hero() {
             </p>
           </div>
 
-          {/* RIGHT — VIDEO */}
-          <div className="w-full hero-video-in">
+          {/* RIGHT — VIDEO (hidden on mobile to keep hero in viewport) */}
+          <div className="hidden w-full hero-video-in lg:block">
             <div
               className="card relative w-full overflow-hidden"
               style={{
@@ -129,15 +129,15 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Divider between hero and stats */}
+        {/* Divider between hero and stats — desktop only */}
         <div
-          className="mt-12 sm:mt-16"
+          className="mt-16 hidden sm:block"
           style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
         />
 
-        {/* STATS BAR — slim single bar */}
+        {/* STATS BAR — desktop only, hidden on mobile to keep hero in viewport */}
         <div
-          className="mt-8 grid grid-cols-2 items-center gap-5 sm:mt-10 md:flex md:flex-wrap md:justify-between md:gap-5"
+          className="mt-10 hidden flex-wrap items-center sm:flex md:flex-wrap md:justify-between md:gap-5"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",

@@ -48,12 +48,12 @@ function FeatureCard({
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
+      className="px-4 py-4 sm:px-[22px] sm:py-6"
       style={{
         background: hover ? "#161616" : "#111111",
         border: "none",
         borderTop: `2px solid ${featured ? "#C8FF00" : "rgba(255,255,255,0.12)"}`,
-        borderRadius: 16,
-        padding: "24px 22px",
+        borderRadius: 14,
         boxShadow: hover
           ? featured
             ? "0 0 0 1px rgba(200,255,0,0.2), 0 8px 24px rgba(0,0,0,0.4)"
@@ -71,22 +71,21 @@ function FeatureCard({
       }}
     >
       <h3
-        className="font-display"
+        className="font-display text-[15px] sm:text-base"
         style={{
-          fontSize: 16,
           fontWeight: 700,
           letterSpacing: "-0.02em",
           color: titleColor,
           margin: 0,
-          marginBottom: 12,
+          marginBottom: 6,
         }}
       >
         {title}
       </h3>
       <p
+        className="text-[12.5px] sm:text-[13px]"
         style={{
-          fontSize: 13,
-          lineHeight: 1.7,
+          lineHeight: 1.55,
           color: "rgba(255,255,255,0.45)",
           margin: 0,
         }}
@@ -122,17 +121,17 @@ export function Features() {
   return (
     <section
       id="features"
-      className="px-4 py-14 sm:px-6 sm:py-20 md:py-24"
+      className="px-4 py-10 sm:px-6 sm:py-20 md:py-24"
       style={{ background: "transparent" }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mx-auto mb-8 max-w-2xl text-center sm:mb-12">
+        <div className="reveal mx-auto mb-6 max-w-2xl text-center sm:mb-12">
           <h2 className="h-section">Built for how freight actually works.</h2>
         </div>
 
         <div
           ref={gridRef}
-          className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
+          className="mx-auto grid max-w-6xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
         >
           {features.map((f, i) => (
             <FeatureCard
