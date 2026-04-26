@@ -4,47 +4,38 @@ import { CmrResultModal } from "./CmrResultModal";
 type CmrData = Record<string, unknown>;
 
 const STEPS = [
-  { label: "Uploading image", duration: 800 },
-  { label: "Reading document layout", duration: 1200 },
-  { label: "Extracting handwritten fields", duration: 1800 },
-  { label: "Parsing stamps & dates", duration: 1000 },
-  { label: "Structuring data", duration: 600 },
+  { label: "Uploading image",              duration: 900 },
+  { label: "Reading document layout",      duration: 1400 },
+  { label: "Extracting handwritten fields",duration: 2000 },
+  { label: "Parsing stamps & dates",       duration: 1200 },
+  { label: "Structuring data",             duration: 700  },
 ];
 
 function ProgressSteps({ active }: { active: boolean }) {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const [activeStep, setActiveStep] = useState(-1);
 
   useEffect(() => {
     if (!active) {
-      setCurrentStep(0);
-      setCompletedSteps(new Set());
+      setActiveStep(-1);
       return;
     }
-    let step = 0;
-    let timeout: ReturnType<typeof setTimeout>;
-
-    function advance() {
-      if (step >= STEPS.length) return;
-      setCurrentStep(step);
-      const duration = STEPS[step].duration;
-      timeout = setTimeout(() => {
-        setCompletedSteps((prev) => new Set([...prev, step]));
-        step++;
-        if (step < STEPS.length) advance();
-      }, duration);
-    }
-
-    advance();
-    return () => clearTimeout(timeout);
+    setActiveStep(0);
+    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    let cumulative = 0;
+    STEPS.forEach((s, i) => {
+      cumulative += s.duration;
+      const t = setTimeout(() => setActiveStep(i + 1), cumulative);
+      timeouts.push(t);
+    });
+    return () => timeouts.forEach(clearTimeout);
   }, [active]);
 
   return (
-    <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 8 }}>
+    <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 9 }}>
       {STEPS.map((s, i) => {
-        const done = completedSteps.has(i);
-        const running = active && currentStep === i && !done;
-        const pending = !done && !running;
+        const done    = activeStep > i;
+        const running = activeStep === i;
+        const pending = activeStep < i;
         return (
           <div
             key={i}
@@ -52,10 +43,11 @@ function ProgressSteps({ active }: { active: boolean }) {
               display: "flex",
               alignItems: "center",
               gap: 10,
-              opacity: pending ? 0.35 : 1,
-              transition: "opacity 0.3s ease",
+              opacity: pending ? 0.32 : 1,
+              transition: "opacity 0.35s ease",
             }}
           >
+            {/* Step indicator */}
             <div
               style={{
                 width: 18,
@@ -66,33 +58,30 @@ function ProgressSteps({ active }: { active: boolean }) {
                 alignItems: "center",
                 justifyContent: "center",
                 background: done ? "rgba(223,255,0,0.15)" : "transparent",
-                borderWidth: done ? "1.5px" : "2px",
+                borderWidth: "2px",
                 borderStyle: "solid",
-                borderColor: running ? "#2D3038" : done ? "rgba(223,255,0,0.5)" : "#2D3038",
+                borderColor: done ? "rgba(223,255,0,0.5)" : "#2D3038",
                 borderTopColor: running ? "#DFFF00" : done ? "rgba(223,255,0,0.5)" : "#2D3038",
-                animation: running ? "cmr-spin 0.7s linear infinite" : undefined,
+                animation: running ? "cmr-spin 0.7s linear infinite" : "none",
               }}
             >
               {done && (
                 <svg width="9" height="9" viewBox="0 0 10 10" fill="none">
-                  <path d="M2 5l2.5 2.5L8 3" stroke="#DFFF00" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M2 5l2.5 2.5L8 3" stroke="#DFFF00" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               )}
             </div>
+
             <span
               style={{
                 fontSize: "0.8rem",
-                color: done ? "#9CA3AF" : running ? "#fff" : "#6B7280",
+                color: done ? "#6B7280" : running ? "#fff" : "#6B7280",
                 fontWeight: running ? 500 : 400,
                 transition: "color 0.3s ease",
               }}
             >
               {s.label}
-              {running && (
-                <span style={{ color: "#DFFF00" }}>
-                  {"..."}
-                </span>
-              )}
+              {running && <span style={{ color: "#DFFF00" }}>…</span>}
             </span>
           </div>
         );
