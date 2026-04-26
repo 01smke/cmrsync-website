@@ -51,7 +51,7 @@ export function Hero() {
           {/* LEFT */}
           <div className="page-body" style={{ maxWidth: 560 }}>
             <h1
-              className="h-hero"
+              className="h-hero hero-in hero-in-1"
               style={{
                 fontSize: "clamp(48px, 5.2vw, 68px)",
                 lineHeight: 1.05,
@@ -63,13 +63,13 @@ export function Hero() {
             </h1>
 
             <p
-              className="body-copy mt-7"
+              className="body-copy mt-7 hero-in hero-in-2"
               style={{ maxWidth: 520, fontSize: 19, lineHeight: 1.55, color: "rgba(255,255,255,0.6)" }}
             >
               CMRSync reads your paper CMRs the moment your driver snaps a photo. Data extracted, fields organized, invoice ready — no typing, no chasing documents, no delays.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4 hero-in hero-in-3">
               <a
                 href="#cta"
                 className="btn-primary"
@@ -87,7 +87,7 @@ export function Hero() {
 
             {/* Trust line — lime accent */}
             <p
-              className="mt-5"
+              className="mt-5 hero-in hero-in-4"
               style={{
                 fontSize: 12,
                 color: "#C8FF00",
@@ -100,7 +100,7 @@ export function Hero() {
           </div>
 
           {/* RIGHT — VIDEO */}
-          <div className="w-full">
+          <div className="w-full hero-video-in">
             <div
               className="card relative w-full overflow-hidden"
               style={{
