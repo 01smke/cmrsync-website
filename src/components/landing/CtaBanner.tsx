@@ -25,7 +25,7 @@ export function CtaBanner() {
           >
             Start your free trial <ArrowRight size={16} />
           </button>
-          <a href="#how" className="btn-ghost">
+          <a href="#hero" className="btn-ghost">
             See How It Works
           </a>
         </div>

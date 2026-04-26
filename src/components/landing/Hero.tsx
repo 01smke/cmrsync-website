@@ -45,7 +45,7 @@ function AnimatedStat({ stat }: { stat: StatDef }) {
 
 export function Hero() {
   return (
-    <section className="hero relative overflow-hidden">
+    <section id="hero" className="hero relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-4 pb-4 pt-3 sm:px-6 sm:pb-20 sm:pt-16 md:pb-32 md:pt-28">
         <div className="grid items-center gap-3 sm:gap-6 lg:grid-cols-[45fr_55fr] lg:gap-16">
           {/* LEFT */}
