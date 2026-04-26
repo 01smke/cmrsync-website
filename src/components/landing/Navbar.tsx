@@ -43,7 +43,7 @@ export function Navbar() {
 
         <div className="hidden md:block">
           <a href="#cta" className="btn-primary">
-            Get Early Access
+            Start your free trial
           </a>
         </div>
 
@@ -75,7 +75,7 @@ export function Navbar() {
               </a>
             ))}
             <a href="#cta" onClick={() => setOpen(false)} className="btn-primary mt-2">
-              Get Early Access
+              Start your free trial
             </a>
           </div>
         </div>

@@ -72,7 +72,7 @@ export function Hero() {
             </p>
 
             <div className="mt-4 flex flex-wrap items-center gap-4 hero-in hero-in-3 sm:mt-8">
-              <a href="#cta" className="btn-primary">
+              <a href="#cta" className="btn-primary btn-primary-glow">
                 Start your free trial <ArrowRight size={18} />
               </a>
             </div>
