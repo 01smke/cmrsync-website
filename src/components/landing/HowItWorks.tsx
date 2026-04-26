@@ -70,7 +70,7 @@ export function HowItWorks() {
   return (
     <section
       id="how"
-      className="px-6 py-20 backdrop-blur-md md:py-24"
+      className="px-4 py-14 backdrop-blur-md sm:px-6 sm:py-20 md:py-24"
       style={{
         background: "rgba(15, 17, 21, 0.78)",
         borderTop: "1px solid #2D3038",
@@ -78,7 +78,7 @@ export function HowItWorks() {
       }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mx-auto mb-12 max-w-2xl text-center">
+        <div className="reveal mx-auto mb-8 max-w-2xl text-center sm:mb-12">
           <span className="ui-label">How it works</span>
           <h2 className="h-section mt-3">Three steps from paper to paid.</h2>
         </div>
@@ -87,9 +87,8 @@ export function HowItWorks() {
           {/* Base vertical track */}
           <div
             aria-hidden
-            className="pointer-events-none absolute"
+            className="pointer-events-none absolute left-6 sm:left-12"
             style={{
-              left: 48,
               top: 0,
               bottom: 0,
               width: 1,
@@ -99,9 +98,8 @@ export function HowItWorks() {
           {/* Animated lime fill */}
           <div
             aria-hidden
-            className="pointer-events-none absolute"
+            className="pointer-events-none absolute left-6 sm:left-12"
             style={{
-              left: 48,
               top: 0,
               width: 1,
               height: `${fillHeight}%`,
@@ -119,9 +117,9 @@ export function HowItWorks() {
                 ref={(el) => {
                   stepRefs.current[i] = el;
                 }}
-                className="relative flex flex-col items-start gap-6 md:flex-row md:items-center"
+                className="relative flex flex-col items-start gap-3 pl-12 sm:gap-6 sm:pl-0 md:flex-row md:items-center"
                 style={{
-                  padding: "32px 0",
+                  padding: "24px 0 24px 48px",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                   opacity: active ? 1 : 0,
                   transform: active ? "translateY(0)" : "translateY(16px)",
@@ -131,10 +129,10 @@ export function HowItWorks() {
                 {/* Lime dot on the track */}
                 <span
                   aria-hidden
-                  className="pointer-events-none absolute"
+                  className="pointer-events-none absolute left-6 sm:left-12"
                   style={{
-                    left: 48 - 4,
-                    top: 56,
+                    marginLeft: -4,
+                    top: 36,
                     width: 8,
                     height: 8,
                     borderRadius: "50%",
@@ -146,14 +144,12 @@ export function HowItWorks() {
                 />
 
                 <div
-                  className="font-display"
+                  className="font-display text-5xl md:text-7xl"
                   style={{
-                    fontSize: 72,
                     fontWeight: 900,
                     letterSpacing: "-0.05em",
                     lineHeight: 1,
-                    minWidth: 100,
-                    paddingLeft: 80,
+                    minWidth: 80,
                     color: active
                       ? "rgba(200,255,0,0.3)"
                       : "rgba(255,255,255,0.06)",
@@ -165,19 +161,18 @@ export function HowItWorks() {
                 <h3
                   className="font-display"
                   style={{
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: 700,
                     letterSpacing: "-0.02em",
                     color: "#ffffff",
-                    minWidth: 220,
                     margin: 0,
                   }}
                 >
                   {s.title}
                 </h3>
                 <p
+                  className="text-sm md:text-[14px]"
                   style={{
-                    fontSize: 14,
                     lineHeight: 1.7,
                     color: "rgba(255,255,255,0.5)",
                     maxWidth: 420,
