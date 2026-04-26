@@ -28,9 +28,8 @@ const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 function AnimatedStat({ stat }: { stat: StatDef }) {
   return (
     <span
-      className="font-display"
+      className="font-display text-[20px] sm:text-[28px]"
       style={{
-        fontSize: 28,
         fontWeight: 900,
         color: "#ffffff",
         letterSpacing: "-0.04em",
@@ -90,8 +89,8 @@ export function Hero() {
             </p>
           </div>
 
-          {/* RIGHT — VIDEO (hidden on mobile to keep hero in viewport) */}
-          <div className="hidden w-full hero-video-in lg:block">
+          {/* RIGHT — VIDEO */}
+          <div className="w-full hero-video-in">
             <div
               className="card relative w-full overflow-hidden"
               style={{
@@ -102,69 +101,69 @@ export function Hero() {
                   "inset 0 0 60px rgba(0,0,0,0.4), 0 0 40px rgba(200,255,0,0.04), 0 30px 80px rgba(0,0,0,0.6)",
               }}
             >
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-5">
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 sm:gap-5">
                 <div
-                  className="flex items-center justify-center"
+                  className="flex h-14 w-14 items-center justify-center sm:h-[88px] sm:w-[88px]"
                   style={{
-                    width: 88,
-                    height: 88,
                     borderRadius: "50%",
                     background: "#ffffff",
                     boxShadow: "0 12px 40px rgba(0,0,0,0.55)",
                   }}
                 >
-                  <Play size={32} fill="#000000" color="#000000" style={{ marginLeft: 4 }} />
+                  <Play
+                    className="h-5 w-5 sm:h-8 sm:w-8"
+                    fill="#000000"
+                    color="#000000"
+                    style={{ marginLeft: 3 }}
+                  />
                 </div>
                 <div className="text-center">
                   <div
-                    className="font-display"
-                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em", fontSize: 22 }}
+                    className="font-display text-sm sm:text-[22px]"
+                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em" }}
                   >
                     Product demo coming soon
                   </div>
-                  <div className="ui-label mt-2" style={{ fontSize: 12 }}>Video placeholder</div>
+                  <div className="ui-label mt-1 sm:mt-2" style={{ fontSize: 11 }}>Video placeholder</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Divider between hero and stats — desktop only */}
+        {/* Divider between hero and stats */}
         <div
-          className="mt-16 hidden sm:block"
+          className="mt-8 sm:mt-16"
           style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}
         />
 
-        {/* STATS BAR — desktop only, hidden on mobile to keep hero in viewport */}
+        {/* STATS BAR — 2×2 grid on mobile, single row on desktop */}
         <div
-          className="mt-10 hidden flex-wrap items-center sm:flex md:flex-wrap md:justify-between md:gap-5"
+          className="mt-5 grid grid-cols-2 items-center gap-x-3 gap-y-4 sm:mt-10 md:flex md:flex-wrap md:justify-between md:gap-5"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",
             borderLeft: "3px solid #C8FF00",
             borderRadius: 14,
-            padding: "20px 20px",
+            padding: "16px 16px",
             animation: "statsSlideIn 1800ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both",
             willChange: "transform, opacity",
           }}
         >
-          {stats.map((s, i) => (
+          {stats.map((s) => (
             <div
               key={s.l}
-              className="flex items-center gap-3 md:flex-1 md:gap-4"
-              style={{
-                whiteSpace: "nowrap",
-              }}
+              className="flex min-w-0 items-center gap-2 sm:gap-3 md:flex-1 md:gap-4"
             >
               <AnimatedStat stat={s} />
               <span
+                className="text-[10px] sm:text-[11px]"
                 style={{
-                  fontSize: 11,
                   color: "rgba(255,255,255,0.45)",
                   textTransform: "uppercase",
                   letterSpacing: "0.08em",
                   fontWeight: 600,
-                  whiteSpace: "nowrap",
+                  lineHeight: 1.2,
                 }}
               >
                 {s.l}
