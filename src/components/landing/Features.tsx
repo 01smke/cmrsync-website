@@ -42,7 +42,6 @@ function FeatureCard({
 }) {
   const [hover, setHover] = useState(false);
 
-  const accentColor = featured ? "#C8FF00" : "rgba(255,255,255,0.12)";
   const titleColor = featured ? "#C8FF00" : "#ffffff";
 
   return (
@@ -51,15 +50,19 @@ function FeatureCard({
       onMouseLeave={() => setHover(false)}
       style={{
         background: hover ? "#161616" : "#111111",
-        border: `1px solid ${hover ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.07)"}`,
-        borderTop: `2px solid ${accentColor}`,
+        border: "none",
+        borderTop: `2px solid ${featured ? "#C8FF00" : "rgba(255,255,255,0.12)"}`,
         borderRadius: 16,
         padding: "32px 28px",
-        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.04)",
+        boxShadow: hover
+          ? featured
+            ? "0 0 0 1px rgba(200,255,0,0.2), 0 8px 24px rgba(0,0,0,0.4)"
+            : "0 0 0 1px rgba(255,255,255,0.12), 0 8px 24px rgba(0,0,0,0.4)"
+          : "0 0 0 1px rgba(255,255,255,0.07)",
         opacity: visible ? 1 : 0,
         transform: visible
           ? hover
-            ? "translateY(-2px)"
+            ? "translateY(-3px)"
             : "translateY(0)"
           : "translateY(20px)",
         transition: visible
