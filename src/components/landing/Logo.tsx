@@ -7,22 +7,18 @@ export function Logo({
   className?: string;
   size?: number;
 }) {
-  const rendered = Math.round(size * 1.55);
-  const offset   = -Math.round((rendered - size) / 2);
   return (
-    <div className={`flex items-center ${className}`} style={{ width: size, height: size, overflow: "hidden", flexShrink: 0 }}>
+    <div className={`flex items-center ${className}`}>
       <img
         src={logoSrc}
         alt="CMRSync logo"
-        width={rendered}
-        height={rendered}
+        width={size}
+        height={size}
         style={{
-          width: rendered,
-          height: rendered,
+          width: size,
+          height: size,
+          objectFit: "contain",
           display: "block",
-          marginLeft: offset,
-          marginTop: offset,
-          flexShrink: 0,
         }}
       />
     </div>
