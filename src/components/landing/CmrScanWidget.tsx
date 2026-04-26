@@ -92,6 +92,10 @@ function ProgressSteps({ active }: { active: boolean }) {
 }
 
 export function CmrScanWidget() {
+  const SCAN_TS_KEY   = "cmr_last_scan_ts";
+  const LEAD_KEY      = "cmr_lead_unlocked";
+  const LIMIT_MS      = 24 * 60 * 60 * 1000;
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [dragOver, setDragOver] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -100,6 +104,16 @@ export function CmrScanWidget() {
   const [errorMsg, setErrorMsg] = useState("");
   const [results, setResults] = useState<CmrData | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+
+  const getHoursLeft = () => {
+    const ts = localStorage.getItem(SCAN_TS_KEY);
+    if (!ts) return 0;
+    const remaining = LIMIT_MS - (Date.now() - parseInt(ts, 10));
+    return remaining > 0 ? Math.ceil(remaining / (60 * 60 * 1000)) : 0;
+  };
+
+  const [hoursLeft, setHoursLeft] = useState(() => getHoursLeft());
+  const scanLocked = hoursLeft > 0;
 
   const handleFile = useCallback((file: File) => {
     setSelectedFile(file);
@@ -127,6 +141,13 @@ export function CmrScanWidget() {
 
   const runScan = async () => {
     if (!selectedFile) return;
+
+    const fresh = getHoursLeft();
+    if (fresh > 0) {
+      setHoursLeft(fresh);
+      return;
+    }
+
     setStatus("scanning");
     setErrorMsg("");
     setResults(null);
@@ -138,6 +159,8 @@ export function CmrScanWidget() {
       const res = await fetch("/api/free-scan", { method: "POST", body: fd });
       const json = await res.json();
       if (!res.ok || json.error) throw new Error(json.error || "Something went wrong.");
+      localStorage.setItem(SCAN_TS_KEY, Date.now().toString());
+      setHoursLeft(24);
       setResults(json.data);
       setStatus("done");
       setTimeout(() => setModalOpen(true), 400);
@@ -149,6 +172,43 @@ export function CmrScanWidget() {
 
   return (
     <>
+      {scanLocked ? (
+        /* ── LOCKED STATE ── */
+        <div
+          style={{
+            borderRadius: 12,
+            padding: "28px 20px",
+            textAlign: "center",
+            background: "rgba(28,30,36,0.8)",
+            border: "2px dashed rgba(45,48,56,0.8)",
+          }}
+        >
+          <div style={{ fontSize: "2rem", marginBottom: 10 }}>🔒</div>
+          <p style={{ color: "#fff", fontWeight: 700, fontSize: "0.95rem", marginBottom: 6 }}>
+            Free scan used
+          </p>
+          <p style={{ color: "#6B7280", fontSize: "0.78rem", lineHeight: 1.5 }}>
+            Your next free scan unlocks in <span style={{ color: "#DFFF00", fontWeight: 600 }}>{hoursLeft}h</span>.
+            <br />Sign up for unlimited scans.
+          </p>
+          <a
+            href="#pricing"
+            style={{
+              display: "inline-block",
+              marginTop: 14,
+              padding: "8px 20px",
+              background: "#DFFF00",
+              color: "#000",
+              fontWeight: 700,
+              fontSize: "0.82rem",
+              borderRadius: 8,
+              textDecoration: "none",
+            }}
+          >
+            See plans →
+          </a>
+        </div>
+      ) : (
       <div
         style={{
           border: `2px dashed ${dragOver ? "rgba(223,255,0,0.5)" : "rgba(45,48,56,0.8)"}`,
@@ -214,10 +274,11 @@ export function CmrScanWidget() {
           </>
         )}
       </div>
+      )}
 
-      {status === "scanning" && <ProgressSteps active={true} />}
+      {!scanLocked && status === "scanning" && <ProgressSteps active={true} />}
 
-      {status === "idle" && selectedFile && (
+      {!scanLocked && status === "idle" && selectedFile && (
         <button
           onClick={runScan}
           style={{
@@ -240,7 +301,7 @@ export function CmrScanWidget() {
         </button>
       )}
 
-      {status === "done" && results && (
+      {!scanLocked && status === "done" && results && (
         <button
           onClick={() => setModalOpen(true)}
           style={{
@@ -261,7 +322,7 @@ export function CmrScanWidget() {
         </button>
       )}
 
-      {status === "error" && (
+      {!scanLocked && status === "error" && (
         <div
           style={{
             marginTop: 14,
