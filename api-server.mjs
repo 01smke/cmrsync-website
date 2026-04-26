@@ -116,12 +116,35 @@ app.post("/api/free-scan", upload.single("file"), async (req, res) => {
 // In-memory lead store (persists while server is running)
 const leads = [];
 
-app.post("/api/leads", (req, res) => {
+async function sendTelegramNotification(lead) {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+  const text =
+    `🚛 *New CMRSync Lead*\n\n` +
+    `🏢 *Company:* ${lead.company}\n` +
+    `📧 *Email:* ${lead.email}\n` +
+    `📞 *Phone:* ${lead.phone || "—"}\n` +
+    `🚚 *Fleet size:* ${lead.fleet_size || "—"}\n` +
+    `🕐 *Time:* ${lead.timestamp}`;
+  try {
+    await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text, parse_mode: "Markdown" }),
+    });
+  } catch (err) {
+    console.error("[TELEGRAM]", err.message);
+  }
+}
+
+app.post("/api/leads", async (req, res) => {
   const { company, phone, email, cmrs: fleet_size, timestamp } = req.body || {};
   if (!company || !email) return res.status(400).json({ error: "Missing fields" });
   const lead = { company, phone, email, fleet_size, timestamp, id: Date.now() };
   leads.push(lead);
   console.log("[LEAD]", JSON.stringify(lead));
+  sendTelegramNotification(lead);
   res.json({ ok: true });
 });
 
