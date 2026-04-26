@@ -1,4 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const trustItems = [
   "GDPR COMPLIANT",
@@ -6,14 +7,96 @@ const trustItems = [
   "ANY LANGUAGE",
 ];
 
-const stats = [
-  { v: "9s", l: "Avg extraction" },
-  { v: "95%", l: "Accuracy" },
-  { v: "Unlimited", l: "CMRs / month" },
-  { v: "1-click", l: "Invoice generation" },
+type StatDef = {
+  l: string;
+  kind: "count" | "fade";
+  target?: number;
+  suffix?: string;
+  duration?: number;
+  text?: string;
+};
+
+const stats: StatDef[] = [
+  { l: "Avg extraction", kind: "count", target: 9, suffix: "s", duration: 1000 },
+  { l: "Accuracy", kind: "count", target: 95, suffix: "%", duration: 1500 },
+  { l: "CMRs / month", kind: "fade", text: "Unlimited" },
+  { l: "Invoice generation", kind: "fade", text: "1-click" },
 ];
 
+const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+function AnimatedStat({ stat, triggered, delay }: { stat: StatDef; triggered: boolean; delay: number }) {
+  const [value, setValue] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    if (!triggered) return;
+    const timeout = setTimeout(() => {
+      setStarted(true);
+      if (stat.kind === "count" && stat.target != null && stat.duration) {
+        const startTime = performance.now();
+        const duration = stat.duration;
+        const target = stat.target;
+        let raf = 0;
+        const tick = (now: number) => {
+          const elapsed = now - startTime;
+          const t = Math.min(elapsed / duration, 1);
+          setValue(Math.round(easeOutQuart(t) * target));
+          if (t < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+      }
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [triggered, delay, stat]);
+
+  const display =
+    stat.kind === "count"
+      ? `${value}${stat.suffix ?? ""}`
+      : stat.text ?? "";
+
+  return (
+    <span
+      className="font-display"
+      style={{
+        fontSize: 28,
+        fontWeight: 900,
+        color: "#ffffff",
+        letterSpacing: "-0.04em",
+        lineHeight: 1,
+        whiteSpace: "nowrap",
+        opacity: started ? 1 : 0,
+        transition: "opacity 800ms ease-out",
+      }}
+    >
+      {display}
+    </span>
+  );
+}
+
 export function Hero() {
+  const statsRef = useRef<HTMLDivElement | null>(null);
+  const [triggered, setTriggered] = useState(false);
+
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setTriggered(true);
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className="hero relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
@@ -116,6 +199,7 @@ export function Hero() {
 
         {/* STATS BAR — slim single bar */}
         <div
+          ref={statsRef}
           className="reveal mt-10 flex flex-wrap items-center"
           style={{
             background: "#141414",
@@ -139,19 +223,7 @@ export function Hero() {
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
             >
-              <span
-                className="font-display"
-                style={{
-                  fontSize: 28,
-                  fontWeight: 900,
-                  color: "#ffffff",
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {s.v}
-              </span>
+              <AnimatedStat stat={s} triggered={triggered} delay={i * 150} />
               <span
                 style={{
                   fontSize: 12,
