@@ -479,40 +479,6 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               flexDirection: "column",
             } as React.CSSProperties}
           >
-            {/* Mobile-only photo strip */}
-            {isMobile && previewUrl && (
-              <div
-                style={{
-                  flexShrink: 0,
-                  height: 130,
-                  background: "#000",
-                  borderBottom: "1px solid #2D3038",
-                  position: "relative",
-                  overflow: "hidden",
-                }}
-              >
-                <img
-                  src={previewUrl}
-                  alt="CMR scan"
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    objectPosition: "center top",
-                    opacity: 0.85,
-                  }}
-                />
-                {/* subtle gradient fade at bottom so fields bleed in nicely */}
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "linear-gradient(to bottom, transparent 40%, #0F1115 100%)",
-                  }}
-                />
-              </div>
-            )}
-
             {/* Field content */}
             <div style={{ flex: 1, overflowY: "auto", padding: isMobile ? "14px 14px" : "20px 26px" }}>
             <Section title="Sender (Field 1)">
@@ -561,6 +527,40 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               <Field fieldKey="contact_info" label="Phone / Email" val={str("contact_info")} span />
             </Section>
             </div>{/* end inner scrollable */}
+
+            {/* Mobile-only photo strip — pinned to bottom */}
+            {isMobile && previewUrl && (
+              <div
+                style={{
+                  flexShrink: 0,
+                  height: 130,
+                  background: "#000",
+                  borderTop: "1px solid #2D3038",
+                  position: "relative",
+                  overflow: "hidden",
+                }}
+              >
+                <img
+                  src={previewUrl}
+                  alt="CMR scan"
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    objectPosition: "center top",
+                    opacity: 0.85,
+                  }}
+                />
+                {/* gradient fade from top so it blends with the fields above */}
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "linear-gradient(to bottom, #0F1115 0%, transparent 40%)",
+                  }}
+                />
+              </div>
+            )}
           </div>{/* end fields column */}
         </div>{/* end body */}
 
