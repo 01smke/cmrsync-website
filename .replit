@@ -36,5 +36,5 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-build = ["sh", "build.sh"]
+build = ["npm", "install", "--omit=dev"]
 run = ["node", "api-server.mjs"]
