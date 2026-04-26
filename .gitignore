@@ -1,3 +1,6 @@
+# Agent reference files (not part of the app)
+attached_assets/
+
 # Bun (not used - use npm)
 bun.lockb
 bunfig.toml

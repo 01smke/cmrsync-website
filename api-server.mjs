@@ -14,7 +14,9 @@ const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
 
 app.set("trust proxy", 1);
-app.use(cors());
+if (!isProd) {
+  app.use(cors());
+}
 app.use(express.json());
 
 const SYSTEM_PROMPT = `You are an expert logistics document analyzer specializing in CMR (International Consignment Notes). Your goal is to extract handwritten and printed text from images with maximum accuracy.
