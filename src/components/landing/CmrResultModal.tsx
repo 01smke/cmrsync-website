@@ -333,43 +333,41 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
         {/* Footer */}
         <div
           style={{
-            padding: "12px 22px",
+            padding: "14px 22px",
             borderTop: "1px solid #2D3038",
             flexShrink: 0,
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            gap: 12,
-            flexWrap: "wrap",
+            justifyContent: "center",
             background: "#1C1E24",
           }}
         >
-          <div style={{ fontSize: "0.78rem", color: "#9CA3AF", lineHeight: 1.4 }}>
-            <strong style={{ color: "#fff" }}>This is what your dashboard looks like for every CMR.</strong>
-            <br />
-            Unlimited scans, PDF invoices, bundle export — from €49/mo.
-          </div>
+          <style>{`
+            @keyframes cmr-glow-pulse {
+              0%, 100% { box-shadow: 0 0 14px rgba(223,255,0,0.35), 0 2px 8px rgba(0,0,0,0.35); }
+              50%       { box-shadow: 0 0 32px rgba(223,255,0,0.75), 0 0 60px rgba(223,255,0,0.35), 0 2px 12px rgba(0,0,0,0.4); }
+            }
+          `}</style>
           <a
             href="#pricing"
             onClick={onClose}
             style={{
               display: "inline-flex",
               alignItems: "center",
-              gap: 5,
-              padding: "7px 16px",
-              borderRadius: 6,
+              gap: 6,
+              padding: "10px 28px",
+              borderRadius: 8,
               border: "none",
               background: "#DFFF00",
               color: "#000",
-              fontSize: "0.8rem",
+              fontSize: "0.88rem",
               fontWeight: 700,
               cursor: "pointer",
               textDecoration: "none",
-              boxShadow: "0 0 14px rgba(223,255,0,0.22), 0 2px 8px rgba(0,0,0,0.35)",
-              whiteSpace: "nowrap",
+              animation: "cmr-glow-pulse 1.6s ease-in-out infinite",
             }}
           >
-            Start Free Trial <ArrowRight size={13} />
+            Start Free Trial <ArrowRight size={14} />
           </a>
         </div>
       </div>
