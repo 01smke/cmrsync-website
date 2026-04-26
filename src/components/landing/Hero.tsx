@@ -153,8 +153,7 @@ export function Hero() {
 
         {/* STATS BAR — slim single bar */}
         <div
-          ref={statsRef}
-          className="reveal mt-10 flex flex-wrap items-center"
+          className="mt-10 flex flex-wrap items-center"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",
@@ -163,6 +162,9 @@ export function Hero() {
             padding: "28px 48px",
             justifyContent: "space-between",
             gap: 20,
+            opacity: statsIn ? 1 : 0,
+            transform: statsIn ? "translateX(0)" : "translateX(-48px)",
+            transition: "opacity 700ms ease-out, transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           {stats.map((s, i) => (
@@ -177,7 +179,7 @@ export function Hero() {
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
             >
-              <AnimatedStat stat={s} triggered={triggered} delay={i * 150} />
+              <AnimatedStat stat={s} />
               <span
                 style={{
                   fontSize: 12,
