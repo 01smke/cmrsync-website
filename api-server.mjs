@@ -2,6 +2,13 @@ import express from "express";
 import cors from "cors";
 import multer from "multer";
 import Anthropic from "@anthropic-ai/sdk";
+import { createRequire } from "module";
+import { fileURLToPath } from "url";
+import path from "path";
+import fs from "fs";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const isProd = process.env.NODE_ENV === "production";
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
@@ -128,7 +135,19 @@ app.get("/api/leads", (req, res) => {
   res.json(leads);
 });
 
-const PORT = 3001;
-app.listen(PORT, "localhost", () => {
-  console.log(`API server running on http://localhost:${PORT}`);
+// In production, serve the built SPA + fall through to index.html
+if (isProd) {
+  const distPath = path.join(__dirname, "dist");
+  app.use(express.static(distPath));
+  // SPA fallback — serve index.html for any non-API route
+  app.use((req, res, next) => {
+    if (req.path.startsWith("/api")) return next();
+    res.sendFile(path.join(distPath, "index.html"));
+  });
+}
+
+const PORT = isProd ? (parseInt(process.env.PORT || "5000")) : 3001;
+const HOST = isProd ? "0.0.0.0" : "localhost";
+app.listen(PORT, HOST, () => {
+  console.log(`Server running on http://${HOST}:${PORT}`);
 });

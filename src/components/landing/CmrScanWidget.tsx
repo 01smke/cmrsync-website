@@ -106,6 +106,7 @@ export function CmrScanWidget() {
   const [modalOpen, setModalOpen] = useState(false);
 
   const getHoursLeft = () => {
+    if (typeof window === "undefined") return 0;
     const ts = localStorage.getItem(SCAN_TS_KEY);
     if (!ts) return 0;
     const remaining = LIMIT_MS - (Date.now() - parseInt(ts, 10));
