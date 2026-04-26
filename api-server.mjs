@@ -13,6 +13,7 @@ const isProd = process.env.NODE_ENV === "production";
 const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
 
+app.set("trust proxy", 1);
 app.use(cors());
 app.use(express.json());
 
@@ -65,10 +66,18 @@ const rateLimitMap = new Map();
 const COOLDOWN = 86400 * 1000;
 
 app.post("/api/free-scan", upload.single("file"), async (req, res) => {
-  const ip = (req.headers["x-forwarded-for"] || req.socket.remoteAddress || "unknown")
-    .split(",")[0].trim();
-
+  const ip = req.ip || "unknown";
   const now = Date.now();
+
+  const lastUsed = rateLimitMap.get(ip);
+  if (lastUsed && now - lastUsed < COOLDOWN) {
+    const retryAfterMs = COOLDOWN - (now - lastUsed);
+    const retryAfterSec = Math.ceil(retryAfterMs / 1000);
+    return res.status(429).json({
+      error: "Free scan limit reached. Please try again after 24 hours.",
+      retryAfter: retryAfterSec,
+    });
+  }
 
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded." });
@@ -113,6 +122,7 @@ app.post("/api/free-scan", upload.single("file"), async (req, res) => {
       data = { _error: "Could not parse response", _raw: raw.slice(0, 400) };
     }
 
+    rateLimitMap.set(ip, now);
     return res.json({ ok: true, data });
   } catch (err) {
     return res.status(500).json({ error: err.message || "Unknown error" });
@@ -132,6 +142,15 @@ app.post("/api/leads", (req, res) => {
 });
 
 app.get("/api/leads", (req, res) => {
+  const adminSecret = process.env.LEADS_ADMIN_SECRET;
+  if (!adminSecret) {
+    return res.status(503).json({ error: "Leads endpoint is not configured." });
+  }
+  const authHeader = req.headers["authorization"] || "";
+  const token = authHeader.startsWith("Bearer ") ? authHeader.slice(7) : "";
+  if (!token || token !== adminSecret) {
+    return res.status(401).json({ error: "Unauthorized." });
+  }
   res.json(leads);
 });
 
