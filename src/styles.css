@@ -472,7 +472,7 @@
   @keyframes statsSlideIn {
     from {
       opacity: 0;
-      transform: translateX(-48px);
+      transform: translateX(-120px);
     }
     to {
       opacity: 1;
