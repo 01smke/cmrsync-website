@@ -63,7 +63,7 @@ export function Hero() {
             </h1>
 
             <p
-              className="body-copy mt-2 hero-in hero-in-2 sm:mt-7 hidden sm:block"
+              className="body-copy mt-2 hero-in hero-in-2 sm:mt-7"
               style={{ maxWidth: 520, lineHeight: 1.5, color: "rgba(255,255,255,0.6)" }}
             >
               <span className="text-sm sm:text-[19px]">
