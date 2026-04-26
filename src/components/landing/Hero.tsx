@@ -1,4 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 const trustItems = [
   "GDPR COMPLIANT",
@@ -6,12 +7,73 @@ const trustItems = [
   "ANY LANGUAGE",
 ];
 
-const stats = [
-  { v: "9s", l: "Avg extraction" },
-  { v: "95%", l: "Accuracy" },
-  { v: "Unlimited", l: "CMRs / month" },
-  { v: "1-click", l: "Invoice generation" },
+type StatDef = {
+  l: string;
+  kind: "count" | "fade";
+  target?: number;
+  suffix?: string;
+  duration?: number;
+  text?: string;
+};
+
+const stats: StatDef[] = [
+  { l: "Avg extraction", kind: "count", target: 9, suffix: "s", duration: 1000 },
+  { l: "Accuracy", kind: "count", target: 95, suffix: "%", duration: 1500 },
+  { l: "CMRs / month", kind: "fade", text: "Unlimited" },
+  { l: "Invoice generation", kind: "fade", text: "1-click" },
 ];
+
+const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
+
+function AnimatedStat({ stat, triggered, delay }: { stat: StatDef; triggered: boolean; delay: number }) {
+  const [value, setValue] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  useEffect(() => {
+    if (!triggered) return;
+    const timeout = setTimeout(() => {
+      setStarted(true);
+      if (stat.kind === "count" && stat.target != null && stat.duration) {
+        const startTime = performance.now();
+        const duration = stat.duration;
+        const target = stat.target;
+        let raf = 0;
+        const tick = (now: number) => {
+          const elapsed = now - startTime;
+          const t = Math.min(elapsed / duration, 1);
+          setValue(Math.round(easeOutQuart(t) * target));
+          if (t < 1) raf = requestAnimationFrame(tick);
+        };
+        raf = requestAnimationFrame(tick);
+        return () => cancelAnimationFrame(raf);
+      }
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [triggered, delay, stat]);
+
+  const display =
+    stat.kind === "count"
+      ? `${value}${stat.suffix ?? ""}`
+      : stat.text ?? "";
+
+  return (
+    <span
+      className="font-display"
+      style={{
+        fontSize: 28,
+        fontWeight: 900,
+        color: "#ffffff",
+        letterSpacing: "-0.04em",
+        lineHeight: 1,
+        whiteSpace: "nowrap",
+        opacity: started ? 1 : 0,
+        transition: "opacity 800ms ease-out",
+      }}
+    >
+      {display}
+    </span>
+  );
+}
 
 export function Hero() {
   return (
