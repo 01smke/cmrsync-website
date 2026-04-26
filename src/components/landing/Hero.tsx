@@ -1,5 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const trustItems = [
   "GDPR COMPLIANT",
