@@ -108,7 +108,7 @@ function Section({ title, children }: { title: string; children: React.ReactNode
       >
         {title}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+      <div className="cmr-field-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
         {children}
       </div>
     </div>
@@ -128,21 +128,32 @@ const inputBase: React.CSSProperties = {
   boxSizing: "border-box",
 };
 
+const LS_KEY = "cmr_lead_unlocked";
+
 export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
   const [mounted, setMounted]       = useState(false);
   const [rendered, setRendered]     = useState(false);
   const [gated, setGated]           = useState(true);
+  const [isMobile, setIsMobile]     = useState(false);
   const [form, setForm]             = useState({ company: "", phone: "", email: "", cmrs: "" });
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError]   = useState("");
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+    const check = () => setIsMobile(window.innerWidth < 640);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   // Mount portal on open; unmount after close animation finishes (250 ms)
   useEffect(() => {
     if (open) {
       setRendered(true);
-      setGated(true);
+      // Skip gate if already submitted before
+      const alreadyUnlocked = typeof window !== "undefined" && localStorage.getItem(LS_KEY) === "1";
+      setGated(!alreadyUnlocked);
       setForm({ company: "", phone: "", email: "", cmrs: "" });
       setFormError("");
     } else {
@@ -170,13 +181,13 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
       return;
     }
     setSubmitting(true);
-    // Fire-and-forget to API; don't block UX on failure
     fetch("/api/leads", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ...form, timestamp: new Date().toISOString() }),
     }).catch(() => {});
     await new Promise((r) => setTimeout(r, 300));
+    localStorage.setItem(LS_KEY, "1");
     setSubmitting(false);
     setGated(false);
   };
@@ -195,6 +206,11 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
 
   return createPortal(
     <>
+      <style>{`
+        @media (max-width: 639px) {
+          .cmr-field-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
       {/* Backdrop */}
       <div
         onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
@@ -212,10 +228,10 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
       <div
         style={{
           position: "fixed",
-          top: "4vh",
-          left: "4vw",
-          right: "4vw",
-          bottom: "4vh",
+          top:    isMobile ? "2vh" : "4vh",
+          left:   isMobile ? "3vw" : "4vw",
+          right:  isMobile ? "3vw" : "4vw",
+          bottom: isMobile ? "2vh" : "4vh",
           zIndex: 301,
           background: "#0F1115",
           border: "1px solid #2D3038",
@@ -298,10 +314,12 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
                 inset: 0,
                 zIndex: 10,
                 display: "flex",
-                alignItems: "center",
+                alignItems: isMobile ? "flex-start" : "center",
                 justifyContent: "center",
-                background: "rgba(15,17,21,0.55)",
+                background: "rgba(15,17,21,0.6)",
                 backdropFilter: "blur(2px)",
+                overflowY: "auto",
+                padding: isMobile ? "16px 0 24px" : 0,
               }}
             >
               <form
@@ -310,20 +328,21 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
                   background: "#1C1E24",
                   border: "1px solid #2D3038",
                   borderRadius: 12,
-                  padding: "28px 28px 24px",
+                  padding: isMobile ? "20px 16px 18px" : "28px 28px 24px",
                   width: "100%",
-                  maxWidth: 380,
+                  maxWidth: isMobile ? "94%" : 380,
                   display: "flex",
                   flexDirection: "column",
-                  gap: 14,
+                  gap: isMobile ? 10 : 14,
                   boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
+                  flexShrink: 0,
                 }}
               >
-                <div style={{ textAlign: "center", marginBottom: 4 }}>
-                  <div style={{ fontSize: "1rem", fontWeight: 700, color: "#fff", marginBottom: 6 }}>
+                <div style={{ textAlign: "center", marginBottom: isMobile ? 2 : 4 }}>
+                  <div style={{ fontSize: isMobile ? "0.92rem" : "1rem", fontWeight: 700, color: "#fff", marginBottom: 4 }}>
                     Your results are ready
                   </div>
-                  <div style={{ fontSize: "0.78rem", color: "#9CA3AF", lineHeight: 1.5 }}>
+                  <div style={{ fontSize: "0.76rem", color: "#9CA3AF", lineHeight: 1.4 }}>
                     Enter your details to unlock the full extraction.
                   </div>
                 </div>
@@ -409,7 +428,8 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
             </div>
           )}
 
-          {/* Photo column — 50% */}
+          {/* Photo column — desktop only */}
+          {!isMobile && (
           <div
             style={{
               width: "50%",
@@ -441,13 +461,14 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               </div>
             )}
           </div>
+          )}
 
           {/* Fields column — scrollable */}
           <div
             style={{
               flex: 1,
               overflowY: gated ? "hidden" : "auto",
-              padding: "20px 26px",
+              padding: isMobile ? "16px 14px" : "20px 26px",
               scrollbarWidth: "thin",
               scrollbarColor: "#DFFF00 #1C1E24",
               filter: gated ? "blur(7px)" : "none",
