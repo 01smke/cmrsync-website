@@ -355,17 +355,17 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
-                  <label style={{ fontSize: "0.64rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280" }}>CMRs per month</label>
+                  <label style={{ fontSize: "0.64rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280" }}>Fleet size</label>
                   <select
                     value={form.cmrs}
                     onChange={(e) => setForm((f) => ({ ...f, cmrs: e.target.value }))}
                     style={{ ...inputBase, appearance: "none", cursor: "pointer" } as React.CSSProperties}
                   >
                     <option value="">Select range…</option>
-                    <option value="1-50">1 – 50</option>
-                    <option value="50-200">50 – 200</option>
-                    <option value="200-500">200 – 500</option>
-                    <option value="500+">500+</option>
+                    <option value="1-5">1 – 5 vehicles</option>
+                    <option value="6-20">6 – 20 vehicles</option>
+                    <option value="21-50">21 – 50 vehicles</option>
+                    <option value="50+">50+ vehicles</option>
                   </select>
                 </div>
 

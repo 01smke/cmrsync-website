@@ -116,9 +116,9 @@ app.post("/api/free-scan", upload.single("file"), async (req, res) => {
 const leads = [];
 
 app.post("/api/leads", (req, res) => {
-  const { company, phone, email, cmrs, timestamp } = req.body || {};
+  const { company, phone, email, cmrs: fleet_size, timestamp } = req.body || {};
   if (!company || !email) return res.status(400).json({ error: "Missing fields" });
-  const lead = { company, phone, email, cmrs, timestamp, id: Date.now() };
+  const lead = { company, phone, email, fleet_size, timestamp, id: Date.now() };
   leads.push(lead);
   console.log("[LEAD]", JSON.stringify(lead));
   res.json({ ok: true });
