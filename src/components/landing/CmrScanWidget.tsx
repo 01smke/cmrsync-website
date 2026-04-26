@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { FileText } from "lucide-react";
 import { CmrResultModal } from "./CmrResultModal";
 
