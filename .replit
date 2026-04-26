@@ -36,6 +36,6 @@ externalPort = 80
 
 [deployment]
 deploymentTarget = "autoscale"
-build = ["npm", "run", "build"]
+build = ["bash", "-c", "echo '===BUILD_STARTED===' && npm run build && echo '===BUILD_DONE==='"]
 publicDir = "dist/client"
 run = ["node", "api-server.mjs"]
