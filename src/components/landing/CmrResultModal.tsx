@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X, FileText, ArrowRight } from "lucide-react";
 
 type CmrData = Record<string, unknown>;
@@ -108,6 +109,12 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -121,7 +128,7 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [open]);
 
-  if (!data) return null;
+  if (!mounted || !data) return null;
 
   const d = data as Record<string, Record<string, string> & string>;
   const sn = (d.sender as Record<string, string>) || {};
@@ -131,7 +138,7 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
   const pickupDate = !isNL(d.pickup_date) ? String(d.pickup_date) : "";
   const subtitle = [docDate, pickupDate].filter(Boolean).join("  ·  ");
 
-  return (
+  return createPortal(
     <div
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       style={{
@@ -363,6 +370,7 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
           </a>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

@@ -65,17 +65,11 @@ function ProgressSteps({ active }: { active: boolean }) {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                background: done
-                  ? "rgba(223,255,0,0.15)"
-                  : running
-                  ? "transparent"
-                  : "transparent",
-                border: done
-                  ? "1.5px solid rgba(223,255,0,0.5)"
-                  : running
-                  ? "2px solid #2D3038"
-                  : "1.5px solid #2D3038",
-                borderTopColor: running ? "#DFFF00" : undefined,
+                background: done ? "rgba(223,255,0,0.15)" : "transparent",
+                borderWidth: done ? "1.5px" : "2px",
+                borderStyle: "solid",
+                borderColor: running ? "#2D3038" : done ? "rgba(223,255,0,0.5)" : "#2D3038",
+                borderTopColor: running ? "#DFFF00" : done ? "rgba(223,255,0,0.5)" : "#2D3038",
                 animation: running ? "cmr-spin 0.7s linear infinite" : undefined,
               }}
             >
