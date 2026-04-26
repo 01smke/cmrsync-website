@@ -8,19 +8,19 @@ export function Logo({
   size?: number;
 }) {
   return (
-    <div className={`flex items-center ${className}`}>
-      <img
-        src={logoSrc}
-        alt="CMRSync logo"
-        width={size}
-        height={size}
-        style={{
-          width: size,
-          height: size,
-          objectFit: "contain",
-          display: "block",
-        }}
-      />
-    </div>
+    <div
+      className={`flex items-center ${className}`}
+      role="img"
+      aria-label="CMRSync logo"
+      style={{
+        width: size,
+        height: size,
+        flexShrink: 0,
+        backgroundImage: `url(${logoSrc})`,
+        backgroundSize: "148%",
+        backgroundPosition: "center center",
+        backgroundRepeat: "no-repeat",
+      }}
+    />
   );
 }
