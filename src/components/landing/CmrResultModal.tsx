@@ -116,10 +116,27 @@ function Section({ title, children }: { title: string; children: React.ReactNode
 }
 
 
+const inputBase: React.CSSProperties = {
+  background: "#0F1115",
+  border: "1px solid #2D3038",
+  borderRadius: 7,
+  padding: "9px 12px",
+  color: "#fff",
+  fontSize: "0.84rem",
+  fontFamily: "Inter, sans-serif",
+  width: "100%",
+  outline: "none",
+  boxSizing: "border-box",
+};
+
 export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
-  const [mounted, setMounted]   = useState(false);
-  const [rendered, setRendered] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [mounted, setMounted]       = useState(false);
+  const [rendered, setRendered]     = useState(false);
+  const [gated, setGated]           = useState(true);
+  const [isMobile, setIsMobile]     = useState(false);
+  const [form, setForm]             = useState({ company: "", phone: "", email: "", cmrs: "" });
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError]   = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -133,11 +150,31 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
   useEffect(() => {
     if (open) {
       setRendered(true);
+      setGated(true);
+      setForm({ company: "", phone: "", email: "", cmrs: "" });
+      setFormError("");
     } else {
       const t = setTimeout(() => setRendered(false), 250);
       return () => clearTimeout(t);
     }
   }, [open]);
+
+  const handleGateSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.company.trim() || !form.email.trim() || !form.phone.trim()) {
+      setFormError("Please fill in all required fields.");
+      return;
+    }
+    setSubmitting(true);
+    fetch("/api/leads", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...form, timestamp: new Date().toISOString() }),
+    }).catch(() => {});
+    await new Promise((r) => setTimeout(r, 300));
+    setSubmitting(false);
+    setGated(false);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -265,6 +302,101 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
         {/* Body */}
         <div style={{ display: "flex", flex: 1, overflow: "hidden", minHeight: 0, position: "relative" }}>
 
+          {/* Gate overlay — sits above blurred content */}
+          {gated && (
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                zIndex: 10,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                background: "rgba(15,17,21,0.6)",
+                backdropFilter: "blur(2px)",
+                overflowY: "auto",
+                padding: isMobile ? "16px 0" : 0,
+              }}
+            >
+              <form
+                onSubmit={handleGateSubmit}
+                style={{
+                  background: "#1C1E24",
+                  border: "1px solid #2D3038",
+                  borderRadius: 12,
+                  padding: isMobile ? "20px 16px 18px" : "28px 28px 24px",
+                  width: "100%",
+                  maxWidth: isMobile ? "94%" : 380,
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: isMobile ? 10 : 14,
+                  boxShadow: "0 20px 60px rgba(0,0,0,0.6)",
+                  flexShrink: 0,
+                }}
+              >
+                <div style={{ textAlign: "center", marginBottom: isMobile ? 2 : 4 }}>
+                  <div style={{ fontSize: isMobile ? "0.92rem" : "1rem", fontWeight: 700, color: "#fff", marginBottom: 4 }}>
+                    Your results are ready
+                  </div>
+                  <div style={{ fontSize: "0.76rem", color: "#9CA3AF", lineHeight: 1.4 }}>
+                    Enter your details to unlock the full extraction.
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <label style={{ fontSize: "0.64rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280" }}>Company Name *</label>
+                  <input type="text" placeholder="Acme Logistics" value={form.company} onChange={(e) => setForm((f) => ({ ...f, company: e.target.value }))} style={inputBase} required />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <label style={{ fontSize: "0.64rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280" }}>Phone Number *</label>
+                  <input type="tel" placeholder="+1 555 000 0000" value={form.phone} onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))} style={inputBase} required />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <label style={{ fontSize: "0.64rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280" }}>Work Email *</label>
+                  <input type="email" placeholder="you@company.com" value={form.email} onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))} style={inputBase} required />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                  <label style={{ fontSize: "0.64rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em", color: "#6B7280" }}>Fleet size</label>
+                  <select value={form.cmrs} onChange={(e) => setForm((f) => ({ ...f, cmrs: e.target.value }))} style={{ ...inputBase, appearance: "none", cursor: "pointer" } as React.CSSProperties}>
+                    <option value="">Select range…</option>
+                    <option value="1-5">1 – 5 vehicles</option>
+                    <option value="6-20">6 – 20 vehicles</option>
+                    <option value="21-50">21 – 50 vehicles</option>
+                    <option value="50+">50+ vehicles</option>
+                  </select>
+                </div>
+
+                {formError && <div style={{ fontSize: "0.76rem", color: "#f87171" }}>{formError}</div>}
+
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  style={{
+                    padding: "10px",
+                    borderRadius: 8,
+                    border: "none",
+                    background: "#DFFF00",
+                    color: "#000",
+                    fontWeight: 700,
+                    fontSize: "0.88rem",
+                    cursor: submitting ? "not-allowed" : "pointer",
+                    opacity: submitting ? 0.7 : 1,
+                    transition: "opacity 0.15s",
+                  }}
+                >
+                  {submitting ? "Unlocking…" : "Show my results →"}
+                </button>
+
+                <div style={{ fontSize: "0.68rem", color: "#4B5563", textAlign: "center" }}>
+                  No spam. Used only to contact you about CMRSync.
+                </div>
+              </form>
+            </div>
+          )}
+
           {/* Photo column — desktop only */}
           {!isMobile && (
           <div
@@ -278,7 +410,10 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               justifyContent: "center",
               padding: 12,
               overflow: "hidden",
-            }}
+              filter: gated ? "blur(7px)" : "none",
+              transition: "filter 0.4s ease",
+              userSelect: gated ? "none" : "auto",
+            } as React.CSSProperties}
           >
             {previewUrl ? (
               <div style={{ position: "relative", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -301,10 +436,14 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
           <div
             style={{
               flex: 1,
-              overflowY: "auto",
+              overflowY: gated ? "hidden" : "auto",
               padding: 0,
               scrollbarWidth: "thin",
               scrollbarColor: "#DFFF00 #1C1E24",
+              filter: gated ? "blur(7px)" : "none",
+              transition: "filter 0.4s ease",
+              userSelect: gated ? "none" : "auto",
+              pointerEvents: gated ? "none" : "auto",
               display: "flex",
               flexDirection: "column",
             } as React.CSSProperties}
