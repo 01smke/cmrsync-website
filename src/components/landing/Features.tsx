@@ -34,50 +34,43 @@ export function Features() {
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">
-          <span className="ui-label">Features</span>
-          <h2 className="h-section mt-3">Built for how freight actually works.</h2>
+          <h2 className="h-section">Built for how freight actually works.</h2>
         </div>
 
-        {/* Featured first card — full width, two-column */}
-        <div className="reveal feature-card mb-4">
-          <div className="grid gap-6 md:grid-cols-2 md:items-center">
-            <h3
-              className="font-display"
-              style={{
-                fontSize: 28,
-                fontWeight: 900,
-                letterSpacing: "-0.03em",
-                color: "#ffffff",
-                lineHeight: 1.1,
-              }}
-            >
-              {features[0].title}
-            </h3>
-            <p className="body-copy" style={{ fontSize: 14 }}>
-              {features[0].body}
-            </p>
-          </div>
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.slice(1).map((f, i) => (
+        <div className="mx-auto max-w-5xl">
+          {features.map((f, i) => (
             <div
               key={f.title}
-              className="reveal feature-card"
-              style={{ transitionDelay: `${i * 50}ms` }}
+              className="reveal flex flex-col gap-4 md:flex-row md:items-start"
+              style={{
+                padding: "24px 0",
+                borderBottom: "1px solid rgba(255,255,255,0.06)",
+                transitionDelay: `${i * 50}ms`,
+              }}
             >
               <h3
                 className="font-display"
                 style={{
-                  fontSize: 17,
+                  fontSize: 18,
                   fontWeight: 700,
                   letterSpacing: "-0.02em",
                   color: "#ffffff",
+                  minWidth: 280,
+                  margin: 0,
+                  borderLeft: i === 0 ? "2px solid #C8FF00" : undefined,
+                  paddingLeft: i === 0 ? 16 : undefined,
                 }}
               >
                 {f.title}
               </h3>
-              <p className="body-copy mt-2" style={{ fontSize: 13 }}>
+              <p
+                style={{
+                  fontSize: 14,
+                  lineHeight: 1.7,
+                  color: "rgba(255,255,255,0.5)",
+                  margin: 0,
+                }}
+              >
                 {f.body}
               </p>
             </div>
