@@ -18,7 +18,7 @@ export function CtaBanner() {
         </p>
         <div className="reveal mt-8 flex flex-wrap items-center justify-center gap-3">
           <a href="#" className="btn-primary">
-            Request Early Access <ArrowRight size={16} />
+            Start Free Trial <ArrowRight size={16} />
           </a>
           <a href="#how" className="btn-ghost">
             See How It Works
