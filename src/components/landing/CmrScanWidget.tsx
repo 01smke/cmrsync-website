@@ -201,8 +201,10 @@ export function CmrScanWidget() {
             Your next free scan unlocks in <span style={{ color: "#DFFF00", fontWeight: 600 }}>{hoursLeft}h</span>.
             <br />Sign up for unlimited scans.
           </p>
-          <a
-            href="#pricing"
+          <button
+            data-cal-link="cmrsync/onboarding-call"
+            data-cal-namespace="onboarding-call"
+            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
             style={{
               display: "inline-block",
               marginTop: 14,
@@ -212,11 +214,12 @@ export function CmrScanWidget() {
               fontWeight: 700,
               fontSize: "0.82rem",
               borderRadius: 8,
-              textDecoration: "none",
+              border: "none",
+              cursor: "pointer",
             }}
           >
             Start your free trial
-          </a>
+          </button>
         </div>
       ) : (
       <div

@@ -72,9 +72,14 @@ export function Hero() {
             </p>
 
             <div className="mt-3 flex flex-wrap items-center gap-4 hero-in hero-in-3 sm:mt-8">
-              <a href="#cta" className="btn-primary btn-primary-glow">
+              <button
+                className="btn-primary btn-primary-glow"
+                data-cal-link="cmrsync/onboarding-call"
+                data-cal-namespace="onboarding-call"
+                data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+              >
                 Start your free trial <ArrowRight size={18} />
-              </a>
+              </button>
             </div>
 
             {/* Trust line — lime accent */}

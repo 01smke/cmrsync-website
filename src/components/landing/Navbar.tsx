@@ -42,9 +42,14 @@ export function Navbar() {
         </div>
 
         <div className="hidden md:block">
-          <a href="#cta" className="btn-primary">
+          <button
+            className="btn-primary"
+            data-cal-link="cmrsync/onboarding-call"
+            data-cal-namespace="onboarding-call"
+            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+          >
             Start your free trial
-          </a>
+          </button>
         </div>
 
         <button
@@ -74,9 +79,15 @@ export function Navbar() {
                 {l.label}
               </a>
             ))}
-            <a href="#cta" onClick={() => setOpen(false)} className="btn-primary mt-2">
+            <button
+              className="btn-primary mt-2"
+              onClick={() => setOpen(false)}
+              data-cal-link="cmrsync/onboarding-call"
+              data-cal-namespace="onboarding-call"
+              data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+            >
               Start your free trial
-            </a>
+            </button>
           </div>
         </div>
       )}

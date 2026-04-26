@@ -17,9 +17,14 @@ export function CtaBanner() {
           Join the early access programme and get 30 days free — no credit card required.
         </p>
         <div className="reveal mt-5 flex flex-wrap items-center justify-center gap-3 sm:mt-8">
-          <a href="#" className="btn-primary">
-            Start Free Trial <ArrowRight size={16} />
-          </a>
+          <button
+            className="btn-primary"
+            data-cal-link="cmrsync/onboarding-call"
+            data-cal-namespace="onboarding-call"
+            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
+          >
+            Start your free trial <ArrowRight size={16} />
+          </button>
           <a href="#how" className="btn-ghost">
             See How It Works
           </a>
