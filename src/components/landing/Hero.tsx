@@ -1,5 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
-import { useEffect, useState } from "react";
+
 
 const trustItems = [
   "GDPR COMPLIANT",
@@ -44,13 +44,6 @@ function AnimatedStat({ stat }: { stat: StatDef }) {
 }
 
 export function Hero() {
-  const [statsIn, setStatsIn] = useState(false);
-
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setStatsIn(true));
-    return () => cancelAnimationFrame(id);
-  }, []);
-
   return (
     <section className="hero relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 pb-24 pt-20 md:pb-32 md:pt-28">
@@ -162,9 +155,7 @@ export function Hero() {
             padding: "28px 48px",
             justifyContent: "space-between",
             gap: 20,
-            opacity: statsIn ? 1 : 0,
-            transform: statsIn ? "translateX(0)" : "translateX(-48px)",
-            transition: "opacity 700ms ease-out, transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+            animation: "statsSlideIn 600ms cubic-bezier(0.22, 1, 0.36, 1) both",
           }}
         >
           {stats.map((s, i) => (
