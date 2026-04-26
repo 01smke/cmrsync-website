@@ -138,6 +138,13 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError]   = useState("");
 
+  const LEAD_KEY   = "cmr_lead_ts";
+  const LEAD_TTL   = 24 * 60 * 60 * 1000;
+  const hasLead = () => {
+    const ts = localStorage.getItem(LEAD_KEY);
+    return !!ts && Date.now() - parseInt(ts, 10) < LEAD_TTL;
+  };
+
   useEffect(() => {
     setMounted(true);
     const check = () => setIsMobile(window.innerWidth < 640);
@@ -150,9 +157,13 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
   useEffect(() => {
     if (open) {
       setRendered(true);
-      setGated(true);
-      setForm({ company: "", phone: "", email: "", cmrs: "" });
-      setFormError("");
+      if (hasLead()) {
+        setGated(false);
+      } else {
+        setGated(true);
+        setForm({ company: "", phone: "", email: "", cmrs: "" });
+        setFormError("");
+      }
     } else {
       const t = setTimeout(() => setRendered(false), 250);
       return () => clearTimeout(t);
@@ -172,6 +183,7 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
       body: JSON.stringify({ ...form, timestamp: new Date().toISOString() }),
     }).catch(() => {});
     await new Promise((r) => setTimeout(r, 300));
+    localStorage.setItem(LEAD_KEY, Date.now().toString());
     setSubmitting(false);
     setGated(false);
   };
