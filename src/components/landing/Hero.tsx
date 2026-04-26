@@ -117,7 +117,7 @@ export function Hero() {
                     marginBottom: 8,
                   }}
                 >
-                  ✦ Try it free — no account needed
+                  Try it for free
                 </span>
                 <h3
                   style={{

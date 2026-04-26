@@ -190,7 +190,7 @@ export function CmrScanWidget() {
             boxShadow: "0 0 20px rgba(223,255,0,0.28), 0 4px 14px rgba(0,0,0,0.45)",
           }}
         >
-          ⚡ Extract CMR Fields
+          Extract CMR Fields
         </button>
       )}
 
