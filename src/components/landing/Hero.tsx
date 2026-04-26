@@ -155,9 +155,7 @@ export function Hero() {
             padding: "28px 48px",
             justifyContent: "space-between",
             gap: 20,
-            opacity: statsIn ? 1 : 0,
-            transform: statsIn ? "translateX(0)" : "translateX(-48px)",
-            transition: "opacity 700ms ease-out, transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
+            animation: "statsSlideIn 600ms cubic-bezier(0.22, 1, 0.36, 1) both",
           }}
         >
           {stats.map((s, i) => (
