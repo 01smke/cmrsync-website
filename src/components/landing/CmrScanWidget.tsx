@@ -1,4 +1,5 @@
 import { useRef, useState, useCallback, useEffect } from "react";
+import { Lock, FileText } from "lucide-react";
 import { CmrResultModal } from "./CmrResultModal";
 
 type CmrData = Record<string, unknown>;
@@ -113,8 +114,14 @@ export function CmrScanWidget() {
     return remaining > 0 ? Math.ceil(remaining / (60 * 60 * 1000)) : 0;
   };
 
-  const [hoursLeft, setHoursLeft] = useState(() => getHoursLeft());
+  const [hoursLeft, setHoursLeft] = useState(0);
   const scanLocked = hoursLeft > 0;
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(SCAN_TS_KEY);
+    }
+  }, []);
 
   const handleFile = useCallback((file: File) => {
     setSelectedFile(file);
@@ -184,7 +191,9 @@ export function CmrScanWidget() {
             border: "2px dashed rgba(45,48,56,0.8)",
           }}
         >
-          <div style={{ fontSize: "2rem", marginBottom: 10 }}>🔒</div>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 10 }}>
+            <Lock size={32} color="#DFFF00" strokeWidth={1.8} />
+          </div>
           <p style={{ color: "#fff", fontWeight: 700, fontSize: "0.95rem", marginBottom: 6 }}>
             Free scan used
           </p>
@@ -206,7 +215,7 @@ export function CmrScanWidget() {
               textDecoration: "none",
             }}
           >
-            See plans →
+            Start your free trial
           </a>
         </div>
       ) : (
@@ -250,7 +259,9 @@ export function CmrScanWidget() {
           />
         ) : (
           <>
-            <div style={{ fontSize: "2.2rem", marginBottom: 12, color: "rgba(223,255,0,0.45)" }}>📄</div>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 12 }}>
+              <FileText size={36} color="rgba(223,255,0,0.45)" strokeWidth={1.5} />
+            </div>
             <p style={{ color: "#9CA3AF", fontSize: "0.88rem", lineHeight: 1.6, marginBottom: 4 }}>
               Drag &amp; drop your CMR photo here
             </p>
