@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+
 const steps = [
   {
     title: "Driver takes a photo",
@@ -14,11 +16,66 @@ const steps = [
 ];
 
 export function HowItWorks() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const stepRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const [activeSteps, setActiveSteps] = useState<boolean[]>(() =>
+    steps.map(() => false)
+  );
+  const [fillHeight, setFillHeight] = useState(0);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+
+    stepRefs.current.forEach((el, i) => {
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => {
+          setActiveSteps((prev) => {
+            if (prev[i] === entry.isIntersecting) return prev;
+            const next = [...prev];
+            next[i] = entry.isIntersecting;
+            return next;
+          });
+        },
+        { threshold: 0.3 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  useEffect(() => {
+    const onScroll = () => {
+      const container = containerRef.current;
+      if (!container) return;
+      const rect = container.getBoundingClientRect();
+      const vh = window.innerHeight;
+      // progress: 0 when container top hits viewport bottom, 1 when container bottom passes viewport mid
+      const total = rect.height + vh * 0.5;
+      const scrolled = vh - rect.top;
+      const pct = Math.max(0, Math.min(1, scrolled / total));
+      setFillHeight(pct * 100);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+
   return (
     <section
       id="how"
       className="px-6 py-20 backdrop-blur-md md:py-24"
-      style={{ background: "rgba(15, 17, 21, 0.78)", borderTop: "1px solid #2D3038", borderBottom: "1px solid #2D3038" }}
+      style={{
+        background: "rgba(15, 17, 21, 0.78)",
+        borderTop: "1px solid #2D3038",
+        borderBottom: "1px solid #2D3038",
+      }}
     >
       <div className="mx-auto max-w-7xl">
         <div className="reveal mx-auto mb-12 max-w-2xl text-center">
@@ -26,56 +83,112 @@ export function HowItWorks() {
           <h2 className="h-section mt-3">Three steps from paper to paid.</h2>
         </div>
 
-        <div className="mx-auto max-w-5xl">
-          {steps.map((s, i) => (
-            <div
-              key={s.title}
-              className="reveal flex flex-col items-start gap-6 md:flex-row md:items-center"
-              style={{
-                padding: "32px 0",
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
-                transitionDelay: `${i * 80}ms`,
-              }}
-            >
+        <div ref={containerRef} className="relative mx-auto max-w-5xl">
+          {/* Base vertical track */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute"
+            style={{
+              left: 48,
+              top: 0,
+              bottom: 0,
+              width: 1,
+              background: "rgba(255,255,255,0.08)",
+            }}
+          />
+          {/* Animated lime fill */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute"
+            style={{
+              left: 48,
+              top: 0,
+              width: 1,
+              height: `${fillHeight}%`,
+              background: "#C8FF00",
+              transition: "height 0.2s linear",
+              boxShadow: "0 0 8px rgba(200,255,0,0.5)",
+            }}
+          />
+
+          {steps.map((s, i) => {
+            const active = activeSteps[i];
+            return (
               <div
-                className="font-display"
+                key={s.title}
+                ref={(el) => {
+                  stepRefs.current[i] = el;
+                }}
+                className="relative flex flex-col items-start gap-6 md:flex-row md:items-center"
                 style={{
-                  fontSize: 72,
-                  fontWeight: 900,
-                  letterSpacing: "-0.05em",
-                  lineHeight: 1,
-                  minWidth: 100,
-                  color: i === 0 ? "rgba(200,255,0,0.15)" : "rgba(255,255,255,0.06)",
+                  padding: "32px 0",
+                  borderBottom: "1px solid rgba(255,255,255,0.06)",
+                  opacity: active ? 1 : 0,
+                  transform: active ? "translateY(0)" : "translateY(16px)",
+                  transition: `opacity 0.5s ease ${i * 150}ms, transform 0.5s ease ${i * 150}ms`,
                 }}
               >
-                {String(i + 1).padStart(2, "0")}
+                {/* Lime dot on the track */}
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute"
+                  style={{
+                    left: 48 - 4,
+                    top: 56,
+                    width: 8,
+                    height: 8,
+                    borderRadius: "50%",
+                    background: "#C8FF00",
+                    opacity: active ? 1 : 0.2,
+                    boxShadow: active ? "0 0 12px rgba(200,255,0,0.6)" : "none",
+                    transition: "opacity 0.6s ease, box-shadow 0.6s ease",
+                  }}
+                />
+
+                <div
+                  className="font-display"
+                  style={{
+                    fontSize: 72,
+                    fontWeight: 900,
+                    letterSpacing: "-0.05em",
+                    lineHeight: 1,
+                    minWidth: 100,
+                    paddingLeft: 80,
+                    color: active
+                      ? "rgba(200,255,0,0.3)"
+                      : "rgba(255,255,255,0.06)",
+                    transition: "color 0.6s ease",
+                  }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </div>
+                <h3
+                  className="font-display"
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 700,
+                    letterSpacing: "-0.02em",
+                    color: "#ffffff",
+                    minWidth: 220,
+                    margin: 0,
+                  }}
+                >
+                  {s.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: 14,
+                    lineHeight: 1.7,
+                    color: "rgba(255,255,255,0.5)",
+                    maxWidth: 420,
+                    margin: 0,
+                  }}
+                >
+                  {s.body}
+                </p>
               </div>
-              <h3
-                className="font-display"
-                style={{
-                  fontSize: 20,
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#ffffff",
-                  minWidth: 220,
-                  margin: 0,
-                }}
-              >
-                {s.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: 14,
-                  lineHeight: 1.7,
-                  color: "rgba(255,255,255,0.5)",
-                  maxWidth: 420,
-                  margin: 0,
-                }}
-              >
-                {s.body}
-              </p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
