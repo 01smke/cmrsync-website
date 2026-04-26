@@ -128,7 +128,6 @@ const inputBase: React.CSSProperties = {
   boxSizing: "border-box",
 };
 
-const LS_KEY = "cmr_lead_unlocked";
 
 export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
   const [mounted, setMounted]       = useState(false);
@@ -151,9 +150,7 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
   useEffect(() => {
     if (open) {
       setRendered(true);
-      // Skip gate if already submitted before
-      const alreadyUnlocked = typeof window !== "undefined" && localStorage.getItem(LS_KEY) === "1";
-      setGated(!alreadyUnlocked);
+      setGated(true);
       setForm({ company: "", phone: "", email: "", cmrs: "" });
       setFormError("");
     } else {
@@ -187,7 +184,6 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
       body: JSON.stringify({ ...form, timestamp: new Date().toISOString() }),
     }).catch(() => {});
     await new Promise((r) => setTimeout(r, 300));
-    localStorage.setItem(LS_KEY, "1");
     setSubmitting(false);
     setGated(false);
   };
@@ -572,8 +568,10 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               50%       { box-shadow: 0 0 32px rgba(223,255,0,0.75), 0 0 60px rgba(223,255,0,0.35), 0 2px 12px rgba(0,0,0,0.4); }
             }
           `}</style>
-          <a
-            href="#pricing"
+          <button
+            data-cal-link="cmrsync/onboarding-call"
+            data-cal-namespace="onboarding-call"
+            data-cal-config='{"layout":"month_view","useSlotsViewOnSmallScreen":"true"}'
             onClick={onClose}
             style={{
               display: "inline-flex",
@@ -587,12 +585,11 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               fontSize: "0.88rem",
               fontWeight: 700,
               cursor: "pointer",
-              textDecoration: "none",
               animation: "cmr-glow-pulse 1.6s ease-in-out infinite",
             }}
           >
             Start Free Trial <ArrowRight size={14} />
-          </a>
+          </button>
         </div>
       </div>
     </>,
