@@ -1,4 +1,5 @@
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import { CmrScanWidget } from "./CmrScanWidget";
 
 
 const trustItems = [
@@ -89,44 +90,51 @@ export function Hero() {
             </p>
           </div>
 
-          {/* RIGHT — VIDEO */}
+          {/* RIGHT — CMR SCAN WIDGET */}
           <div className="w-full hero-video-in">
             <div
-              className="card relative w-full overflow-hidden"
               style={{
-                aspectRatio: "16 / 9",
-                background: "#141414",
-                border: "1px solid rgba(200,255,0,0.15)",
-                boxShadow:
-                  "inset 0 0 60px rgba(0,0,0,0.4), 0 0 40px rgba(200,255,0,0.04), 0 30px 80px rgba(0,0,0,0.6)",
+                background: "rgba(20,20,20,0.6)",
+                border: "1px solid rgba(200,255,0,0.12)",
+                borderRadius: 16,
+                padding: "20px 20px 24px",
+                boxShadow: "0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(200,255,0,0.04)",
               }}
             >
-              <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 sm:gap-5">
-                <div
-                  className="flex h-14 w-14 items-center justify-center sm:h-[88px] sm:w-[88px]"
+              <div style={{ marginBottom: 14 }}>
+                <span
                   style={{
-                    borderRadius: "50%",
-                    background: "#ffffff",
-                    boxShadow: "0 12px 40px rgba(0,0,0,0.55)",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    border: "1px solid rgba(223,255,0,0.3)",
+                    background: "rgba(223,255,0,0.07)",
+                    color: "#DFFF00",
+                    borderRadius: 999,
+                    padding: "4px 12px",
+                    fontSize: "0.72rem",
+                    fontWeight: 600,
+                    marginBottom: 8,
                   }}
                 >
-                  <Play
-                    className="h-5 w-5 sm:h-8 sm:w-8"
-                    fill="#000000"
-                    color="#000000"
-                    style={{ marginLeft: 3 }}
-                  />
-                </div>
-                <div className="text-center">
-                  <div
-                    className="font-display text-sm sm:text-[22px]"
-                    style={{ color: "#ffffff", fontWeight: 600, letterSpacing: "-0.02em" }}
-                  >
-                    Product demo coming soon
-                  </div>
-                  <div className="ui-label mt-1 sm:mt-2" style={{ fontSize: 11 }}>Video placeholder</div>
-                </div>
+                  ✦ Try it free — no account needed
+                </span>
+                <h3
+                  style={{
+                    fontSize: "1.1rem",
+                    fontWeight: 700,
+                    color: "#fff",
+                    marginBottom: 4,
+                    letterSpacing: "-0.02em",
+                  }}
+                >
+                  Scan your first CMR now
+                </h3>
+                <p style={{ fontSize: "0.8rem", color: "#9CA3AF", lineHeight: 1.5 }}>
+                  Drop any CMR photo — AI reads every field instantly.
+                </p>
               </div>
+              <CmrScanWidget />
             </div>
           </div>
         </div>

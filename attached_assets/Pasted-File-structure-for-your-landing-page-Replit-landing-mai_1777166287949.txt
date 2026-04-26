@@ -1,0 +1,553 @@
+File structure for your landing page Replit
+landing/
+  main.py
+  extractor.py
+  templates/
+    index.html
+  requirements.txt
+
+requirements.txt
+flask
+anthropic
+flask-cors
+
+extractor.py
+Paste this exactly — it's the same Claude vision logic from this project:
+
+import os, json, base64, re
+import anthropic
+_client = None
+def _get_client():
+    global _client
+    if _client is None:
+        _client = anthropic.Anthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+    return _client
+SYSTEM_PROMPT = """\
+You are an expert logistics document analyzer specializing in CMR (International Consignment Notes). \
+Your goal is to extract handwritten and printed text from images with maximum accuracy.
+CRITICAL INSTRUCTIONS:
+- Do not be overly cautious. If you can make a highly probable guess at a handwritten word, provide that guess.
+- Contextual Clues: Use the surrounding printed text (e.g., "Sender", "Consignee", "Gross weight") to identify which box you are reading.
+- Handwriting Focus: Prioritize the handwritten ink over the printed form lines.
+- Formatting: Return the data in strict JSON. If a field is completely blank or unreadable, only then use "Not legible". Otherwise, provide the most likely text.
+- Specific Fields to hunt for:
+  * Field 1:  Sender name and address (top left).
+  * Field 2:  Consignee/receiver name and address (middle left).
+  * Field 16: Carrier name and address — look for the box labeled "Carrier" or "Vežėjas" (usually upper-right area).
+  * Field 17: Successive/following carriers — look for "Successive carriers" label.
+  * Driver:   Look for "Naam Chauffeur", "Driver", "Vairuotojas", or a signature block with a name.
+  * Field 25: Truck plate / vehicle registration — look for plate-like text (e.g. "KDF 056").
+  * Field 3:  Place of delivery.
+  * Field 4:  Place and date of taking over / pickup.
+  * Field 6/9: Quantity and item descriptions.
+  * Field 11: Gross weight in kg.
+  * Field 12: Volume in m³.
+  * Field 21: Date of issue AND any Incoterms/shipping terms (e.g. "DAP Genoa", "EXW", "CIF").
+  * Stamps:   CRITICALLY look for any red or blue rectangular/oval stamps. If a stamp contains a date, extract it as stamp_date.
+  * Notes/contacts: Look in any free-text boxes or margins for ship names, contact persons, phone numbers, or email addresses.\
+"""
+USER_PROMPT = """\
+Extract all CMR fields from this document image and return ONLY a JSON object. \
+No text before or after the JSON. No markdown code fences.
+Return this exact structure:
+{
+  "sender":             { "name": "...", "address": "...", "country": "..." },
+  "consignee":          { "name": "...", "address": "...", "country": "..." },
+  "carrier_name":       "...",
+  "following_carriers": "...",
+  "place_of_delivery":  "...",
+  "pickup_location":    "...",
+  "pickup_date":        "...",
+  "goods_description":  "...",
+  "gross_weight_kg":    "...",
+  "volume_m3":          "...",
+  "driver_name":        "...",
+  "truck_plate":        "...",
+  "shipping_terms":     "...",
+  "document_date":      "...",
+  "stamp_date":         "...",
+  "ship_name":          "...",
+  "contact_person":     "...",
+  "contact_info":       "..."
+}
+"""
+def extract_cmr_fields(image_bytes: bytes, media_type: str = "image/jpeg") -> dict:
+    client = _get_client()
+    b64 = base64.standard_b64encode(image_bytes).decode()
+    msg = client.messages.create(
+        model="claude-opus-4-5",
+        max_tokens=1500,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": [
+            {"type": "image", "source": {"type": "base64", "media_type": media_type, "data": b64}},
+            {"type": "text",  "text": USER_PROMPT}
+        ]}]
+    )
+    raw = msg.content[0].text.strip()
+    m = re.search(r"\{.*\}", raw, re.DOTALL)
+    if m:
+        raw = m.group(0)
+    try:
+        return json.loads(raw)
+    except Exception:
+        return {"_error": "Could not parse response", "_raw": raw[:400]}
+
+main.py
+import os, time
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+from extractor import extract_cmr_fields
+app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+# Simple in-memory rate limit: 1 free scan per IP
+_used = {}   # ip -> timestamp
+COOLDOWN = 86400  # 24 hours in seconds
+@app.route("/")
+def index():
+    return render_template("index.html")
+@app.route("/api/free-scan", methods=["POST", "OPTIONS"])
+def free_scan():
+    if request.method == "OPTIONS":
+        return "", 204
+    ip = request.headers.get("X-Forwarded-For", request.remote_addr).split(",")[0].strip()
+    now = time.time()
+    if ip in _used and (now - _used[ip]) < COOLDOWN:
+        remaining = int(COOLDOWN - (now - _used[ip])) // 3600
+        return jsonify({"error": f"One free scan per day. Try again in ~{remaining}h."}), 429
+    f = request.files.get("file")
+    if not f:
+        return jsonify({"error": "No file uploaded."}), 400
+    mime = f.content_type or "image/jpeg"
+    allowed = ("image/jpeg", "image/png", "image/webp", "image/gif", "image/tiff")
+    if mime not in allowed:
+        return jsonify({"error": "Please upload a JPEG, PNG, or WebP image."}), 400
+    data = f.read()
+    if len(data) > 12 * 1024 * 1024:
+        return jsonify({"error": "File too large. Max 12 MB."}), 400
+    try:
+        result = extract_cmr_fields(data, mime)
+        _used[ip] = now
+        return jsonify({"ok": True, "data": result})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 3000))
+    app.run(host="0.0.0.0", port=port)
+
+templates/index.html — the scan widget section
+Replace your VSL block with this. The CSS variables at the top match your exact Neon-Slate theme:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>CMRsync — Free CMR Scan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"/>
+<style>
+:root {
+  --bg:      #0F1115;
+  --surface: #1C1E24;
+  --border:  #2D3038;
+  --lime:    #DFFF00;
+  --lime2:   #AADD00;
+  --muted:   #9CA3AF;
+  --faint:   #6B7280;
+  --danger:  #f87171;
+  --green:   #4ade80;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:#fff;min-height:100vh}
+h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;letter-spacing:-0.03em}
+/* ── FREE SCAN SECTION ── */
+.scan-section {
+  max-width: 780px;
+  margin: 80px auto;
+  padding: 0 20px;
+}
+.scan-section .section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(223,255,0,0.3);
+  background: rgba(223,255,0,0.07);
+  color: var(--lime);
+  border-radius: 999px;
+  padding: 5px 14px;
+  font-size: 0.75rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+.scan-section h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.scan-section .sub {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 36px;
+  max-width: 520px;
+}
+/* Drop zone */
+.drop-zone {
+  position: relative;
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  background: var(--surface);
+}
+.drop-zone.drag-over {
+  border-color: rgba(223,255,0,0.5);
+  background: rgba(223,255,0,0.04);
+}
+.drop-zone input[type=file] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+.drop-icon {
+  font-size: 2.4rem;
+  margin-bottom: 14px;
+  color: rgba(223,255,0,0.4);
+}
+.drop-zone p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+.drop-zone small {
+  color: var(--faint);
+  font-size: 0.73rem;
+}
+.drop-zone .or-btn {
+  display: inline-block;
+  margin-top: 16px;
+  background: var(--lime);
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 22px;
+  cursor: pointer;
+  pointer-events: none;  /* clicks pass through to the file input */
+  box-shadow: 0 0 20px rgba(223,255,0,0.25), 0 4px 14px rgba(0,0,0,0.4);
+}
+/* Preview thumb */
+#previewThumb {
+  display: none;
+  margin: 20px auto 0;
+  max-height: 160px;
+  max-width: 100%;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  object-fit: contain;
+}
+/* Scan button */
+#scanBtn {
+  display: none;
+  width: 100%;
+  margin-top: 20px;
+  padding: 13px;
+  background: var(--lime);
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  box-shadow: 0 0 20px rgba(223,255,0,0.28), 0 4px 14px rgba(0,0,0,0.45);
+}
+#scanBtn:hover {
+  transform: scale(1.02) translateY(-1px);
+  box-shadow: 0 0 36px rgba(223,255,0,0.46), 0 6px 20px rgba(0,0,0,0.5);
+}
+#scanBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+/* Status line */
+#statusLine {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  width: 14px; height: 14px;
+  border: 2px solid var(--border);
+  border-top-color: var(--lime);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+/* Error banner */
+#errorBanner {
+  display: none;
+  margin-top: 16px;
+  padding: 10px 14px;
+  background: rgba(248,113,113,0.08);
+  border: 1px solid rgba(248,113,113,0.2);
+  border-radius: 8px;
+  color: var(--danger);
+  font-size: 0.83rem;
+}
+/* Results card */
+#resultsCard {
+  display: none;
+  margin-top: 28px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--lime);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 20px rgba(223,255,0,0.06);
+  animation: card-in 0.3s ease both;
+}
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.rc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+}
+.rc-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+.rc-badge {
+  background: rgba(74,222,128,0.12);
+  color: var(--green);
+  border: 1px solid rgba(74,222,128,0.25);
+  border-radius: 6px;
+  padding: 2px 9px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.rc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+@media (max-width: 540px) { .rc-grid { grid-template-columns: 1fr; } }
+.rc-field {
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(45,48,56,0.6);
+  border-right: 1px solid rgba(45,48,56,0.4);
+}
+.rc-field:nth-child(even) { border-right: none; }
+.rc-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--faint);
+  margin-bottom: 3px;
+}
+.rc-value {
+  font-size: 0.83rem;
+  color: #e5e7eb;
+  word-break: break-word;
+}
+.rc-value.highlight { color: var(--lime); font-weight: 600; }
+.rc-value.empty { color: var(--border); font-style: italic; }
+.rc-footer {
+  padding: 14px 18px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.rc-cta-text {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.rc-cta-text strong { color: #fff; }
+.rc-cta-btn {
+  background: var(--lime);
+  color: #000;
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 0 18px rgba(223,255,0,0.25);
+  text-decoration: none;
+}
+.rc-cta-btn:hover { background: var(--lime2); }
+</style>
+</head>
+<body>
+<section class="scan-section">
+  <div class="section-badge">✦ Try it free — no account needed</div>
+  <h2>Scan your first CMR now</h2>
+  <p class="sub">Drop any CMR waybill photo below. Our AI reads every field — sender, consignee, weight, truck plate, stamps — and returns structured data in seconds. Exactly what every driver sends us on Telegram.</p>
+  <div class="drop-zone" id="dropZone">
+    <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp"/>
+    <div class="drop-icon">📄</div>
+    <p>Drag &amp; drop your CMR photo here</p>
+    <small>JPEG · PNG · WebP · max 12 MB</small><br/>
+    <span class="or-btn">Choose File</span>
+  </div>
+  <img id="previewThumb" alt="CMR preview"/>
+  <button id="scanBtn" onclick="runScan()">⚡ Extract CMR Fields</button>
+  <div id="statusLine">
+    <div class="spinner"></div>
+    <span id="statusText">Sending to Claude AI…</span>
+  </div>
+  <div id="errorBanner"></div>
+  <div id="resultsCard">
+    <div class="rc-header">
+      <span class="rc-title">Extracted CMR Data</span>
+      <span class="rc-badge">✓ Extracted</span>
+    </div>
+    <div class="rc-grid" id="rcGrid"></div>
+    <div class="rc-footer">
+      <div class="rc-cta-text">
+        <strong>This runs on every CMR your drivers send via Telegram.</strong><br/>
+        Unlimited scans, PDF invoices, bundle export — from €49/mo.
+      </div>
+      <a href="#pricing" class="rc-cta-btn">Start Free Trial →</a>
+    </div>
+  </div>
+</section>
+<script>
+const FIELD_LABELS = {
+  sender:             'Sender',
+  consignee:          'Consignee',
+  carrier_name:       'Carrier',
+  following_carriers: 'Following Carriers',
+  place_of_delivery:  'Place of Delivery',
+  pickup_location:    'Pickup Location',
+  pickup_date:        'Pickup Date',
+  goods_description:  'Goods',
+  gross_weight_kg:    'Gross Weight (kg)',
+  volume_m3:          'Volume (m³)',
+  driver_name:        'Driver',
+  truck_plate:        'Truck Plate',
+  shipping_terms:     'Shipping Terms',
+  document_date:      'Document Date',
+  stamp_date:         'Stamp Date',
+  ship_name:          'Vessel Name',
+  contact_person:     'Contact Person',
+  contact_info:       'Contact Info',
+};
+const HIGHLIGHT_FIELDS = ['truck_plate','driver_name','gross_weight_kg','document_date'];
+let selectedFile = null;
+// Drag & drop
+const dz = document.getElementById('dropZone');
+dz.addEventListener('dragover',  e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault(); dz.classList.remove('drag-over');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+document.getElementById('fileInput').addEventListener('change', e => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+function handleFile(file) {
+  selectedFile = file;
+  const thumb = document.getElementById('previewThumb');
+  thumb.src = URL.createObjectURL(file);
+  thumb.style.display = 'block';
+  document.getElementById('scanBtn').style.display = 'block';
+  document.getElementById('resultsCard').style.display = 'none';
+  document.getElementById('errorBanner').style.display = 'none';
+}
+async function runScan() {
+  if (!selectedFile) return;
+  const btn    = document.getElementById('scanBtn');
+  const status = document.getElementById('statusLine');
+  const err    = document.getElementById('errorBanner');
+  const result = document.getElementById('resultsCard');
+  btn.disabled = true;
+  status.style.display = 'flex';
+  err.style.display    = 'none';
+  result.style.display = 'none';
+  document.getElementById('statusText').textContent = 'Sending to Claude AI…';
+  const fd = new FormData();
+  fd.append('file', selectedFile);
+  try {
+    // 👇 Change this URL to your deployed Flask backend
+    const res  = await fetch('/api/free-scan', { method: 'POST', body: fd });
+    const json = await res.json();
+    if (!res.ok || json.error) {
+      throw new Error(json.error || 'Something went wrong.');
+    }
+    renderResults(json.data);
+    result.style.display = 'block';
+  } catch (e) {
+    err.textContent      = e.message;
+    err.style.display    = 'block';
+  } finally {
+    btn.disabled         = false;
+    status.style.display = 'none';
+  }
+}
+function renderResults(data) {
+  const grid = document.getElementById('rcGrid');
+  grid.innerHTML = '';
+  for (const [key, label] of Object.entries(FIELD_LABELS)) {
+    let raw = data[key];
+    let display = '';
+    if (raw && typeof raw === 'object') {
+      // sender / consignee are objects
+      display = [raw.name, raw.address, raw.country].filter(Boolean).join(', ');
+    } else {
+      display = raw || '';
+    }
+    const isEmpty   = !display || display === 'Not legible';
+    const isHighlight = HIGHLIGHT_FIELDS.includes(key) && !isEmpty;
+    grid.insertAdjacentHTML('beforeend', `
+      <div class="rc-field">
+        <div class="rc-label">${label}</div>
+        <div class="rc-value ${isHighlight ? 'highlight' : ''} ${isEmpty ? 'empty' : ''}">
+          ${isEmpty ? '—' : escHtml(display)}
+        </div>
+      </div>
+    `);
+  }
+}
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
+
+What you need to do in your landing page Replit
+Set secret → add ANTHROPIC_API_KEY in the Secrets tab
+Set the workflow command to python main.py
+Point the fetch URL — in the index.html JS, the line fetch('/api/free-scan', ...) works as-is if the Flask app serves the page. If you're calling it from a separate Lovable site, replace it with your deployed Replit backend URL:
+const res = await fetch('https://YOUR-REPLIT-SLUG.replit.app/api/free-scan', { ... });
+
+Rename the redirect link — update the href="#pricing" on the CTA button to wherever your pricing section lives
+That's it. The scan flow, the result card design, and the Claude extraction are all identical to what runs in this app.
