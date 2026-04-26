@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+
 const features = [
   {
     title: "No manual entry",
@@ -25,7 +27,101 @@ const features = [
   },
 ];
 
+function FeatureCard({
+  title,
+  body,
+  index,
+  visible,
+  featured,
+}: {
+  title: string;
+  body: string;
+  index: number;
+  visible: boolean;
+  featured: boolean;
+}) {
+  const [hover, setHover] = useState(false);
+
+  const baseBg = featured ? "rgba(200,255,0,0.05)" : "rgba(255,255,255,0.03)";
+  const hoverBg = featured ? "rgba(200,255,0,0.08)" : "rgba(255,255,255,0.05)";
+  const baseBorder = featured ? "rgba(200,255,0,0.15)" : "rgba(255,255,255,0.06)";
+  const hoverBorder = featured ? "rgba(200,255,0,0.25)" : "rgba(255,255,255,0.12)";
+
+  const titleColor = featured
+    ? "#C8FF00"
+    : hover
+      ? "rgba(255,255,255,0.9)"
+      : "#ffffff";
+  const titleLetterSpacing = featured
+    ? "-0.02em"
+    : hover
+      ? "-0.025em"
+      : "-0.02em";
+
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        background: hover ? hoverBg : baseBg,
+        border: `1px solid ${hover ? hoverBorder : baseBorder}`,
+        borderRadius: 16,
+        padding: "32px 28px",
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(20px)",
+        transition: `all 0.5s ease ${index * 80}ms`,
+      }}
+    >
+      <h3
+        className="font-display"
+        style={{
+          fontSize: 17,
+          fontWeight: 700,
+          letterSpacing: titleLetterSpacing,
+          color: titleColor,
+          margin: 0,
+          marginBottom: 10,
+          transition: "color 0.2s ease, letter-spacing 0.2s ease",
+        }}
+      >
+        {title}
+      </h3>
+      <p
+        style={{
+          fontSize: 13,
+          lineHeight: 1.7,
+          color: "rgba(255,255,255,0.45)",
+          margin: 0,
+        }}
+      >
+        {body}
+      </p>
+    </div>
+  );
+}
+
 export function Features() {
+  const gridRef = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setVisible(true);
+            observer.disconnect();
+          }
+        }
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       id="features"
@@ -37,43 +133,19 @@ export function Features() {
           <h2 className="h-section">Built for how freight actually works.</h2>
         </div>
 
-        <div className="mx-auto max-w-5xl">
+        <div
+          ref={gridRef}
+          className="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+        >
           {features.map((f, i) => (
-            <div
+            <FeatureCard
               key={f.title}
-              className="reveal flex flex-col gap-4 md:flex-row md:items-start"
-              style={{
-                padding: "24px 0",
-                borderBottom: "1px solid rgba(255,255,255,0.06)",
-                transitionDelay: `${i * 50}ms`,
-              }}
-            >
-              <h3
-                className="font-display"
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  letterSpacing: "-0.02em",
-                  color: "#ffffff",
-                  minWidth: 280,
-                  margin: 0,
-                  borderLeft: i === 0 ? "2px solid #C8FF00" : undefined,
-                  paddingLeft: i === 0 ? 16 : undefined,
-                }}
-              >
-                {f.title}
-              </h3>
-              <p
-                style={{
-                  fontSize: 14,
-                  lineHeight: 1.7,
-                  color: "rgba(255,255,255,0.5)",
-                  margin: 0,
-                }}
-              >
-                {f.body}
-              </p>
-            </div>
+              title={f.title}
+              body={f.body}
+              index={i}
+              visible={visible}
+              featured={i === 0}
+            />
           ))}
         </div>
       </div>
