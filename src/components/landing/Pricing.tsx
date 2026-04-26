@@ -2,13 +2,12 @@ import { Check } from "lucide-react";
 
 const features = [
   "Unlimited CMRs per truck",
-  "Telegram bot driver intake",
-  "Claude AI Vision extraction",
+  "WhatsApp, Viber or Telegram driver intake",
   "Live dashboard & search",
   "PDF invoice generator (branded)",
   "CSV / TMS / accounting export",
   "EU-hosted & GDPR-compliant",
-  "Email support",
+  "24/7 support",
 ];
 
 export function Pricing() {
@@ -87,7 +86,7 @@ export function Pricing() {
               Start Free Trial
             </a>
             <p className="mt-3 text-center text-xs" style={{ color: "#6B7280" }}>
-              30-day free trial · No credit card required
+              14-day free trial · No credit card required
             </p>
           </div>
         </div>
