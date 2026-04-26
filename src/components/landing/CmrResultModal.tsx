@@ -158,19 +158,26 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
         }}
       />
 
-      {/* Full-screen card */}
+      {/* Floating card — centred with visible site behind */}
       <div
         style={{
           position: "fixed",
-          inset: 0,
+          top: "4vh",
+          left: "4vw",
+          right: "4vw",
+          bottom: "4vh",
           zIndex: 301,
           background: "#0F1115",
+          border: "1px solid #2D3038",
+          borderRadius: 14,
           display: "flex",
           flexDirection: "column",
           opacity: open ? 1 : 0,
-          transform: open ? "scale(1)" : "scale(0.98)",
+          transform: open ? "scale(1)" : "scale(0.97)",
           transition: "opacity 0.2s ease, transform 0.2s ease",
           pointerEvents: open ? "auto" : "none",
+          overflow: "hidden",
+          boxShadow: "0 24px 80px rgba(0,0,0,0.7)",
         }}
       >
         {/* Top bar */}
@@ -183,22 +190,12 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
             borderBottom: "1px solid #2D3038",
             flexShrink: 0,
             background: "#1C1E24",
+            borderRadius: "14px 14px 0 0",
             position: "relative",
           }}
         >
-          <span
-            style={{
-              background: "rgba(74,222,128,0.12)",
-              color: "#4ade80",
-              border: "1px solid rgba(74,222,128,0.2)",
-              borderRadius: 5,
-              padding: "2px 8px",
-              fontSize: "0.66rem",
-              fontWeight: 700,
-            }}
-          >
-            Extracted
-          </span>
+          {/* spacer so close button pushes to the right */}
+          <div style={{ width: 30 }} />
 
           {/* Centered title */}
           <div
@@ -340,6 +337,7 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
             alignItems: "center",
             justifyContent: "center",
             background: "#1C1E24",
+            borderRadius: "0 0 14px 14px",
           }}
         >
           <style>{`
