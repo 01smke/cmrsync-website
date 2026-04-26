@@ -2,13 +2,12 @@ import express from "express";
 import cors from "cors";
 import multer from "multer";
 import Anthropic from "@anthropic-ai/sdk";
-import { createRequire } from "module";
 import { fileURLToPath } from "url";
 import path from "path";
-import fs from "fs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const isProd = process.env.NODE_ENV === "production";
+const distPath = path.join(__dirname, "dist", "client");
+const isProd = process.env.NODE_ENV === "production" || !!process.env.PORT;
 
 const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 12 * 1024 * 1024 } });
@@ -158,7 +157,6 @@ app.get("/api/leads", (req, res) => {
 
 // In production, serve the built SPA + fall through to index.html
 if (isProd) {
-  const distPath = path.join(__dirname, "dist", "client");
   app.use(express.static(distPath));
   // SPA fallback — serve index.html for any non-API route
   app.use((req, res, next) => {

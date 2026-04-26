@@ -19,12 +19,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist/*
-!dist/client/
-dist/client/assets
-dist/client/*.png
-dist/client/*.ico
-dist/client/*.webmanifest
+dist/assets
 dist-ssr
 .output
 .vinxi
