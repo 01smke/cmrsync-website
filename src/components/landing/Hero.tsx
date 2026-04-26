@@ -80,7 +80,7 @@ export function Hero() {
               className="mt-5 hero-in hero-in-4"
               style={{
                 fontSize: 12,
-                color: "#C8FF00",
+                color: "rgba(255,255,255,0.6)",
                 fontWeight: 500,
                 whiteSpace: "nowrap",
               }}
