@@ -53,7 +53,7 @@ function FeatureCard({
         border: "none",
         borderTop: `2px solid ${featured ? "#C8FF00" : "rgba(255,255,255,0.12)"}`,
         borderRadius: 16,
-        padding: "32px 28px",
+        padding: "24px 22px",
         boxShadow: hover
           ? featured
             ? "0 0 0 1px rgba(200,255,0,0.2), 0 8px 24px rgba(0,0,0,0.4)"
@@ -122,17 +122,17 @@ export function Features() {
   return (
     <section
       id="features"
-      className="px-6 py-20 md:py-24"
+      className="px-4 py-14 sm:px-6 sm:py-20 md:py-24"
       style={{ background: "transparent" }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mx-auto mb-12 max-w-2xl text-center">
+        <div className="reveal mx-auto mb-8 max-w-2xl text-center sm:mb-12">
           <h2 className="h-section">Built for how freight actually works.</h2>
         </div>
 
         <div
           ref={gridRef}
-          className="mx-auto grid max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
         >
           {features.map((f, i) => (
             <FeatureCard
