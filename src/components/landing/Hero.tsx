@@ -44,25 +44,11 @@ function AnimatedStat({ stat }: { stat: StatDef }) {
 }
 
 export function Hero() {
-  const statsRef = useRef<HTMLDivElement | null>(null);
-  const [triggered, setTriggered] = useState(false);
+  const [statsIn, setStatsIn] = useState(false);
 
   useEffect(() => {
-    const el = statsRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setTriggered(true);
-            observer.disconnect();
-          }
-        }
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const id = requestAnimationFrame(() => setStatsIn(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   return (
