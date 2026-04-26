@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
@@ -33,6 +34,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   useReveal();
   useButtonTap();
+  useEffect(() => { window.scrollTo(0, 0); }, []);
   return (
     <>
       <main style={{ background: "transparent", position: "relative", zIndex: 1 }}>
