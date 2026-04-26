@@ -526,18 +526,15 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
               <Field fieldKey="contact_person" label="Contact Person" val={str("contact_person")} />
               <Field fieldKey="contact_info" label="Phone / Email" val={str("contact_info")} span />
             </Section>
-            </div>{/* end inner scrollable */}
-
-            {/* Mobile-only photo strip — pinned to bottom */}
+            {/* Mobile-only photo — scrolls with content at the bottom */}
             {isMobile && previewUrl && (
               <div
                 style={{
-                  flexShrink: 0,
-                  height: 130,
-                  background: "#000",
+                  marginTop: 16,
                   borderTop: "1px solid #2D3038",
-                  position: "relative",
+                  borderRadius: 8,
                   overflow: "hidden",
+                  background: "#000",
                 }}
               >
                 <img
@@ -545,22 +542,14 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
                   alt="CMR scan"
                   style={{
                     width: "100%",
-                    height: "100%",
-                    objectFit: "cover",
-                    objectPosition: "center top",
-                    opacity: 0.85,
-                  }}
-                />
-                {/* gradient fade from top so it blends with the fields above */}
-                <div
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    background: "linear-gradient(to bottom, #0F1115 0%, transparent 40%)",
+                    display: "block",
+                    objectFit: "contain",
+                    opacity: 0.9,
                   }}
                 />
               </div>
             )}
+            </div>{/* end inner scrollable */}
           </div>{/* end fields column */}
         </div>{/* end body */}
 
