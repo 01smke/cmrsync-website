@@ -18,8 +18,10 @@ lerna-debug.log*
 node_modules
 dist/*
 !dist/client/
-dist/client/*
-!dist/client/.gitkeep
+dist/client/assets
+dist/client/*.png
+dist/client/*.ico
+dist/client/*.webmanifest
 dist-ssr
 .output
 .vinxi
