@@ -155,7 +155,7 @@ export function Hero() {
             padding: "28px 48px",
             justifyContent: "space-between",
             gap: 20,
-            animation: "statsSlideIn 1400ms cubic-bezier(0.16, 1, 0.3, 1) both",
+            animation: "statsSlideIn 1800ms cubic-bezier(0.16, 1, 0.3, 1) 300ms both",
             willChange: "transform, opacity",
           }}
         >
