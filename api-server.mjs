@@ -137,7 +137,7 @@ app.get("/api/leads", (req, res) => {
 
 // In production, serve the built SPA + fall through to index.html
 if (isProd) {
-  const distPath = path.join(__dirname, "dist");
+  const distPath = path.join(__dirname, "dist", "client");
   app.use(express.static(distPath));
   // SPA fallback — serve index.html for any non-API route
   app.use((req, res, next) => {
