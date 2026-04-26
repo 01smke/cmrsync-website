@@ -63,23 +63,7 @@ Return this exact structure:
   "contact_info":       "..."
 }`;
 
-const rateLimitMap = new Map();
-const COOLDOWN = 86400 * 1000;
-
 app.post("/api/free-scan", upload.single("file"), async (req, res) => {
-  const ip = req.ip || "unknown";
-  const now = Date.now();
-
-  const lastUsed = rateLimitMap.get(ip);
-  if (lastUsed && now - lastUsed < COOLDOWN) {
-    const retryAfterMs = COOLDOWN - (now - lastUsed);
-    const retryAfterSec = Math.ceil(retryAfterMs / 1000);
-    return res.status(429).json({
-      error: "Free scan limit reached. Please try again after 24 hours.",
-      retryAfter: retryAfterSec,
-    });
-  }
-
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded." });
   }
@@ -123,7 +107,6 @@ app.post("/api/free-scan", upload.single("file"), async (req, res) => {
       data = { _error: "Could not parse response", _raw: raw.slice(0, 400) };
     }
 
-    rateLimitMap.set(ip, now);
     return res.json({ ok: true, data });
   } catch (err) {
     return res.status(500).json({ error: err.message || "Unknown error" });
