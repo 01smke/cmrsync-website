@@ -199,6 +199,7 @@ export function Hero() {
 
         {/* STATS BAR — slim single bar */}
         <div
+          ref={statsRef}
           className="reveal mt-10 flex flex-wrap items-center"
           style={{
             background: "#141414",
@@ -222,19 +223,7 @@ export function Hero() {
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
             >
-              <span
-                className="font-display"
-                style={{
-                  fontSize: 28,
-                  fontWeight: 900,
-                  color: "#ffffff",
-                  letterSpacing: "-0.04em",
-                  lineHeight: 1,
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {s.v}
-              </span>
+              <AnimatedStat stat={s} triggered={triggered} delay={i * 150} />
               <span
                 style={{
                   fontSize: 12,
