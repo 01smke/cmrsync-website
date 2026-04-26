@@ -61,11 +61,6 @@ app.post("/api/free-scan", upload.single("file"), async (req, res) => {
     .split(",")[0].trim();
 
   const now = Date.now();
-  const last = rateLimitMap.get(ip);
-  if (last && now - last < COOLDOWN) {
-    const remainingHours = Math.ceil((COOLDOWN - (now - last)) / 3600000);
-    return res.status(429).json({ error: `One free scan per day. Try again in ~${remainingHours}h.` });
-  }
 
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded." });
@@ -110,7 +105,6 @@ app.post("/api/free-scan", upload.single("file"), async (req, res) => {
       data = { _error: "Could not parse response", _raw: raw.slice(0, 400) };
     }
 
-    rateLimitMap.set(ip, now);
     return res.json({ ok: true, data });
   } catch (err) {
     return res.status(500).json({ error: err.message || "Unknown error" });
