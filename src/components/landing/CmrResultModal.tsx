@@ -140,7 +140,10 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
 
   const LEAD_KEY   = "cmr_lead_ts";
   const LEAD_TTL   = 24 * 60 * 60 * 1000;
-  const hasLead = () => false;
+  const hasLead = () => {
+    const ts = localStorage.getItem(LEAD_KEY);
+    return !!ts && Date.now() - parseInt(ts, 10) < LEAD_TTL;
+  };
 
   useEffect(() => {
     setMounted(true);
