@@ -1,5 +1,5 @@
 import { ArrowRight, Play } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const trustItems = [
   "GDPR COMPLIANT",
@@ -25,37 +25,7 @@ const stats: StatDef[] = [
 
 const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
-function AnimatedStat({ stat, triggered, delay }: { stat: StatDef; triggered: boolean; delay: number }) {
-  const [value, setValue] = useState(0);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    if (!triggered) return;
-    const timeout = setTimeout(() => {
-      setStarted(true);
-      if (stat.kind === "count" && stat.target != null && stat.duration) {
-        const startTime = performance.now();
-        const duration = stat.duration;
-        const target = stat.target;
-        let raf = 0;
-        const tick = (now: number) => {
-          const elapsed = now - startTime;
-          const t = Math.min(elapsed / duration, 1);
-          setValue(Math.round(easeOutQuart(t) * target));
-          if (t < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-        return () => cancelAnimationFrame(raf);
-      }
-    }, delay);
-    return () => clearTimeout(timeout);
-  }, [triggered, delay, stat]);
-
-  const display =
-    stat.kind === "count"
-      ? `${value}${stat.suffix ?? ""}`
-      : stat.text ?? "";
-
+function AnimatedStat({ stat }: { stat: StatDef }) {
   return (
     <span
       className="font-display"
@@ -66,35 +36,19 @@ function AnimatedStat({ stat, triggered, delay }: { stat: StatDef; triggered: bo
         letterSpacing: "-0.04em",
         lineHeight: 1,
         whiteSpace: "nowrap",
-        opacity: started ? 1 : 0,
-        transition: "opacity 800ms ease-out",
       }}
     >
-      {display}
+      {stat.kind === "count" ? `${stat.target}${stat.suffix ?? ""}` : stat.text}
     </span>
   );
 }
 
 export function Hero() {
-  const statsRef = useRef<HTMLDivElement | null>(null);
-  const [triggered, setTriggered] = useState(false);
+  const [statsIn, setStatsIn] = useState(false);
 
   useEffect(() => {
-    const el = statsRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setTriggered(true);
-            observer.disconnect();
-          }
-        }
-      },
-      { threshold: 0.5 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const id = requestAnimationFrame(() => setStatsIn(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   return (
@@ -199,8 +153,7 @@ export function Hero() {
 
         {/* STATS BAR — slim single bar */}
         <div
-          ref={statsRef}
-          className="reveal mt-10 flex flex-wrap items-center"
+          className="mt-10 flex flex-wrap items-center"
           style={{
             background: "#141414",
             border: "1px solid rgba(255,255,255,0.08)",
@@ -209,6 +162,9 @@ export function Hero() {
             padding: "28px 48px",
             justifyContent: "space-between",
             gap: 20,
+            opacity: statsIn ? 1 : 0,
+            transform: statsIn ? "translateX(0)" : "translateX(-48px)",
+            transition: "opacity 700ms ease-out, transform 700ms cubic-bezier(0.22, 1, 0.36, 1)",
           }}
         >
           {stats.map((s, i) => (
@@ -223,7 +179,7 @@ export function Hero() {
                   i === 0 ? "none" : "1px solid rgba(255,255,255,0.08)",
               }}
             >
-              <AnimatedStat stat={s} triggered={triggered} delay={i * 150} />
+              <AnimatedStat stat={s} />
               <span
                 style={{
                   fontSize: 12,
