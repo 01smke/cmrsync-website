@@ -14,11 +14,11 @@ export function Pricing() {
   return (
     <section
       id="pricing"
-      className="px-4 py-14 backdrop-blur-md sm:px-6 sm:py-20 md:py-24"
+      className="px-4 py-10 backdrop-blur-md sm:px-6 sm:py-16 md:py-20"
       style={{ background: "rgba(15, 17, 21, 0.78)", borderTop: "1px solid #2D3038", borderBottom: "1px solid #2D3038" }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mx-auto mb-8 max-w-2xl text-center sm:mb-12">
+        <div className="reveal mx-auto mb-6 max-w-2xl text-center sm:mb-10">
           <span className="ui-label">Pricing</span>
           <h2 className="h-section mt-3">One simple price.</h2>
           <p className="body-copy mx-auto mt-4 max-w-lg">

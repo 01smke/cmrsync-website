@@ -70,7 +70,7 @@ export function HowItWorks() {
   return (
     <section
       id="how"
-      className="px-4 py-14 backdrop-blur-md sm:px-6 sm:py-20 md:py-24"
+      className="px-4 py-10 backdrop-blur-md sm:px-6 sm:py-16 md:py-20"
       style={{
         background: "rgba(15, 17, 21, 0.78)",
         borderTop: "1px solid #2D3038",
@@ -78,7 +78,7 @@ export function HowItWorks() {
       }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mx-auto mb-8 max-w-2xl text-center sm:mb-12">
+        <div className="reveal mx-auto mb-6 max-w-2xl text-center sm:mb-10">
           <span className="ui-label">How it works</span>
           <h2 className="h-section mt-3">Three steps from paper to paid.</h2>
         </div>
@@ -117,9 +117,9 @@ export function HowItWorks() {
                 ref={(el) => {
                   stepRefs.current[i] = el;
                 }}
-                className="relative flex flex-col items-start gap-3 pl-12 sm:gap-6 sm:pl-0 md:flex-row md:items-center"
+                className="relative flex flex-col items-start gap-2 pl-12 sm:gap-6 sm:pl-0 md:flex-row md:items-center"
                 style={{
-                  padding: "24px 0 24px 48px",
+                  padding: "16px 0 16px 48px",
                   borderBottom: "1px solid rgba(255,255,255,0.06)",
                   opacity: active ? 1 : 0,
                   transform: active ? "translateY(0)" : "translateY(16px)",

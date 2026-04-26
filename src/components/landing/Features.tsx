@@ -121,11 +121,11 @@ export function Features() {
   return (
     <section
       id="features"
-      className="px-4 py-10 sm:px-6 sm:py-20 md:py-24"
+      className="px-4 py-8 sm:px-6 sm:py-16 md:py-20"
       style={{ background: "transparent" }}
     >
       <div className="mx-auto max-w-7xl">
-        <div className="reveal mx-auto mb-6 max-w-2xl text-center sm:mb-12">
+        <div className="reveal mx-auto mb-5 max-w-2xl text-center sm:mb-10">
           <h2 className="h-section">Built for how freight actually works.</h2>
         </div>
 
