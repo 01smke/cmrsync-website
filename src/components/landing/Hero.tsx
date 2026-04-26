@@ -25,37 +25,7 @@ const stats: StatDef[] = [
 
 const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
 
-function AnimatedStat({ stat, triggered, delay }: { stat: StatDef; triggered: boolean; delay: number }) {
-  const [value, setValue] = useState(0);
-  const [started, setStarted] = useState(false);
-
-  useEffect(() => {
-    if (!triggered) return;
-    const timeout = setTimeout(() => {
-      setStarted(true);
-      if (stat.kind === "count" && stat.target != null && stat.duration) {
-        const startTime = performance.now();
-        const duration = stat.duration;
-        const target = stat.target;
-        let raf = 0;
-        const tick = (now: number) => {
-          const elapsed = now - startTime;
-          const t = Math.min(elapsed / duration, 1);
-          setValue(Math.round(easeOutQuart(t) * target));
-          if (t < 1) raf = requestAnimationFrame(tick);
-        };
-        raf = requestAnimationFrame(tick);
-        return () => cancelAnimationFrame(raf);
-      }
-    }, delay);
-    return () => clearTimeout(timeout);
-  }, [triggered, delay, stat]);
-
-  const display =
-    stat.kind === "count"
-      ? `${value}${stat.suffix ?? ""}`
-      : stat.text ?? "";
-
+function AnimatedStat({ stat }: { stat: StatDef }) {
   return (
     <span
       className="font-display"
@@ -66,11 +36,9 @@ function AnimatedStat({ stat, triggered, delay }: { stat: StatDef; triggered: bo
         letterSpacing: "-0.04em",
         lineHeight: 1,
         whiteSpace: "nowrap",
-        opacity: started ? 1 : 0,
-        transition: "opacity 800ms ease-out",
       }}
     >
-      {display}
+      {stat.kind === "count" ? `${stat.target}${stat.suffix ?? ""}` : stat.text}
     </span>
   );
 }
