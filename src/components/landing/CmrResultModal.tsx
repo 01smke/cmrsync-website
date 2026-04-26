@@ -314,12 +314,12 @@ export function CmrResultModal({ open, data, previewUrl, onClose }: Props) {
                 inset: 0,
                 zIndex: 10,
                 display: "flex",
-                alignItems: isMobile ? "flex-start" : "center",
+                alignItems: "center",
                 justifyContent: "center",
                 background: "rgba(15,17,21,0.6)",
                 backdropFilter: "blur(2px)",
                 overflowY: "auto",
-                padding: isMobile ? "16px 0 24px" : 0,
+                padding: isMobile ? "16px 0" : 0,
               }}
             >
               <form
