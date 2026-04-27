@@ -148,7 +148,7 @@ function TermsPage() {
 
       <h2>15. Contact</h2>
       <p>
-        Questions about these Terms: <a href="mailto:legal@cmrsync.com">legal@cmrsync.com</a>.
+        For questions about these Terms, please use the contact form on our website.
       </p>
     </LegalPage>
   );

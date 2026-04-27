@@ -32,9 +32,8 @@ function PrivacyPage() {
 
       <h2>1. Data Controller</h2>
       <p>
-        CMRsync, contactable at <a href="mailto:privacy@cmrsync.com">privacy@cmrsync.com</a>.
-        For Data Protection Officer (DPO) requests, write to the same address with the subject
-        line "DPO".
+        CMRsync. For privacy and Data Protection Officer (DPO) requests, please use the
+        contact form on our website with the subject line "Privacy" or "DPO" respectively.
       </p>
 
       <h2>2. What data we process</h2>
@@ -110,8 +109,7 @@ function PrivacyPage() {
         <li>Transactional email provider for account and billing notifications.</li>
       </ul>
       <p>
-        An up-to-date list is available on request at
-        {" "}<a href="mailto:privacy@cmrsync.com">privacy@cmrsync.com</a>. We sign a Data
+        An up-to-date list is available on request via our contact form. We sign a Data
         Processing Agreement (DPA) with each subprocessor and impose equivalent
         confidentiality and security obligations.
       </p>
@@ -173,8 +171,7 @@ function PrivacyPage() {
         </li>
       </ul>
       <p>
-        To exercise these rights, email{" "}
-        <a href="mailto:privacy@cmrsync.com">privacy@cmrsync.com</a>. We respond within 30 days.
+        To exercise these rights, please use the contact form on our website. We respond within 30 days.
       </p>
 
       <h2>10. Drivers' personal data</h2>
@@ -200,8 +197,7 @@ function PrivacyPage() {
 
       <h2>13. Contact</h2>
       <p>
-        Privacy questions: <a href="mailto:privacy@cmrsync.com">privacy@cmrsync.com</a>.<br />
-        General contact: <a href="mailto:hello@cmrsync.com">hello@cmrsync.com</a>.
+        For any privacy-related questions or requests, please use the contact form on our website.
       </p>
     </LegalPage>
   );
